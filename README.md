@@ -14,7 +14,9 @@ which will produce a viewable .pdf file of the text.
 
 trench_real_analysis.tex is the original .eps based LaTeX source, to
 compile this, copy it to the eps directory and use:
+
 	latex trench_real_analysis.tex
+
 	dvips trench_real_analysis.dvi
 
 trench.tex is the modified .png based LaTeX source.
