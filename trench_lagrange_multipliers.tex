@@ -1,0 +1,4159 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\renewcommand{\rmdefault}{ptm}
+\usepackage[scaled=0.92]{helvet}
+%\usepackage[slantedGreek,zswash,amsbb,mtpcal]{mtpro2}
+\usepackage[psamsfonts]{amsfonts}
+\usepackage{amsmath, amsbsy,verbatim}
+\usepackage[dvips, bookmarks, colorlinks=true, plainpages = false,
+  citecolor = blue, urlcolor = blue, filecolor = blue]{hyperref}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+\newtheorem{example}{Example}
+\newcommand{\proof}{\noindent{\sc\bf Proof}\quad }
+\def\endproof{{\hfill \vbox{\hrule\hbox{%
+ \vrule height1.3ex\hskip0.8ex\vrule}\hrule }}\par}
+\newcommand{\bbox}{\phantom{1}\hfill{\rule{6pt}{6pt}}}
+\newcommand{\pd}[2]{\frac{\partial{#1}}{\partial{#2}}}
+\newcommand{\dst}{\displaystyle}
+\newcommand{\place}{\bigskip\hrule\bigskip\noindent}
+\newcommand{\set}[2]{\left\{#1\, \big|\, #2\right\}}
+\newcommand{\solution}{\medskip\noindent{\bf Solution}\hskip.2em}
+\newcommand{\exer}[1]{\par\noindent{\bf #1}.}
+\newcommand{\boxit}[1]{\bigskip\noindent{\bf
+#1}\\\vskip-6pt\hskip-\parindent}
+
+\newcounter{lcal}
+\newenvironment{alist}{\begin{list}{\bf (\alph{lcal})}
+{\topsep 0pt\partopsep 0pt\labelwidth 14pt
+\labelsep 8pt\leftmargin 22pt\itemsep 0pt
+\usecounter{lcal}}}{\end{list}}
+
+\newcounter{exercise}
+\newenvironment{exerciselist}{\begin{list}{\bf \arabic{exercise}.}
+{\topsep 10pt\partopsep 0pt\labelwidth 16pt
+\labelsep 12pt\leftmargin 28pt
+\itemsep 8pt\usecounter{exercise}}}{\end{list}}
+\begin{document}
+
+\noindent
+
+\thispagestyle{empty}
+\bf
+\begin{center}
+{\Huge THE METHOD OF\\\vspace{.2in} LAGRANGE MULTIPLIERS}
+\vspace{.5in}
+\huge
+\bigskip
+\vspace{.75in}
+\bf\huge
+\href{http://ramanujan.math.trinity.edu/wtrench/index.shtml}
+{William F. Trench}
+\medskip
+\\\large
+Andrew G. Cowles Distinguished Professor Emeritus\\
+Department of Mathematics\\
+Trinity University \\
+San Antonio, Texas, USA\\
+\href{mailto:{wtrench@trinity.edu}}
+{wtrench@trinity.edu}
+\large
+\vspace*{.75in}
+\end{center}
+
+
+\rm
+\noindent
+
+\noindent
+This is a supplement to the author's
+\href{http://ramanujan.math.trinity.edu/wtrench/texts/TRENCH_REAL_ANALYSIS.PDF}
+{\large Introduction to Real Analysis}.
+It   has been judged to meet the evaluation criteria set by the
+Editorial  Board
+of the American Institute of Mathematics in connection with the Institute's
+\href{http://www.aimath.org/textbooks/}
+{Open
+Textbook Initiative}.
+It may be copied, modified, redistributed, translated,  and
+built upon  subject to the Creative
+Commons
+      \href{http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_G}
+{Attribution-NonCommercial-ShareAlike 3.0 Unported License}.
+A complete instructor's solution manual is available by email to
+\href{mailto:wtrench@trinity.edu}
+{wtrench@trinity.edu},
+ subject to verification of the requestor's
+faculty status.
+
+\newpage
+
+\centerline{\bf THE METHOD OF LAGRANGE MULTIPLIERS}
+\medskip
+\medskip
+
+\centerline{\bf William F. Trench}
+\medskip
+
+\section{Foreword} \label{section:1}
+This is a revised and extended version of Section~6.5 of my
+\emph{Advanced Calculus}
+(Harper \& Row, 1978).
+It is a supplement to my textbook
+\href{http://ramanujan.math.trinity.edu/wtrench/texts/TRENCH_REAL_ANALYSIS.PDF}
+{\emph{Introduction to Real Analysis}}, which
+is referenced via hypertext links.
+
+\section{Introduction} \label{section:2}
+To avoid repetition, it is to be understood  throughout   that
+ $f$ and $g_{1}$, $g_{2}$,\dots,
+$g_{m}$ are continuously differentiable  on
+ an open set $D$ in $\mathbb{R}^{n}$.
+
+Suppose   that $m<n$   and
+\begin{equation} \label{eq:1}
+g_{1}(\mathbf{X}) = g_2(\mathbf{X}) = \cdots = g_{m}(\mathbf{X})=0
+\end{equation}
+on a  nonempty subset $D_{1}$ of $D$.
+  If\, $\mathbf{X}_{0} \in
+D_{1}$ and there is a neighborhood $N$ of $\mathbf{X}_{0}$ such that
+\begin{equation} \label{eq:2}
+f(\mathbf{X}) \le f(\mathbf{X}_{0})
+\end{equation}
+for every $\mathbf{X}$ in $N \cap D_{1}$,  then $\mathbf{X}_{0}$
+ is \emph{a local
+maximum point of $f$ subject to the constraints} \eqref{eq:1}.
+However, we will usually say ``subject
+to'' rather than ``subject to the constraint(s).''
+
+ If \eqref{eq:2} is replaced
+by
+\begin{equation} \label{eq:3}
+f(\mathbf{X}) \ge f(\mathbf{X}_{0}),
+\end{equation}
+then ``maximum'' is replaced by ``minimum.''  A local maximum or minimum of
+$f$ subject to \eqref{eq:1} is also called a {\it local extreme point of
+$f$
+subject to} \eqref{eq:1}.  More briefly, we also speak of {\it constrained
+local maximum, minimum, or extreme points}.  If \eqref{eq:2} or
+\eqref{eq:3} holds for all
+$\mathbf{X}$ in $D_{1}$, we omit  ``local.''
+
+Recall that
+${\bf X}_{0}=(x_{10}, x_{20},\dots,x_{n0})$
+ is a \emph{critical
+point} of a differentiable function
+$L=L(x_{1},x_{2},\dots,x_{n})$ if
+$$
+L_{x_{i}}(x_{10},x_{20},\dots,x_{n0})=0,\quad 1\le i\le n.
+$$
+Therefore, every local extreme point of $L$ is a critical point of $L$;
+however, a critical point  of $L$  is not necessarily
+a   local extreme point of $L$
+\href{http://ramanujan.math.trinity.edu/wtrench/texts/TRENCH_REAL_ANALYSIS.PDF}
+{(pp.~334-5)}.
+
+Suppose that the
+ system \eqref{eq:1} of simultaneous equations  can be
+solved for
+  $x_{1}$,  \dots, $x_{m}$
+in terms of the  $x_{m+1}$, \dots, $x_{n}$; thus,
+\begin{equation} \label{eq:4}
+x_{j}=h_{j}(x_{m+1},\dots,x_{n}),\quad 1\le j\le m.
+\end{equation}
+Then a constrained extreme value  of $f$
+ is an unconstrained extreme value of
+\begin{equation} \label{eq:5}
+f(h_{1}(x_{m+1},\dots,x_{n}),\dots,h_{m}(x_{m+1},\dots,x_{n}),x_{m+1},\dots,x_{n}).
+\end{equation}
+However, it may be  difficult or  impossible to find
+explicit formulas for $h_{1}$, $h_{2}$, \dots, $h_{m}$,
+ and,  even if it is
+possible, the composite function \eqref{eq:5} is almost always
+complicated.  Fortunately, there is a better way to to find constrained
+extrema, which also requires the solvability assumption,  but does
+not require an explicit formula as indicated in  \eqref{eq:4}.   It is
+based on
+the following theorem. Since the proof is complicated, we  consider two
+special cases first.
+
+
+\begin{theorem} \label{theorem:1}
+Suppose that  $n>m.$    If\,  ${\bf X}_{0}$ is a local  extreme point of
+$f$
+subject to
+$$
+g_{1}({\bf X})=g_{2}({\bf X})=\cdots =g_{m}({\bf X})=0
+$$
+and
+\begin{equation} \label{eq:6}
+\left|\begin{array}{ccccccc}
+\dst{\pd{g_{1}(\mathbf{X}_{0})}{x_{r_{1}}}} &
+\dst{\pd{g_{1}(\mathbf{X}_{0})}{x_{r_{2}}}}&
+&\cdots &
+\dst{\pd{g_{1}(\mathbf{X}_{0})}{x_{r_{m}}}} \\\\
+\dst{\pd{g_{2}(\mathbf{X}_{0})}{x_{r_{1}}}} &
+\dst{\pd{g_{2}(\mathbf{X}_{0})}{x_{r_{2}}}}&
+&\cdots &
+\dst{\pd{g_{m}(\mathbf{X}_{0})}{x_{r_{m}}}} & \\
+ \vdots & \vdots &&\ddots&\vdots\\
+\dst{\pd{g_{m}(\mathbf{X}_{0})}{x_{r_{1}}}} &
+\dst{\pd{g_{m}(\mathbf{X}_{0})}{x_{r_{2}}}}&
+&\cdots &
+\dst{\pd{g_{m}(\mathbf{X}_{0})}{x_{r_{m}}}} &
+\end{array}\right|\ne0
+\end{equation}
+for at least one choice of
+$r_{1}<r_{2}<\dots <r_{m}$ in $\{1,2,\dots,n\},$ then there are constants
+$\lambda_{1},$ $\lambda_{2},$ \dots$,$ $\lambda_{m}$ such that
+${\bf X}_{0}$
+is a critical point of
+$$
+f-\lambda_{1}g_{1}-\lambda_{2}g_{2}-\cdots-\lambda_{m} g_{m};
+$$
+that is$,$
+$$
+\frac{\partial{f({\bf X}_{0})}}{\partial x_{i}}
+-\lambda_{1}\frac{\partial{g_{1}({\bf X}_{0})}}{\partial x_{i}}
+-\lambda_{2}\frac{\partial{g_{2}({\bf X}_{0})}}{\partial x_{i}}-\cdots
+-\lambda_{m}\frac{\partial{g_{m}({\bf X}_{0})}}{\partial x_{i}}=0,
+$$
+$1\le i\le n$.
+\end{theorem}
+
+The following implementation of this theorem is  the \emph{method of
+\href{http://www-history.mcs.st-and.ac.uk/Mathematicians/Lagrange.html}
+{Lagrange} \\multipliers}.
+
+
+
+\medskip
+\begin{alist}
+\item  Find the critical points of
+$$
+f-\lambda_{1}g_{1}-\lambda_{2}g_{2}-\cdots-\lambda_{m} g_{m},
+$$
+treating $\lambda_{1}$, $\lambda_{2}$, \dots $\lambda_{m}$ as
+unspecified constants.
+
+\item Find $\lambda_{1}$, $\lambda_{2}$, \dots, $\lambda_{m}$ so that the
+critical points obtained in (a) satisfy the constraints.
+
+\item  Determine which of the critical points are constrained
+extreme points of  $f$. This can usually be done
+by physical or intuitive arguments.
+\end{alist}
+
+\medskip
+
+If $a$ and $b_{1}$, $b_{2}$, \dots, $b_{m}$ are  nonzero constants and $c$
+is an arbitrary
+constant, then   the local extreme points of  $f$ subject to
+ $g_{1}=g_{2}= \cdots =g_{m}=0$  are the same as the
+local extreme points of
+$af-c$ subject to
+$b_{1}g_{1}=b_{2}g_{2}=\cdots=b_{m}g_{m}=0$. Therefore,
+we can replace
+$f-\lambda_{1} g_{1}-\lambda_{2}g_{2}- \cdots-\lambda_{m} g_{m}$ by
+$af-\lambda_{1}b_{1}g_{1}-\lambda_{2}b_{2}g_{2}- \cdots-
+\lambda_{m}b_{m}g_{m}-c$ to simplify  computations.
+ (Usually, the ``$-c$'' indicates dropping
+additive constants.)
+ We  will denote the final form by $L$ (for
+\emph{Lagrangian}).
+
+\section{Extrema subject to one constraint}  \label{section:3}
+
+Here is Theorem~\ref{theorem:1} with $m=1$.
+
+\begin{theorem} \label{theorem:2}
+Suppose that  $n>1.$ If\,  ${\bf X}_{0}$ is a local extreme point of $f$
+subject
+to
+$g({\bf
+X})=0$ and $g_{x_{r}}({\bf X}_{0})\ne0$ for some $r\in\{1,2,\dots,n\},$
+then there is a constant $\lambda$ such that
+\begin{equation} \label{eq:7}
+f_{x_{i}}({\bf X}_{0})-\lambda
+g_{x_{i}}({\bf X}_{0})=0,\quad
+\end{equation}
+$1\le i\le n;$
+thus$,$ ${\bf X}_{0}$ is a critical point of $f-\lambda g.$
+\end{theorem}
+
+\proof
+For notational convenience, let $r=1$ and   denote
+$$
+{\bf U}=(x_{2},x_{3},\dots x_{n})\text{\; and\;\;}
+{\bf U}_{0}=(x_{20},x_{30},\dots x_{n0}).
+$$
+Since $g_{x_{1}}({\bf X}_{0})\ne0$,  the
+Implicit Function Theorem
+\href{http://ramanujan.math.trinity.edu/wtrench/texts/TRENCH_REAL_ANALYSIS.PDF}
+{(Corollary 6.4.2, p.~423)}
+implies
+that there is a unique continuously differentiable function
+$h=h({\bf U}),$ defined on a neighborhood $N \subset{\mathbb R}^{n-1}$ of
+${\bf U}_{0},$  such that $(h({\bf U}),{\bf U})\in D$ for all
+${\bf U}\in N$,
+ $h({\bf U}_{0})=x_{10}$, and
+\begin{equation} \label{eq:8}
+g(h({\bf U}),{\bf U})=0,\quad  {\bf U}\in N.
+\end{equation}
+Now define
+\begin{equation} \label{eq:9}
+\lambda=\frac{f_{x_{1}}({\bf X}_{0})}{g_{x_{1}}({\bf X}_{0})},
+\end{equation}
+which is permissible, since  $g_{x_{1}}({\bf X}_{0})\ne0$.
+This implies \eqref{eq:7} with $i=1$.
+If   $i> 1$,  differentiating \eqref{eq:8} with respect to $x_{i}$ yields
+\begin{equation} \label{eq:10}
+\frac{\partial g(h({\bf U}),{\bf U})}{{\partial  x_{i}}}+
+\frac{\partial g(h({\bf U}),{\bf U})}{{\partial  x_{1}}}
+\frac{{\partial h({\bf U})}}{{\partial x_{i}}}=0,\quad {\bf U}\in N.
+\end{equation}
+Also,
+\begin{equation} \label{eq:11}
+\frac{\partial f({h(\bf U}),{\bf U}))}{\partial x_{i}}=
+\frac{\partial f(h({\bf U}),{\bf U})}{{\partial  x_{i}}}+
+\frac{\partial f(h({\bf U}),{\bf U})}{{\partial  x_{1}}}
+\frac{{\partial h({\bf U})}}{{\partial x_{i}}},\quad {\bf U}\in N.
+\end{equation}
+Since $(h({\bf U}_{0}),{\bf U}_{0})={\bf X}_{0}$, \eqref{eq:10}
+implies that
+\begin{equation} \label{eq:12}
+\frac{\partial g({\bf X}_{0})}{{\partial  x_{i}}}+
+\frac{\partial g({\bf X}_{0})}{{\partial  x_{1}}}
+\frac{{\partial h({\bf U}_{0})}}{{\partial x_{i}}}=0.
+\end{equation}
+If\,
+ ${\bf X}_{0}$ is a local extreme point of  $f$
+subject to  $g({\bf X})=0$, then ${\bf U}_{0}$
+is an unconstrained local extreme point of $f(h({\bf U}),{\bf U})$;
+therefore,
+\eqref{eq:11}  implies that
+\begin{equation} \label{eq:13}
+\frac{\partial f({\bf X}_{0})}{{\partial  x_{i}}}+
+\frac{\partial f({\bf X}_{0})}{{\partial  x_{1}}}
+\frac{{\partial h({\bf U}_{0})}}{{\partial x_{i}}}=0.
+\end{equation}
+Since a linear homogeneous system
+$$
+\left[\begin{array}{ccccccc} a&b\\c&d
+\end{array}\right] \left[\begin{array}{ccccccc} u\\v \end{array}\right]=
+\left[\begin{array}{ccccccc} 0\\0 \end{array}\right]
+ $$
+has a nontrivial
+solution if and only if
+$$ \left|\begin{array}{ccccccc} a&b\\c&d
+\end{array}\right|=0,
+ $$
+\href{http://ramanujan.math.trinity.edu/wtrench/texts/TRENCH_REAL_ANALYSIS.PDF}
+{(Theorem~6.1.15, p.~376)},
+ \eqref{eq:12} and
+\eqref{eq:13} imply that
+$$
+\left|\begin{array}{ccccccc}
+\dst{\frac{{\partial f({\bf X}_{0})}}{{\partial x_{i}}}}&
+\dst{\frac{{\partial f({\bf X}_{0})}}{{\partial x_{1}}}}\\\\
+\dst{\frac{{\partial g({\bf X}_{0})}}{{\partial x_{i}}}}&
+\dst{\frac{{\partial g({\bf X}_{0})}}{{\partial x_{1}}}}&
+\end{array}\right|=0,\text{\; so\;\;} \left|\begin{array}{ccccccc}
+\dst{\frac{{\partial f({\bf X}_{0})}}{{\partial x_{i}}}}&
+\dst{\frac{{\partial g({\bf X}_{0})}}{{\partial x_{i}}}}\\\\
+\dst{\frac{{\partial f({\bf X}_{0})}}{{\partial x_{1}}}}&
+\dst{\frac{{\partial g({\bf X}_{0})}}{{\partial x_{1}}}}
+\end{array}\right|=0, $$
+since the determinants of a matrix and its transpose are equal.
+ Therefore, the system
+$$
+ \left[\begin{array}{ccccccc}
+\dst{\frac{{\partial f({\bf X}_{0})}}{{\partial x_{i}}}}&
+\dst{\frac{{\partial g({\bf X}_{0})}}{{\partial x_{i}}}}\\\\
+\dst{\frac{{\partial f({\bf X}_{0})}}{{\partial x_{1}}}}&
+\dst{\frac{{\partial g({\bf X}_{0})}}{{\partial x_{1}}}} \end{array}\right]
+\left[\begin{array}{ccccccc} u\\v \end{array}\right]=
+\left[\begin{array}{ccccccc} 0\\0 \end{array}\right] $$
+has a nontrivial
+solution
+\href{http://ramanujan.math.trinity.edu/wtrench/index.shtml}
+{(Theorem~6.1.15, p. 376)}.
+ Since $g_{x_{1}}({\bf X}_{0})\ne0$, $u$ must be nonzero in a
+nontrivial solution. Hence, we may assume that $u=1$, so
+\begin{equation} \label{eq:14}
+ \left[\begin{array}{ccccccc}
+\dst{\frac{{\partial f({\bf X}_{0})}}{{\partial x_{i}}}}&
+\dst{\frac{{\partial g({\bf X}_{0})}}{{\partial x_{i}}}}\\\\
+\dst{\frac{{\partial f({\bf X}_{0})}}{{\partial x_{1}}}}&
+\dst{\frac{{\partial g({\bf X}_{0})}}{{\partial x_{1}}}} \end{array}\right]
+\left[\begin{array}{ccccccc} 1\\ v \end{array}\right]=
+\left[\begin{array}{ccccccc} 0\\0 \end{array}\right].
+\end{equation}
+In particular,
+$$
+\frac{\partial f({\bf X}_{0})}{\partial x_{1}}+
+v\frac{\partial g({\bf X}_{0})}{\partial x_{1}}=0, \text{\; so\;\;}
+-v=\frac{f_{x_{1}}({\bf X}_{0})}{g_{x_{1}}({\bf X}_{0})}.
+$$
+Now \eqref{eq:9} implies that $-v=\lambda$, and  \eqref{eq:14}  becomes
+$$
+ \left[\begin{array}{ccccccc}
+\dst{\frac{{\partial f({\bf X}_{0})}}{{\partial x_{i}}}}&
+\dst{\frac{{\partial g({\bf X}_{0})}}{{\partial x_{i}}}}\\\\
+\dst{\frac{{\partial f({\bf X}_{0})}}{{\partial x_{1}}}}&
+\dst{\frac{{\partial g({\bf X}_{0})}}{{\partial x_{1}}}} \end{array}\right]
+\left[\begin{array}{rcccccc} 1\\ -\lambda \end{array}\right]=
+\left[\begin{array}{ccccccc} 0\\0 \end{array}\right].
+$$
+Computing the topmost entry of the vector on the left yields
+\eqref{eq:7}.
+\hfill\bbox
+
+\begin{example} \label{example:1}     \rm
+Find the point $(x_{0},y_{0})$ on the line
+$$
+ax+by=d
+$$
+ closest to  a given point $(x_{1},y_{1})$.
+
+\solution
+We must minimize   $\sqrt{(x-x_{1})^{2}+(y-y_{1})^{2}}$ subject to the
+ constraint. This is equivalent to  minimizing
+$(x-x_{1})^{2}+(y-y_{1})^{2}$ subject to the constraint, which is simpler.
+For, this we could let
+$$
+L=(x-x_{1})^{2}+(y-y_{1})^{2}-\lambda (ax+by-d);
+$$
+however,
+$$
+L=\frac{(x-x_{1})^{2}+(y-y_{1})^{2}}{2}-\lambda (ax+by)
+$$
+is  better. Since
+$$
+L_{x}=x-x_{1}-\lambda a\text{\quad  and \quad }
+L_{y}=y-y_{1}-\lambda b,
+$$
+ $(x_{0},y_{0})=(x_{1}+\lambda a, y_{1}+\lambda b)$,
+where we must choose $\lambda$ so that $ax_{0}+by_{0}=d$. Therefore,
+$$
+ax_{0}+by_{0}=ax_{1}+by_{1}+\lambda(a^{2}+b^{2})=d,
+$$
+so
+$$
+\lambda= \frac{d-ax_{1}-by_{1}}{a^{2}+b^{2}},
+$$
+$$
+x_{0}=x_{1}+\frac{(d-ax_{1}-by_{1})a}{a^{2}+b^{2}},
+\text{\; and\;\;}
+y_{0}=y_{1}+\frac{(d-ax_{1}-by_{1})b}{a^{2}+b^{2}}.
+$$
+The distance from $(x_{1},y_{1})$ to the line is
+$$
+\sqrt{(x_{0}-x_{1})^{2}+(y_{0}-y_{1})^{2}}=
+\frac{|d-ax_{1}-by_{1}|}{\sqrt{a^{2}+b^{2}}}.
+$$
+\end{example}
+
+\begin{example} \label{example:2}        \rm
+Find the  extreme values of $f(x,y)=2x+y$  subject to
+$$
+x^{2}+y^{2}=4.
+$$
+
+\noindent
+{\bf Solution}
+Let
+$$
+L=2x+y-\frac{\lambda}{2}(x^{2}+y^{2});
+$$
+then
+$$
+L_{x}=2-\lambda x\text{\; and\;\;}  L_{y}=1-\lambda y,
+$$
+so
+$(x_{0},y_{0})=(2/\lambda,1/\lambda)$. Since
+$x_{0}^{2}+y_{0}^{2}=4$,  $\lambda=\pm \sqrt{5}/2$. Hence, the
+constrained maximum is $2\sqrt{5}$, attained at $(4/\sqrt{5},2/\sqrt{5})$,
+and the constrained minimum is
+$-2\sqrt{5}$, attained at $(-4/\sqrt{5},-2/\sqrt{5})$.
+\end{example}
+
+\begin{example} \label{example:3}  \rm
+Find the point in the plane
+\begin{equation} \label{eq:15}
+3x+4y+z=1
+\end{equation}
+closest to $(-1,1,1)$.
+
+\medskip
+\solution
+We must minimize
+$$
+f(x,y,z)=(x+1)^{2}+(y-1)^{2}+(z-1)^{2}
+$$
+subject to \eqref{eq:15}.  Let
+$$
+L=\frac{(x+1)^{2}+(y-1)^{2}+(z-1)^{2}}{2}-\lambda(3x+4y+z);
+$$
+then
+$$
+L_{x}= x+1-3\lambda,\quad
+L_{y}= y-1-4\lambda,\text{\; and\;\;}
+L_{z}= z-1-\lambda,
+$$
+so
+$$
+x_{0}=-1+3\lambda,\quad y_{0}=1+4\lambda,\quad z_{0}=1+\lambda.
+$$
+From \eqref{eq:15},
+$$
+3(-1+3\lambda)+4(1+4\lambda)+(1+\lambda)-1=1+26\lambda=0,
+$$
+so
+$\lambda=-1/26$  and
+$$
+(x_{0},y_{0},z_{0})=
+\left(-\frac{29}{26},\frac{22}{26},\frac{25}{26}\right).
+$$
+The distance from $(x_{0},y_{0},z_{0})$ to $(-1,1,1)$  is
+$$
+\sqrt{(x_{0}+1)^{2}+(y_{0}-1)^{2}+(z_{0}-1)^{2}}=\frac{1}{\sqrt{26}}.
+$$
+\end{example}
+
+\begin{example} \label{example:4}  \rm
+Assume that $n\ge 2$ and $x_{i}\ge 0$, $1\le i\le n$.
+\begin{alist}
+\item % (a)
+Find  the extreme values of
+ $\dst{\sum_{i=1}^{n}x_{i}}$ subject to
+$\dst{\sum_{i=1}^{n}x_{i}^{2}=1}$.
+
+\item
+Find  the
+minimum  value of
+$\dst{\sum_{i=1}^{n}x_{i}^{2}}$ subject to
+$\dst{\sum_{i=1}^{n}x_{i}=1}$.
+\end{alist}
+
+\solution {\bf (a)}
+Let
+$$
+L= \sum_{i=1}^{n}x_{i}-\frac{\lambda}{2}\sum_{i=1}^{n}x_{i}^{2};
+$$
+then
+$$
+L_{x_{i}}=1-\lambda x_{i}, \text{\; so\;\;} x_{i0}=\frac{1}{\lambda}, \quad
+1\le i\le n.
+$$
+Hence, $\dst{\sum_{i=1}^{n}x_{i0}^{2}}=n/\lambda^{2}$, so
+$\lambda=\pm\sqrt{n}$\, and
+$$
+(x_{10},x_{20},\dots,x_{n0})=
+\pm\left(\frac{1}{\sqrt{n}},\frac{1}{\sqrt{n}}, \dots,
+\frac{1}{\sqrt{n}}\right).
+$$
+Therefore, the constrained maximum is $\sqrt{n}$
+and the constrained minimum is $-\sqrt{n}$.
+
+\solution {\bf (b)}
+Let
+$$
+L=\frac{1}{2}
+\sum_{i=1}^{n}x_{i}^{2}-\lambda\sum_{i=1}^{n}x_{i};
+$$
+then
+$$
+L_{x_{i}}=x_{i}-\lambda, \text{\; so\;\;} x_{i0}=\lambda,\quad 1\le i\le n.
+$$
+Hence, $\dst{\sum_{i=1}^{n}x_{i0}}=n\lambda=1$, so
+$x_{i0}=\lambda=1/n$
+and  the constrained minimum is
+$$
+\dst{\sum_{i=1}^{n}x_{i0}^{2}}=\frac{1}{n}
+$$
+There is no constrained maximum. (Why?)
+\end{example}
+
+\begin{example} \label{example:5}   \rm
+Show that
+$$
+x^{1/p}y^{1/q} \le \frac{x}{p}+\frac{y}{q}, \quad x,y \ge 0,
+$$
+if
+\begin{equation} \label{eq:16}
+\frac{1}{p} +\frac{1}{q} = 1, \quad p > 0, \text{\; and\;\;} q > 0.
+\end{equation}
+
+\solution
+We first find the maximum of
+$$
+f(x,y) = x^{1/p}y^{1/q}
+$$
+subject to
+\begin{equation} \label{eq:17}
+\frac{x}{p}+\frac{y}{q} =
+\sigma, \quad x \ge 0, \quad y \ge 0,
+\end{equation}
+where $\sigma$ is a fixed but arbitrary positive number.  Since $f$ is
+continuous, it must
+assume a maximum at some point $(x_{0},y_{0})$ on the line segment \eqref{eq:17}, and
+$(x_{0},y_{0})$ cannot be an endpoint of the segment, since $f(p\sigma,0) =
+f(0,q\sigma)=0$. Therefore, $(x_{0},y_{0})$ is in the open first quadrant.
+
+Let
+$$
+L = x^{1/p}y^{1/q} -\lambda
+\left(\frac{x}{p}+\frac{y}{q}\right).
+$$
+Then
+$$
+ L_x = \frac{1}{px} f(x,y) - \frac{\lambda}{p}
+\text{\; and\;\;}
+ L_y = \frac{1}{qy} f(x,y) - \frac{\lambda}{q}=0,
+$$
+so $x_{0} = y_{0}=f(x_{0},y_{0})/\lambda$. Now\eqref{eq:16} and
+\eqref{eq:17} imply that
+$x_{0} =y_{0} =
+\sigma$.  Therefore,
+$$
+f(x,y) \le f(\sigma,\sigma) = \sigma^{1/p}\sigma^{1/q} =
+\sigma=\frac{x}{p}+\frac{y}{q}.
+$$
+\end{example}
+
+This  can be generalized (Exercise~\ref{exer:53}).
+  It can also be used to
+generalize
+\href{http://www-history.mcs.st-and.ac.uk/Mathematicians/Schwarz.html}
+{Schwarz's}
+ inequality
+(Exercise~\ref{exer:54}).
+
+\section{Constrained Extrema of Quadratic Forms} \label{section:4}
+
+In this section it is convenient to write
+$$
+{\bf X}=
+\left[\begin{array}{ccccccc}
+x_{1}\\x_{2}\\\vdots\\x_{n}
+\end{array}\right].
+$$
+
+An {\it eigenvalue} of a square matrix $\mathbf{A} = [a_{ij}]_{i,j=1}^{n}$
+is a number $\lambda$ such that the system
+$$
+\mathbf{A}\mathbf{X} = \lambda \mathbf{X},
+$$
+or, equivalently,
+$$
+(\mathbf{A}-\lambda \mathbf{I})\mathbf{X}=\mathbf{0},
+$$
+has a solution $\mathbf{X} \ne \mathbf{0}$. Such a solution is called
+an {\it eigenvector} of $\mathbf{A}$. You probably know from
+linear algebra  that
+$\lambda$ is an eigenvalue of $\mathbf{A}$ if and only if
+$$
+\det(\mathbf{A} -\lambda \mathbf{I}) = {0}.
+ $$
+
+Henceforth we assume that
+$\mathbf{A}$ is symmetric $(a_{ij} = a_{ji}, 1 \le i, j \le n)$. In this
+case,
+$$
+\det(\mathbf{A}-\lambda \mathbf{I}) =
+(-1)^{n}(\lambda-\lambda_{1})(\lambda-\lambda_2) \cdots
+(\lambda-\lambda_{n}),
+$$
+where $\lambda_{1},\lambda_2,\dots,\lambda_{n}$ are real numbers.
+
+The function
+$$
+Q(\mathbf{X}) = \sum^{n}_{i,j=1} a_{ij} x_{i}x_{j}
+$$
+is a \emph{quadratic form}.
+To find its maximum or minimum
+subject to
+$\dst{\sum^{n}_{i=1} x^{2}_{i}=1}$,
+we form the Lagrangian
+$$
+L=Q(\mathbf{X}) - \lambda \sum^{n}_{i=1}x^{2}_{i}.
+$$
+Then
+$$
+L_{x_{i}}= 2 \sum^{n}_{j=1} a_{ij}x_{j} - 2\lambda x_{i}=0,
+\quad 1 \le i \le n,
+$$
+so
+$$
+\sum_{j=1}^{n}a_{ij}x_{j0}=\lambda x_{i0},\quad  1\le i\le n.
+$$
+Therefore,  $\mathbf{X_{0}}$ is a constrained critical
+point of $Q$ subject to $\dst{\sum^{n}_{i=1} x^{2}_{i}=1}$ if and only if\,
+${\mathbf A}{\mathbf X}_{0}=\lambda{\mathbf X}_{0}$ for some $\lambda$;
+that
+is, if and only if $\lambda$ is an eigenvalue and $\mathbf{X}_{0}$ is an
+associated unit eigenvector of $\mathbf{A}$. If ${\mathbf
+A}\mathbf{X}_{0}={\bf X}_{0}$ and
+$\dst{\sum_{i}^{n}x_{i0}^{2}}=1$, then
+\begin{eqnarray*}
+Q(\mathbf{X}_{0}) & =& \sum^{n}_{i=1} \left(\sum^{n}_{j=1} a_{ij}x_{j0}
+\right) x_{i0} =
+\sum^{n}_{i=1} (\lambda x_{i0})x_{i0} \\
+& =& \lambda \sum^{n}_{i=1} x^{2}_{i0} = \lambda;
+\end{eqnarray*}
+therefore, the largest and smallest eigenvalues of ${\bf A}$ are the
+maximum
+and minimum values of $Q$ subject to $\dst{\sum_{i=1}^{n}x_{i}^{2}}=1$.
+
+\begin{example} \label{example:6} \rm
+Find the maximum and minimum values
+$$
+Q(\mathbf{X}) = x^{2}+y^{2}+2z^{2}-2xy + 4xz + 4yz
+$$
+subject to the constraint
+\begin{equation} \label{eq:18}
+x^{2}+y^{2}+z^{2}=1.
+\end{equation}
+
+
+\solution
+The matrix of $Q$ is
+$$
+\mathbf{A} =
+\left[\begin{array}{rrrrr}
+1 & -1 & 2 \\
+-1 & 1 & 2 \\
+2&2&2
+\end{array}\right]
+$$
+and
+\begin{eqnarray*}
+\det(\mathbf{A} - \lambda \mathbf{I}) & =&
+\left|\begin{array}{ccccccc}
+1-\lambda &-1 & 2 \\
+-1 & 1-\lambda & 2 \\
+2 & 2 & 2-\lambda
+\end{array}\right| \\
+& =& -(\lambda+2)(\lambda-2)(\lambda-4),
+\end{eqnarray*}
+ so
+$$
+\lambda_{1}=4, \quad \lambda_2=2, \quad \lambda_3=-2
+$$
+are the eigenvalues of $\mathbf{A}$. Hence, $\lambda_{1}=4$ and
+$\lambda_3 = -2$ are the maximum and minimum values of $Q$ subject to
+\eqref{eq:18}.
+
+To find the points $(x_{1},y_{1},z_{1})$ where $Q$ attains its
+constrained maximum, we first find an eigenvector of ${\bf A}$
+corresponding
+to $\lambda_{1}=4$. To do this, we find a nontrivial solution of the
+system
+$$
+(\mathbf{A}-4\mathbf{I})
+\left[\begin{array}{ccccccc}
+ x_{1}\\ y_{1}\\ z_{1}
+\end{array}\right]=
+\left[\begin{array}{ccccccc}
+ -3 & -1 & \phantom{-}2 \\
+-1 & -3 & \phantom{-}2 \\
+\phantom{-}2 & \phantom{-}2 & -2
+\end{array}\right]
+\left[\begin{array}{ccccccc}
+x_{1}\\y_{1}\\z_{1}
+\end{array}\right]=
+\left[\begin{array}{ccccccc}
+0\\0\\0
+\end{array}\right].
+$$
+All such solutions are multiples of
+$
+\left[\begin{array}{ccccccc}
+1\\1\\2
+\end{array}\right].
+$
+Normalizing this  to satisfy \eqref{eq:18} yields
+$$
+{\bf X}_{1}=\frac{1}{\sqrt6}
+\left[\begin{array}{ccccccc}
+x_{1}\\y_{1}\\z_{1}
+\end{array}\right]=\pm
+\left[\begin{array}{ccccccc}
+1\\ 1\\1
+\end{array}\right].
+$$
+
+To find the points $(x_{3},y_{3},z_{3})$ where $Q$ attains its
+constrained minimum, we first find an eigenvector of ${\bf A}$
+corresponding
+to $\lambda_{3}=-2$. To do this, we find a nontrivial solution of the
+system
+$$
+(\mathbf{A}+2\mathbf{I})
+\left[\begin{array}{ccccccc}
+ x_{3}\\ y_{3}\\ z_{3}
+\end{array}\right]=
+\left[\begin{array}{rrrcccc}
+ 3 & -1 & \phantom{-}2 \\
+-1 & 3 & \phantom{-}2 \\
+\phantom{-}2 & \phantom{-}2 & 4
+\end{array}\right]
+\left[\begin{array}{ccccccc}
+x_{3}\\y_{3}\\z_{3}
+\end{array}\right]=
+\left[\begin{array}{ccccccc}
+0\\0\\0
+\end{array}\right].
+$$
+All such solutions are multiples of
+$
+\left[\begin{array}{rcccccc}
+1\\1\\-1
+\end{array}\right].
+$
+Normalizing this  to satisfy \eqref{eq:18} yields
+$$
+{\bf X}_{3}=
+\left[\begin{array}{ccccccc}
+x_{2}\\y_{2}\\z_{2}
+\end{array}\right]=\pm \frac{1}{\sqrt{3}}
+\left[\begin{array}{rcccccc}
+1\\ 1\\-1
+\end{array}\right].
+$$
+
+As for    the eigenvalue $\lambda_{2}=2$, we leave it you to verify that
+the only unit vectors   that satisfy
+${\bf A}{\bf X}_{2}=2{\bf X}_{2}$ are
+$$
+{\bf X}_{2}=\pm \frac{1}{\sqrt{2}}
+\left[\begin{array}{rcccccc}
+1\\ 1\\-1
+\end{array}\right].
+$$
+\end{example}
+
+For more on this subject, see  Theorem~\ref{theorem:4}.
+
+\section{Extrema subject to  two constraints} \label{section:5}
+Here is Theorem~\ref{theorem:1} with $m=2$.
+
+\begin{theorem} \label{theorem:3}
+Suppose that $n>2.$ If\, ${\bf X}_{0}$ is a local extreme point of $f$
+subject to
+$g_{1}({\bf X})=g_{2}({\bf X})=0$ and
+\begin{equation} \label{eq:19}
+\left|\begin{array}{ccccccc}
+\dst{\frac{{\partial g_{1}({\bf X}_{0})}}{{\partial  x_{r}}}}&
+\dst{\frac{{\partial g_{1}({\bf X}_{0})}}{{\partial  x_{s}}}}\\\\
+\dst{\frac{{\partial g_{2}({\bf X}_{0})}}{{\partial  x_{r}}}}&
+\dst{\frac{{\partial g_{2}({\bf X}_{0})}}{{\partial  x_{s}}}}\\
+\end{array}\right|\ne0
+\end{equation}
+for some $r$ and $s$ in $\{1,2,\dots,n\},$  then
+there are constants  $\lambda$ and $\mu$  such that
+\begin{equation} \label{eq:20}
+\frac{{\partial f({\bf X}_{0})}}{{\partial x_{i}}}-
+\lambda\frac{{\partial g_{1}({\bf X}_{0})}}{{\partial x_{i}}}-
+\mu\frac{{\partial g_{2}({\bf X}_{0})}}{{\partial x_{i}}}=0,
+\end{equation}
+$1\le i\le n$.
+\end{theorem}
+
+\proof
+For notational convenience, let $r=1$ and $s=2$.  Denote
+$$
+{\bf U}=(x_{3},x_{4},\dots x_{n})\text{\; and\;\;}
+{\bf U}_{0}=(x_{30},x_{30},\dots x_{n0}).
+$$
+Since
+\begin{equation} \label{eq:21}
+\left|\begin{array}{ccccccc}
+\dst{\frac{{\partial g_{1}({\bf X}_{0})}}{{\partial  x_{1}}}}&
+\dst{\frac{{\partial g_{1}({\bf X}_{0})}}{{\partial  x_{2}}}}\\\\
+\dst{\frac{{\partial g_{2}({\bf X}_{0})}}{{\partial  x_{1}}}}&
+\dst{\frac{{\partial g_{2}({\bf X}_{0})}}{{\partial  x_{2}}}}\\
+\end{array}\right|\ne0,
+\end{equation}
+the Implicit Function Theorem
+\href{http://ramanujan.math.trinity.edu/wtrench/texts/TRENCH_REAL_ANALYSIS.PDF}
+{(Theorem~6.4.1, p.~420)}
+implies that there  are unique continuously differentiable functions
+$$
+h_{1}=h_{1}(x_{3},x_{4},\dots,x_{n})\text{\; and\;\;}
+h_{2}=h_{1}(x_{3},x_{4},\dots,x_{n}),
+$$
+ defined on a neighborhood $N\subset{\mathbb R}^{n-2}$ of
+${\bf U}_{0},$  such that $(h_{1}({\bf
+U}),h_{2}({\bf U}),{\bf U})\in D$ for all ${\bf U}\in N$,
+  $h_{1}({\bf U}_{0})=x_{10}$,
+$h_{2}({\bf U}_{0})=x_{20}$, and
+\begin{equation} \label{eq:22}
+g_{1}(h_{1}({\bf U}),h_{2}({\bf U}),{\bf U})=
+g_{2}(h_{1}({\bf U}),h_{2}({\bf U}),{\bf U})=0,\quad  {\bf U}\in N.
+\end{equation}
+
+From   \eqref{eq:21}, the system
+\begin{equation} \label{eq:23}
+\left[\begin{array}{ccccccc}
+\dst{\frac{{\partial g_{1}({\bf X}_{0})}}{{\partial  x_{1}}}}&
+\dst{\frac{{\partial g_{1}({\bf X}_{0})}}{{\partial  x_{2}}}}\\\\
+\dst{\frac{{\partial g_{2}({\bf X}_{0})}}{{\partial  x_{1}}}}&
+\dst{\frac{{\partial g_{2}({\bf X}_{0})}}{{\partial  x_{2}}}}\\
+\end{array}\right]
+\left[\begin{array}{ccccccc}
+\lambda\\\mu
+\end{array}\right]=
+\left[\begin{array}{ccccccc}
+f_{x_{1}}({\bf X}_{0})\\f_{x_{2}}({\bf X}_{0})\\
+\end{array}\right]
+\end{equation}
+has a unique solution
+\href{http://ramanujan.math.trinity.edu/wtrench/texts/TRENCH_REAL_ANALYSIS.PDF}
+{(Theorem~6.1.13, p. 373)}.
+This implies \eqref{eq:20} with $i=1$ and $i=2$.
+If  $3\le i\le n$, then differentiating \eqref{eq:22} with respect to
+$x_{i}$ and recalling that
+$(h_{1}({\bf U}_{0}),h_{2}({\bf U}_{0}),{\bf U}_{0})={\bf X}_{0}$
+yields
+$$
+\frac{\partial g_{1}({\bf X}_{0})}{\partial x_{i}}+
+\frac{\partial g_{1}({\bf X}_{0})}{\partial x_{1}}
+\frac{\partial h_{1}({\bf U}_{0})}{\partial x_{i}}+
+\frac{\partial g_{1}({\bf X}_{0})}{\partial x_{2}}
+\frac{\partial h_{2}({\bf U}_{0})}{\partial x_{i}}=0
+$$
+and
+$$
+\frac{\partial g_{2}({\bf X}_{0})}{\partial x_{i}}+
+\frac{\partial g_{2}({\bf X}_{0})}{\partial x_{1}}
+\frac{\partial h_{1}({\bf U}_{0})}{\partial x_{i}}+
+\frac{\partial g_{2}({\bf X}_{0})}{\partial x_{2}}
+\frac{\partial h_{2}({\bf U}_{0})}{\partial x_{i}}=0.
+$$
+If
+ ${\bf X}_{0}$ is a local extreme point of  $f$
+subject to  $g_{1}({\bf X})=g_{2}({\bf X})=0$, then ${\bf U}_{0}$
+is an unconstrained local extreme point of
+$f(h_{1}({\bf U}),h_{2}({\bf U}),{\bf U})$; therefore,
+$$
+\frac{\partial f({\bf X}_{0})}{\partial x_{i}}+
+\frac{\partial f({\bf X}_{0})}{\partial x_{1}}
+\frac{\partial h_{1}({\bf U}_{0})}{\partial x_{i}}+
+\frac{\partial f({\bf X}_{0})}{\partial x_{2}}
+\frac{\partial h_{2}({\bf U}_{0})}{\partial x_{i}}=0.
+$$
+The last three equations imply that
+$$
+\left|\begin{array}{ccccccc}
+\dst{\frac{{\partial f({\bf X}_{0})}}{{\partial  x_{i}}}}&
+\dst{\frac{{\partial f({\bf X}_{0})}}{{\partial  x_{1}}}}&
+\dst{\frac{{\partial f({\bf X}_{0})}}{{\partial  x_{2}}}}\\\\
+\dst{\frac{{\partial g_{1}({\bf X}_{0})}}{{\partial  x_{i}}}}&
+\dst{\frac{{\partial g_{1}({\bf X}_{0})}}{{\partial  x_{1}}}}&
+\dst{\frac{{\partial g_{1}({\bf X}_{0})}}{{\partial  x_{2}}}}\\\\
+\dst{\frac{{\partial g_{2}({\bf X}_{0})}}{{\partial  x_{i}}}}&
+\dst{\frac{{\partial g_{2}({\bf X}_{0})}}{{\partial  x_{1}}}}&
+\dst{\frac{{\partial g_{2}({\bf X}_{0})}}{{\partial  x_{2}}}}\\
+\end{array}\right|=0,
+$$
+$$
+\left|\begin{array}{ccccccc}
+\dst{\frac{{\partial f({\bf X}_{0})}}{{\partial  x_{i}}}}&
+\dst{\frac{{\partial g_{1}({\bf X}_{0})}}{{\partial  x_{i}}}}&
+\dst{\frac{{\partial g_{2}({\bf X}_{0})}}{{\partial  x_{i}}}}\\\\
+\dst{\frac{{\partial f({\bf X}_{0})}}{{\partial  x_{1}}}}&
+\dst{\frac{{\partial g_{1}({\bf X}_{0})}}{{\partial  x_{1}}}}&
+\dst{\frac{{\partial g_{2}({\bf X}_{0})}}{{\partial  x_{1}}}}\\\\
+\dst{\frac{{\partial f({\bf X}_{0})}}{{\partial  x_{2}}}}&
+\dst{\frac{{\partial g_{1}({\bf X}_{0})}}{{\partial  x_{2}}}}&
+\dst{\frac{{\partial g_{2}({\bf X}_{0})}}{{\partial  x_{2}}}}\\\\
+\end{array}\right|=0.
+$$
+Therefore, there are constants $c_{1}$, $c_{2}$, $c_{3}$, not all zero,
+such
+that
+\begin{equation} \label{eq:24}
+\left[\begin{array}{ccccccc}
+\dst{\frac{{\partial f({\bf X}_{0})}}{{\partial  x_{i}}}}&
+\dst{\frac{{\partial g_{1}({\bf X}_{0})}}{{\partial  x_{i}}}}&
+\dst{\frac{{\partial g_{2}({\bf X}_{0})}}{{\partial  x_{i}}}}\\\\
+\dst{\frac{{\partial f({\bf X}_{0})}}{{\partial  x_{1}}}}&
+\dst{\frac{{\partial g_{1}({\bf X}_{0})}}{{\partial  x_{1}}}}&
+\dst{\frac{{\partial g_{2}({\bf X}_{0})}}{{\partial  x_{1}}}}\\\\
+\dst{\frac{{\partial f({\bf X}_{0})}}{{\partial  x_{2}}}}&
+\dst{\frac{{\partial g_{1}({\bf X}_{0})}}{{\partial  x_{2}}}}&
+\dst{\frac{{\partial g_{2}({\bf X}_{0})}}{{\partial  x_{2}}}}\\\\
+\end{array}\right]
+\left[\begin{array}{ccccccc}
+c_{1}\\c_{2}\\c_{3}
+\end{array}\right]=
+\left[\begin{array}{ccccccc}
+0\\0\\0
+\end{array}\right].
+\end{equation}
+If $c_{1}=0$, then
+$$
+\left[\begin{array}{ccccccc}
+\dst{\frac{{\partial g_{1}({\bf X}_{0})}}{{\partial  x_{1}}}}&
+\dst{\frac{{\partial g_{1}({\bf X}_{0})}}{{\partial  x_{2}}}}\\\\
+\dst{\frac{{\partial g_{2}({\bf X}_{0})}}{{\partial  x_{1}}}}&
+\dst{\frac{{\partial g_{2}({\bf X}_{0})}}{{\partial  x_{2}}}}\\
+\end{array}\right]
+\left[\begin{array}{ccccccc}
+c_{2}\\c_{3}
+\end{array}\right]=
+\left[\begin{array}{ccccccc}
+0\\0
+\end{array}\right],
+$$
+so \eqref{eq:19} implies that $c_{2}=c_{3}=0$;
+hence, we
+may assume that $c_{1}=1$ in a nontrivial solution of \eqref{eq:24}.
+Therefore,
+\begin{equation} \label{eq:25}
+\left[\begin{array}{ccccccc}
+\dst{\frac{{\partial f({\bf X}_{0})}}{{\partial  x_{i}}}}&
+\dst{\frac{{\partial g_{1}({\bf X}_{0})}}{{\partial  x_{i}}}}&
+\dst{\frac{{\partial g_{2}({\bf X}_{0})}}{{\partial  x_{i}}}}\\\\
+\dst{\frac{{\partial f({\bf X}_{0})}}{{\partial  x_{1}}}}&
+\dst{\frac{{\partial g_{1}({\bf X}_{0})}}{{\partial  x_{1}}}}&
+\dst{\frac{{\partial g_{2}({\bf X}_{0})}}{{\partial  x_{1}}}}\\\\
+\dst{\frac{{\partial f({\bf X}_{0})}}{{\partial  x_{2}}}}&
+\dst{\frac{{\partial g_{1}({\bf X}_{0})}}{{\partial  x_{2}}}}&
+\dst{\frac{{\partial g_{2}({\bf X}_{0})}}{{\partial  x_{2}}}}\\\\
+\end{array}\right]
+\left[\begin{array}{ccccccc}
+1\\c_{2}\\c_{3}
+\end{array}\right]=
+\left[\begin{array}{ccccccc}
+0\\0\\0
+\end{array}\right],
+\end{equation}
+which implies that
+$$
+\left[\begin{array}{ccccccc}
+\dst{\frac{{\partial g_{1}({\bf X}_{0})}}{{\partial  x_{1}}}}&
+\dst{\frac{{\partial g_{1}({\bf X}_{0})}}{{\partial  x_{2}}}}\\\\
+\dst{\frac{{\partial g_{2}({\bf X}_{0})}}{{\partial  x_{1}}}}&
+\dst{\frac{{\partial g_{2}({\bf X}_{0})}}{{\partial  x_{2}}}}\\
+\end{array}\right]
+\left[\begin{array}{ccccccc}
+-c_{2}\\-c_{3}
+\end{array}\right]=
+\left[\begin{array}{ccccccc}
+f_{x_{1}}({\bf X}_{0})\\f_{x_{2}}({\bf X}_{0})\\
+\end{array}\right].
+$$
+Since  \eqref{eq:23}  has only one solution,
+ this implies that
+$c_{2}=-\lambda$ and $c_{2}=-\mu$, so \eqref{eq:25}   becomes
+$$
+\left[\begin{array}{ccccccc}
+\dst{\frac{{\partial f({\bf X}_{0})}}{{\partial  x_{i}}}}&
+\dst{\frac{{\partial g_{1}({\bf X}_{0})}}{{\partial  x_{i}}}}&
+\dst{\frac{{\partial g_{2}({\bf X}_{0})}}{{\partial  x_{i}}}}\\\\
+\dst{\frac{{\partial f({\bf X}_{0})}}{{\partial  x_{1}}}}&
+\dst{\frac{{\partial g_{1}({\bf X}_{0})}}{{\partial  x_{1}}}}&
+\dst{\frac{{\partial g_{2}({\bf X}_{0})}}{{\partial  x_{1}}}}\\\\
+\dst{\frac{{\partial f({\bf X}_{0})}}{{\partial  x_{2}}}}&
+\dst{\frac{{\partial g_{1}({\bf X}_{0})}}{{\partial  x_{2}}}}&
+\dst{\frac{{\partial g_{2}({\bf X}_{0})}}{{\partial  x_{2}}}}\\\\
+\end{array}\right]
+\left[\begin{array}{rcccccc}
+1\\-\lambda\\-\mu
+\end{array}\right]=
+\left[\begin{array}{ccccccc}
+0\\0\\0
+\end{array}\right].
+$$
+Computing the topmost entry of the vector on the left
+yields \eqref{eq:20}.
+\hfill\bbox
+
+\begin{example}\label{example:7}\rm
+Minimize
+$$
+f(x,y,z,w) = x^{2}+y^{2}+z^{2}+w^{2}
+$$
+subject to
+\begin{equation} \label{eq:26}
+x+y+z+w  = 10 \text{\; and\;\;}
+x-y+z+3w = 6.
+\end{equation}
+\solution
+Let
+$$
+L =
+\frac{x^{2}+y^{2}+z^{2}+w^{2}}{2}-\lambda(x+y+z+w)-\mu(x-y+z+3w);
+$$
+then
+\begin{eqnarray*}
+L_x & =& x-\lambda-\mu \\
+L_y & =& y-\lambda+\mu \\
+L_z & =& z-\lambda-\mu \\
+L_w & =& w-\lambda-3\mu,
+\end{eqnarray*}
+so
+\begin{equation} \label{eq:27}
+x_{0} = \lambda+\mu, \quad y_{0} = \lambda-\mu, \quad z_{0} = \lambda+\mu, \quad
+w_{0} = \lambda+3\mu.
+\end{equation}
+This and \eqref{eq:26} imply that
+\begin{eqnarray*}
+(\lambda+\mu)+(\lambda-\mu)+(\lambda+\mu) + (\lambda+3\mu) & =& 10 \\
+(\lambda+\mu)-(\lambda-\mu)+(\lambda+\mu)+ (3\lambda+9\mu) & =&
+\phantom{1}6.
+\end{eqnarray*}
+Therefore,
+\begin{eqnarray*}
+4\lambda + \phantom{1}4\mu & =& 10 \\
+4\lambda + 12\mu & = &\phantom{1}6,
+\end{eqnarray*}
+so
+$\lambda=3$ and $\mu = -1/2$.
+Now \eqref{eq:27} implies that
+$$
+(x_{0},y_{0},z_{0},w_{0}) =
+\left(\frac{5}{2},\frac{7}{2},\frac{5}{2}
+\frac{3}{2}\right).
+$$
+Since $f(x,y,z,w)$ is the square of the distance from $(x,y,z,w)$   to the
+origin, it attains a  minimum value (but not
+a maximum  value) subject to  the constraints; hence the
+constrained minimum value is
+$$
+f\left(\frac{5}{2},\frac{7}{2},\frac{5}{2},
+ \frac{3}{2}\right)=27.
+$$
+\end{example}
+
+\begin{example} \label{example:8} \rm
+The distance between two curves in $\mathbb{R}^{2}$ is the minimum value of
+$$
+\sqrt{(x_{1}-x_{2})^{2}+(y_{1}-y_{2})^{2}},
+$$
+ where $(x_{1},y_{1})$ is on one curve and
+$(x_{2},y_{2})$ is on the other. Find the distance between the ellipse
+$$
+x^{2}+2y^{2}=1
+$$
+and the line
+\begin{equation} \label{eq:28}
+x+y=4.
+\end{equation}
+
+\solution
+We must minimize
+$$
+d^{2}=(x_{1}-x_{2})^{2} + (y_{1}-y_{2})^{2}
+$$
+subject to
+$$
+x_{1}^{2} + 2y_{1}^{2}  =1 \text{\; and\;\;} x_{2}+y_{2} = 4.
+$$
+Let
+$$
+L = \frac{(x_{1}-x_{2})^{2} + (y_{1}-y_{2})^{2} -
+\lambda(x_{1}^{2} + 2y_{1}^{2})}{2} -\mu(x_{2}+y_{2});
+$$
+then
+\begin{eqnarray*}
+L_{x_{1}}&=&x_{1}-x_{2}-\lambda x_{1}\\
+ L_{y_{1}}&=&y_{1}-y_{2}-2\lambda y_{1}\\
+ L_{x_{2}}&=&x_{2}-x_{1}-\mu\\
+L_{y_{2}}&=&y_{2}-y_{1}-\mu,
+\end{eqnarray*}
+so
+\begin{eqnarray*}
+x_{10}-x_{20}&=&\lambda x_{10} \text{\; \quad (i)}\\
+ y_{10}-y_{20}&=&2\lambda y_{10}\text{\quad (ii)}\\
+ x_{20}-x_{10}&=&\mu\text{\quad \quad \;\;(iii)}  \\
+y_{20}-y_{10}&=&\mu.\text{\quad \quad \;\;(iv)}
+\end{eqnarray*}
+From (i) and (iii), $\mu=-\lambda x_{10}$; from (ii)  and (iv),
+$\mu=-2\lambda y_{10}$. Since the curves do not intersect, $\lambda\ne0$,
+so $x_{10}=2y_{10}$. Since $x_{10}^{2}+2y_{10}^{2}=1$ and
+$(x_{0},y_{0})$ is in the first quadrant,
+\begin{equation} \label{eq:29}
+(x_{10},y_{10})=\left(\frac{2}{\sqrt{6}},\frac{1}{\sqrt{6}}\right).
+\end{equation}
+Now (iii), (iv), and \eqref{eq:28} yield the simultaneous system
+$$
+x_{20}-y_{20}=x_{10}-y_{10}=\frac{1}{\sqrt{6}},\quad
+x_{20}+y_{20}=4,
+$$
+so
+$$
+(x_{20},y_{20}) = \left(2+\frac{1}{2\sqrt{6}},
+ 2-\frac{1}{2\sqrt{6}}\right).
+$$
+From this and \eqref{eq:29}, the distance between the curves is
+$$
+\left[\left(2+\frac{1}{2\sqrt{6}} -\frac{2}{\sqrt{6}}
+\right)^{2} + \left(2-
+\frac{1}{2\sqrt{6}} - \frac{1}{
+\sqrt{6}}\right)^{2}\right]^{1/2}
+= \sqrt{2} \left(2-\frac{3}{2\sqrt{6}}\right).
+$$
+\end{example}
+
+
+
+\section{Proof of Theorem~1} \label{section:6}
+\proof
+For notational convenience, let $r_{\ell}=\ell$,
+$1\le \ell\le m$, so \eqref{eq:6} becomes
+\begin{equation} \label{eq:30}
+\left|\begin{array}{ccccccc}
+\dst{\frac{\partial{g_{1}({\bf X}_{0})}}{\partial{x_{1}}}}&
+\dst{\frac{\partial{g_{1}({\bf X}_{0})}}{\partial{x_{2}}}}&
+\cdots&
+\dst{\frac{\partial{g_{1}({\bf X}_{0})}}{\partial{x_{m}}}}\\ \\
+\dst{\frac{\partial{g_{2}({\bf X}_{0})}}{\partial{x_{1}}}}&
+\dst{\frac{\partial{g_{2}({\bf X}_{0})}}{\partial{x_{2}}}}&
+\cdots&
+\dst{\frac{\partial{g_{2}({\bf X}_{0})}}{\partial{x_{m}}}}\\
+\vdots&\vdots&\ddots&\vdots\\
+\dst{\frac{\partial{g_{m}({\bf X}_{0})}}{\partial{x_{1}}}}&
+\dst{\frac{\partial{g_{m}({\bf X}_{0})}}{\partial{x_{2}}}}&
+\cdots&
+\dst{\frac{\partial{g_{m}({\bf X}_{0})}}{\partial{x_{m}}}}\\ \\
+\end{array}\right|\ne0
+\end{equation}
+ Denote
+$$
+{\bf U}=(x_{m+1},x_{m+2},\dots x_{n})\text{\; and\;\;}
+{\bf U}_{0}=(x_{m+1,0},x_{m+2,0},\dots x_{n0}).
+$$
+From \eqref{eq:30}, the   Implicit Function Theorem
+implies
+that there  are unique continuously differentiable functions
+$h_{\ell}=h_{\ell}({\bf U})$, $1\le \ell\le m$,
+ defined on a neighborhood $N$ of
+${\bf U}_{0}$,  such that
+$$
+(h_{1}({\bf U}),h_{2}({\bf U}),\dots, h_{m}({\bf U}),
+{\bf U})\in D,
+\text{\; for all\;\;} {\bf U}\in N,
+$$
+\begin{equation} \label{eq:31}
+(h_{1}({\bf U_{0}}),h_{2}({\bf U_{0}}),\dots, h_{m}({\bf U_{0}}),{\bf
+U}_{0})={\bf X}_{0},
+\end{equation}
+and
+\begin{equation} \label{eq:32}
+g_{\ell}(h_{1}({\bf U}),h_{2}({\bf U}),\dots, h_{m}({\bf U}),{\bf
+U})=0,\quad
+ {\bf U}\in N, \quad 1\le \ell\le m.
+\end{equation}
+Again from   \eqref{eq:30}, the system
+\begin{equation} \label{eq:33}
+\left[\begin{array}{ccccccc}
+\dst{\frac{\partial{g_{1}({\bf X}_{0})}}{\partial{x_{1}}}}&
+\dst{\frac{\partial{g_{1}({\bf X}_{0})}}{\partial{x_{2}}}}&
+\cdots&
+\dst{\frac{\partial{g_{1}({\bf X}_{0})}}{\partial{x_{m}}}}\\ \\
+\dst{\frac{\partial{g_{2}({\bf X}_{0})}}{\partial{x_{1}}}}&
+\dst{\frac{\partial{g_{2}({\bf X}_{0})}}{\partial{x_{2}}}}&
+\cdots&
+\dst{\frac{\partial{g_{2}({\bf X}_{0})}}{\partial{x_{m}}}}\\
+\vdots&\vdots&\ddots&\vdots\\
+\dst{\frac{\partial{g_{m}({\bf X}_{0})}}{\partial{x_{1}}}}&
+\dst{\frac{\partial{g_{m}({\bf X}_{0})}}{\partial{x_{2}}}}&
+\cdots&
+\dst{\frac{\partial{g_{m}({\bf X}_{0})}}{\partial{x_{m}}}}\\ \\
+\end{array}\right]
+\left[\begin{array}{ccccccc}
+\lambda_{1}\\\lambda_{2}\\ \vdots\\\lambda_{m}
+\end{array}\right]=
+\left[\begin{array}{ccccccc}
+f_{x_{1}}({\bf X}_{0})\\f_{x_{2}}({\bf X}_{0})\\\vdots\\ f_{x_{m}}({\bf
+X}_{0})
+\end{array}\right]
+\end{equation}
+has a unique solution.
+This implies that
+\begin{equation} \label{eq:34}
+\frac{\partial{f({\bf X}_{0})}}{\partial x_{i}}
+-\lambda_{1}\frac{\partial{g_{1}({\bf X}_{0})}}{\partial x_{i}}
+-\lambda_{2}\frac{\partial{g_{2}({\bf X}_{0})}}{\partial x_{i}}-\cdots
+-\lambda_{m}\frac{\partial{g_{m}({\bf X}_{0})}}{\partial x_{i}}=0
+\end{equation}
+for  $1\le i\le m$.
+
+If $m+1\le i\le n$, differentiating \eqref{eq:32} with respect to $x_{i}$
+and recalling \eqref{eq:31} yields
+$$
+\frac{\partial g_{\ell}({\bf X}_{0})} {\partial x_{i}} +\sum_{j=1}^{m}
+\frac{\partial g_{\ell}({\bf X}_{0})}{\partial x_{j}}
+\frac{\partial h_{j}({\bf X}_{0})}{\partial x_{i}}=0, \quad 1\le \ell\le m.
+$$
+If
+ ${\bf X}_{0}$ is local extreme point   $f$
+subject to  $g_{1}({\bf X})=g_{2}({\bf X})= \cdots =g_{m}({\bf X})=0$, then
+${\bf U}_{0}$ is an unconstrained local extreme point of
+$f(h_{1}({\bf U}),h_{2}({\bf U}), \dots h_{m}({\bf U}),{\bf U})$;
+therefore,
+$$
+\frac{\partial f({\bf X}_{0})} {\partial x_{i}} +\sum_{j=1}^{m}
+\frac{\partial f({\bf X}_{0})}{\partial x_{j}}
+\frac{\partial h_{j}({\bf X}_{0})}{\partial x_{i}}=0.
+$$
+The last two equations imply that
+$$
+\left|\begin{array}{ccccccc}
+\dst{\frac{\partial{f({\bf X}_{0})}}{\partial{x_{i}}}}&
+\dst{\frac{\partial{f({\bf X}_{0})}}{\partial{x_{1}}}}&
+\dst{\frac{\partial{f({\bf X}_{0})}}{\partial{x_{2}}}}&
+\cdots&
+\dst{\frac{\partial{f({\bf X}_{0})}}{\partial{x_{m}}}}\\ \\
+\dst{\frac{\partial{g_{1}({\bf X}_{0})}}{\partial{x_{i}}}}&
+\dst{\frac{\partial{g_{1}({\bf X}_{0})}}{\partial{x_{1}}}}&
+\dst{\frac{\partial{g_{1}({\bf X}_{0})}}{\partial{x_{2}}}}&
+\cdots&
+\dst{\frac{\partial{g_{1}({\bf X}_{0})}}{\partial{x_{m}}}}\\ \\
+\dst{\frac{\partial{g_{2}({\bf X}_{0})}}{\partial{x_{i}}}}&
+\dst{\frac{\partial{g_{2}({\bf X}_{0})}}{\partial{x_{1}}}}&
+\dst{\frac{\partial{g_{2}({\bf X}_{0})}}{\partial{x_{2}}}}&
+\cdots&
+\dst{\frac{\partial{g_{2}({\bf X}_{0})}}{\partial{x_{m}}}}\\
+\vdots&\vdots&\vdots&\ddots&\vdots\\
+\dst{\frac{\partial{g_{m}({\bf X}_{0})}}{\partial{x_{i}}}}&
+\dst{\frac{\partial{g_{m}({\bf X}_{0})}}{\partial{x_{1}}}}&
+\dst{\frac{\partial{g_{m}({\bf X}_{0})}}{\partial{x_{2}}}}&
+\cdots&
+\dst{\frac{\partial{g_{m}({\bf X}_{0})}}{\partial{x_{m}}}}\\ \\
+\end{array}\right|=0,
+$$
+so
+$$
+\left|\begin{array}{ccccccc}
+\dst{\frac{\partial f({\bf X}_{0})}{\partial x_{i}}}&
+\dst{\frac{\partial g_{1}({\bf X}_{0})}{\partial x_{i}}}&
+\dst{\frac{\partial g_{2}({\bf X}_{0})}{\partial x_{i}}}&\dots&
+\dst{\frac{\partial g_{m}({\bf X}_{0})}{\partial x_{i}}}\\\\
+\dst{\frac{\partial f({\bf X}_{0})}{\partial x_{1}}}&
+\dst{\frac{\partial g_{1}({\bf X}_{0})}{\partial x_{1}}}&
+\dst{\frac{\partial g_{2}({\bf X}_{0})}{\partial x_{1}}}&\dots&
+\dst{\frac{\partial g_{m}({\bf X}_{0})}{\partial x_{1}}}\\\\
+\dst{\frac{\partial f({\bf X}_{0})}{\partial x_{2}}}&
+\dst{\frac{\partial g_{1}({\bf X}_{0})}{\partial x_{2}}}&
+\dst{\frac{\partial g_{2}({\bf X}_{0})}{\partial x_{2}}}&\dots&
+\dst{\frac{\partial g_{m}({\bf X}_{0})}{\partial x_{2}}}\\
+\vdots&\vdots&\vdots&\ddots&\vdots\\
+\dst{\frac{\partial f({\bf X}_{0})}{\partial x_{m}}}&
+\dst{\frac{\partial g_{1}({\bf X}_{0})}{\partial x_{m}}}&
+\dst{\frac{\partial g_{2}({\bf X}_{0})}{\partial x_{m}}}&\dots&
+\dst{\frac{\partial g_{m}({\bf X}_{0})}{\partial x_{m}}}
+\end{array}\right|=0.
+$$
+Therefore, there are constant $c_{0}$, $c_{1}$, \dots $c_{m}$, not all
+zero, such that
+\begin{equation} \label{eq:35}
+\left[\begin{array}{ccccccc}
+\dst{\frac{\partial f({\bf X}_{0})}{\partial x_{i}}}&
+\dst{\frac{\partial g_{1}({\bf X}_{0})}{\partial x_{i}}}&
+\dst{\frac{\partial g_{2}({\bf X}_{0})}{\partial x_{i}}}&\dots&
+\dst{\frac{\partial g_{m}({\bf X}_{0})}{\partial x_{i}}}\\\\
+\dst{\frac{\partial f({\bf X}_{0})}{\partial x_{1}}}&
+\dst{\frac{\partial g_{1}({\bf X}_{0})}{\partial x_{1}}}&
+\dst{\frac{\partial g_{2}({\bf X}_{0})}{\partial x_{1}}}&\dots&
+\dst{\frac{\partial g_{m}({\bf X}_{0})}{\partial x_{1}}}\\\\
+\dst{\frac{\partial f({\bf X}_{0})}{\partial x_{2}}}&
+\dst{\frac{\partial g_{1}({\bf X}_{0})}{\partial x_{2}}}&
+\dst{\frac{\partial g_{2}({\bf X}_{0})}{\partial x_{2}}}&\dots&
+\dst{\frac{\partial g_{m}({\bf X}_{0})}{\partial x_{2}}}\\
+\vdots&\vdots&\vdots&\ddots&\vdots\\
+\dst{\frac{\partial f({\bf X}_{0})}{\partial x_{m}}}&
+\dst{\frac{\partial g_{1}({\bf X}_{0})}{\partial x_{m}}}&
+\dst{\frac{\partial g_{2}({\bf X}_{0})}{\partial x_{m}}}&\dots&
+\dst{\frac{\partial g_{m}({\bf X}_{0})}{\partial x_{m}}}\\
+\end{array}\right]
+\left[\begin{array}{ccccccc}
+c_{0}\\c_{1}\\c_{3}\\\vdots\\c_{m}
+\end{array}\right]=
+\left[\begin{array}{ccccccc}
+0\\0\\0\\\vdots\\0
+\end{array}\right].
+\end{equation}
+If  $c_{0}=0$, then
+$$
+\left[\begin{array}{ccccccc}
+\dst{\frac{\partial{g_{1}({\bf X}_{0})}}{\partial{x_{1}}}}&
+\dst{\frac{\partial{g_{1}({\bf X}_{0})}}{\partial{x_{2}}}}&
+\cdots&
+\dst{\frac{\partial{g_{1}({\bf X}_{0})}}{\partial{x_{m}}}}\\ \\
+\dst{\frac{\partial{g_{2}({\bf X}_{0})}}{\partial{x_{1}}}}&
+\dst{\frac{\partial{g_{2}({\bf X}_{0})}}{\partial{x_{2}}}}&
+\cdots&
+\dst{\frac{\partial{g_{2}({\bf X}_{0})}}{\partial{x_{m}}}}\\
+\vdots&\vdots&\ddots&\vdots\\
+\dst{\frac{\partial{g_{m}({\bf X}_{0})}}{\partial{x_{1}}}}&
+\dst{\frac{\partial{g_{m}({\bf X}_{0})}}{\partial{x_{2}}}}&
+\cdots&
+\dst{\frac{\partial{g_{m}({\bf X}_{0})}}{\partial{x_{m}}}}\\ \\
+\end{array}\right]
+\left[\begin{array}{ccccccc}
+c_{1}\\c_{2}\\\vdots\\c_{m}
+\end{array}\right]=
+\left[\begin{array}{ccccccc}
+0\\0\\\vdots\\0
+\end{array}\right]
+$$
+and \eqref{eq:30} implies that $c_{1}=c_{2}=\cdots = c_{m}=0$; hence, we
+may assume that $c_{0}=1$ in a nontrivial solution of \eqref{eq:35}.
+Therefore,
+\begin{equation} \label{eq:36}
+\left[\begin{array}{ccccccc}
+\dst{\frac{\partial f({\bf X}_{0})}{\partial x_{i}}}&
+\dst{\frac{\partial g_{1}({\bf X}_{0})}{\partial x_{i}}}&
+\dst{\frac{\partial g_{2}({\bf X}_{0})}{\partial x_{i}}}&\dots&
+\dst{\frac{\partial g_{m}({\bf X}_{0})}{\partial x_{i}}}\\\\
+\dst{\frac{\partial f({\bf X}_{0})}{\partial x_{1}}}&
+\dst{\frac{\partial g_{1}({\bf X}_{0})}{\partial x_{1}}}&
+\dst{\frac{\partial g_{2}({\bf X}_{0})}{\partial x_{1}}}&\dots&
+\dst{\frac{\partial g_{m}({\bf X}_{0})}{\partial x_{1}}}\\\\
+\dst{\frac{\partial f({\bf X}_{0})}{\partial x_{2}}}&
+\dst{\frac{\partial g_{1}({\bf X}_{0})}{\partial x_{2}}}&
+\dst{\frac{\partial g_{2}({\bf X}_{0})}{\partial x_{2}}}&\dots&
+\dst{\frac{\partial g_{m}({\bf X}_{0})}{\partial x_{2}}}\\
+\vdots&\vdots&\vdots&\ddots&\vdots\\
+\dst{\frac{\partial f({\bf X}_{0})}{\partial x_{m}}}&
+\dst{\frac{\partial g_{1}({\bf X}_{0})}{\partial x_{m}}}&
+\dst{\frac{\partial g_{2}({\bf X}_{0})}{\partial x_{m}}}&\dots&
+\dst{\frac{\partial g_{m}({\bf X}_{0})}{\partial x_{m}}}\\
+\end{array}\right]
+\left[\begin{array}{ccccccc}
+1\\c_{1}\\c_{2}\\\vdots\\c_{m}
+\end{array}\right]=
+\left[\begin{array}{ccccccc}
+0\\0\\0\\\vdots\\0
+\end{array}\right],
+\end{equation}
+which implies that
+$$
+\left[\begin{array}{ccccccc}
+\dst{\frac{\partial{g_{1}({\bf X}_{0})}}{\partial{x_{1}}}}&
+\dst{\frac{\partial{g_{1}({\bf X}_{0})}}{\partial{x_{2}}}}&
+\cdots&
+\dst{\frac{\partial{g_{1}({\bf X}_{0})}}{\partial{x_{m}}}}\\ \\
+\dst{\frac{\partial{g_{2}({\bf X}_{0})}}{\partial{x_{1}}}}&
+\dst{\frac{\partial{g_{2}({\bf X}_{0})}}{\partial{x_{2}}}}&
+\cdots&
+\dst{\frac{\partial{g_{2}({\bf X}_{0})}}{\partial{x_{m}}}}\\
+\vdots&\vdots&\ddots&\vdots\\
+\dst{\frac{\partial{g_{m}({\bf X}_{0})}}{\partial{x_{1}}}}&
+\dst{\frac{\partial{g_{m}({\bf X}_{0})}}{\partial{x_{2}}}}&
+\cdots&
+\dst{\frac{\partial{g_{m}({\bf X}_{0})}}{\partial{x_{m}}}}\\ \\
+\end{array}\right]
+\left[\begin{array}{ccccccc}
+-c_{1}\\-c_{2}\\ \vdots\\-c_{m}
+\end{array}\right]=
+\left[\begin{array}{ccccccc}
+f_{x_{1}}({\bf X}_{0})\\f_{x_{2}}({\bf X}_{0})\\\vdots\\ f_{x_{m}}({\bf
+X}_{0})
+\end{array}\right]
+$$
+Since  \eqref{eq:33}  has only one solution,
+ this implies that
+$c_{j}=-\lambda_{j}$, $1\le j\le n$, so \eqref{eq:36}  becomes
+$$
+\left[\begin{array}{ccccccc}
+\dst{\frac{\partial f({\bf X}_{0})}{\partial x_{i}}}&
+\dst{\frac{\partial g_{1}({\bf X}_{0})}{\partial x_{i}}}&
+\dst{\frac{\partial g_{2}({\bf X}_{0})}{\partial x_{i}}}&\dots&
+\dst{\frac{\partial g_{m}({\bf X}_{0})}{\partial x_{i}}}\\\\
+\dst{\frac{\partial f({\bf X}_{0})}{\partial x_{1}}}&
+\dst{\frac{\partial g_{1}({\bf X}_{0})}{\partial x_{1}}}&
+\dst{\frac{\partial g_{2}({\bf X}_{0})}{\partial x_{1}}}&\dots&
+\dst{\frac{\partial g_{m}({\bf X}_{0})}{\partial x_{1}}}\\\\
+\dst{\frac{\partial f({\bf X}_{0})}{\partial x_{2}}}&
+\dst{\frac{\partial g_{1}({\bf X}_{0})}{\partial x_{2}}}&
+\dst{\frac{\partial g_{2}({\bf X}_{0})}{\partial x_{2}}}&\dots&
+\dst{\frac{\partial g_{m}({\bf X}_{0})}{\partial x_{2}}}\\
+\vdots&\vdots&\vdots&\ddots&\vdots\\
+\dst{\frac{\partial f({\bf X}_{0})}{\partial x_{m}}}&
+\dst{\frac{\partial g_{1}({\bf X}_{0})}{\partial x_{m}}}&
+\dst{\frac{\partial g_{2}({\bf X}_{0})}{\partial x_{m}}}&\dots&
+\dst{\frac{\partial g_{m}({\bf X}_{0})}{\partial x_{m}}}\\
+\end{array}\right]
+\left[\begin{array}{ccccccc}
+1\\-\lambda_{1}\\-\lambda_{2}\\\vdots\\-\lambda_{m}
+\end{array}\right]=
+\left[\begin{array}{ccccccc}
+0\\0\\0\\\vdots\\0
+\end{array}\right].
+$$
+Computing the topmost entry of the vector on the left yields
+yields \eqref{eq:34},
+which completes the proof.\endproof
+
+
+\begin{example}\label{example:9}\rm
+Minimize
+$\dst{\sum_{i=1}^{n}x_{i}^{2}}$ subject to
+\begin{equation} \label{eq:37}
+\sum_{i=1}^{n}a_{r i}x_{i}=c_{r}, \quad   1\le r\le m,
+\end{equation}
+where
+\begin{equation} \label{eq:38}
+\sum_{i=1}^{n}a_{ri}a_{si}=
+\begin{cases}
+1 &\text{if } r=s,\\
+0  &\text{if }r\ne s.
+\end{cases}
+\end{equation}
+
+\solution \quad
+Let
+$$
+L =\frac{1}{2}
+\sum_{i=1}^{n}x_{i}^{2}-\sum_{s=1}^{m}\lambda_{s}
+\sum_{i=1}^{n}a_{s i}x_{i}.
+$$
+Then
+$$
+L_{x_{i}}=x_{i}-\sum_{s=1}^{m}\lambda_{s}a_{si},\quad 1\le i\le n,
+$$
+so
+\begin{equation} \label{eq:39}
+x_{i0}=\sum_{s=1}^{m}\lambda_{s}a_{s i}\quad 1\le i\le n,
+\end{equation}
+and
+$$
+a_{ri}x_{i0}=\sum_{s=1}^{m}\lambda_{s}a_{ri}a_{s i}.
+$$
+Now \eqref{eq:38} implies that
+$$
+\sum_{i=1}^{n}a_{ri}x_{i0}=\sum_{s=1}^{m}\lambda_{s}
+\sum_{i=1}^{n}a_{ri}a_{s i}=\lambda_{r}.
+$$
+From this and \eqref{eq:37},
+$\lambda_{r}=c_{r}$, $1\le r\le m$, and    \eqref{eq:39} implies that
+$$
+x_{i0}=\sum_{s=1}^{m}c_{s}a_{s i},\quad 1\le i\le n.
+$$
+Therefore,
+$$
+x_{i0}^{2}=\sum_{r,s=1}^{m}c_{r}c_{s}a_{r i}a_{si},\quad  1\le i\le n,
+$$
+and \eqref{eq:38} implies that
+$$
+\sum_{i=1}^{n}x_{i0}^{2}=\sum_{r,s=1}^{m}c_{r}c_{s}
+\sum_{i=1}^{n}a_{r i}a_{si}=\sum_{r=1}^{m}c_{r}^{2}.
+$$
+
+\end{example}
+
+The next theorem provides further information on the relationship between
+the eigenvalues of a symmetric matrix and constrained extrema of its
+quadratic form. It can be proved by successive applications of
+Theorem~\ref{theorem:1}; however,  we omit the proof.
+
+\begin{theorem}\label{theorem:4}
+Suppose that ${\bf A}=[a_{rs}]_{r,s=1}^{n}\in {\mathbb R}^{n\times n}$ is
+symmetric and let
+$$
+Q({\bf x})=\sum_{r,s=1}^{n}a_{rs}x_{r}x_{s}.
+$$
+  Suppose    also
+that
+$$
+{\bf x}_{1}=
+\left[\begin{array}{ccccccc}
+x_{11}\\x_{21}\\\vdots\\x_{n1}
+\end{array}\right]
+$$
+ minimizes $Q$  subject to  $\sum_{i=1}^{n}x_{i}^{2}$. For $2\le r\le n$,
+suppose  that
+$$
+{\bf x}_{r}=
+\left[\begin{array}{ccccccc}
+x_{1r}\\x_{2r}\\\vdots\\x_{nr}
+\end{array}\right],
+$$
+ minimizes $Q$ subject to
+$$
+\sum_{i=1}^{n}x_{i}^{2} =1 \text{\; and\;\;}
+\sum_{i=1}^{n}x_{is}x_{i}=0,\quad 1\le s\le r-1.
+$$
+Denote
+$$
+\lambda_{r}=\sum_{i,j=1}^{n}a_{ij}x_{ir}x_{jr}, \quad 1\le r\le n.
+$$
+Then
+$$
+\lambda_{1}\le \lambda_{2}\le \cdots\le \lambda_{n}
+\text{\; and\;\;}   Ax_{r}=\lambda_{r}x_{r},\quad 1\le r\le n.
+$$
+\end{theorem}
+
+\newpage
+\section{Exercises} \label{section:7}
+
+\begin{exerciselist}
+\item\label{exer:1}
+Find the point on the plane $2x+3y+z=7$ closest to $(1,-2,3)$.
+
+\item\label{exer:2}
+Find the extreme values of $f(x,y)=2x+y$ subject to $x^{2}+y^{2}=5$.
+
+\item\label{exer:3}
+Suppose that $a,b>0$ and $a\alpha^{2}+b\beta^{2}=1$. Find the extreme
+values of
+$f(x,y)=\beta x+\alpha y$ subject to $ax^{2}+by^{2}=1$.
+
+\item\label{exer:4}
+Find the points on the circle $x^{2}+y^{2}=320$  closest to and
+farthest from $(2,4)$.
+
+\item\label{exer:5}
+Find the extreme values of
+$$
+f(x,y,z)=2x+3y+z\text{\quad subject to\quad}
+x^{2}+2y^{2}+3z^{2}=1.
+$$
+
+\item\label{exer:6}
+Find the maximum value of $f(x,y)=xy$ on the line $ax+by=1$, where $a,b>0$.
+
+\item\label{exer:7}
+A rectangle has perimeter $p$. Find  its largest possible area.
+
+\item\label{exer:8}
+A rectangle has area $A$. Find its  smallest possible perimeter.
+
+\item\label{exer:9}
+A closed rectangular box has surface area $A$.
+Find it largest possible volume.
+
+\item\label{exer:10}
+The sides and bottom of a rectangular box have total area $A$. Find  its
+largest possible volume.
+
+\item\label{exer:11}
+A rectangular box with no top has volume $V$. Find
+its smallest possible   surface area.
+
+\item\label{exer:12} Maximize $f(x,y,z)=xyz$ subject to $$
+\frac{x}{a}+\frac{y}{b}+\frac{z}{c}=1, $$ where $a$, $b$, $c>0$.
+
+\item\label{exer:13}
+Two vertices of a triangle are $(-a,0)$ and $(a,0)$, and the third
+is on the ellipse
+$$
+\frac{x^{2}}{a^{2}}+\frac{y^{2}}{b^{2}}=1.
+$$
+Find its largest possible area.
+
+\item\label{exer:14}
+ Show that the triangle with the greatest possible area for a
+given perimeter is equilateral, given that the area of
+a triangle with sides $x$, $y$, $z$ and perimeter $s$ is
+$$
+A= \sqrt{s(s-x)(s-y)(s-z)}.
+$$
+
+\item\label{exer:15}
+A box with sides parallel to the coordinate planes
+has its vertices on the ellipsoid
+$$
+\frac{x^{2}}{a^{2}}+\frac{y^{2}}{b^{2}}+\frac{z^{2}}{c^{2}}=1.
+$$
+Find its largest possible volume.
+
+\item\label{exer:16}
+Derive a formula for the distance from  $(x_{1},y_{1},z_{1})$
+to the plane
+$$
+ax+by+cz=\sigma.
+$$
+
+\item\label{exer:17}
+ Let $\mathbf{X}_{i}=(x_{i},y_{i},z_{i})$, $1 \le i \le n$.
+Find the point in the plane
+$$
+ax+by+cz=\sigma
+$$
+for which $\sum_{i=1}^{n}|\mathbf{X}-\mathbf{X}_{i}|^{2}$
+is a minimum.  Assume that none of the ${\bf X}_{i}$ are in the plane.
+
+\item\label{exer:18}
+Find the extreme values of
+$f({\bf X})=\dst{\sum_{i=1}^{n}(x_{i}-c_{i})^{2}}$  subject to
+$\dst{\sum_{i=1}^{n}x_{i}^{2}}=1$.
+
+\item\label{exer:19}
+Find the extreme values of
+$$
+f(x,y,z)=2xy+2xz+2yz\text{\quad subject to\quad}
+x^{2}+y^{2}+z^{2}=1.
+$$
+
+\item\label{exer:20}
+Find the extreme values of
+$$
+f(x,y,z)=3x^{2}+2y^{2}+3z^{2}+2xz\text{\quad subject to\quad}
+x^{2}+y^{2}+z^{2}=1.
+$$
+
+\item\label{exer:21}
+Find the extreme values of
+$$
+f(x,y)=x^{2}+8xy+4y^{2}
+\text{\quad subject to\quad} x^{2}+2xy+4y^{2}=1.
+$$
+
+\item\label{exer:22}
+Find the extreme value  of $f(x,y)=\alpha+\beta xy$ subject to
+$(ax+by)^{2}=1$.
+ Assume that $ab\ne0$.
+
+\item\label{exer:23}
+Find the extreme values  of $f(x,y,z)=x+y^{2}+2z$ subject to
+$$
+4x^{2}+9y^{2}-36z^{2}=36.
+$$
+
+\item\label{exer:24}
+Find the extreme values of $f(x,y,z,w)=(x+z)(y+w)$ subject to
+$$
+x^{2}+y^{2}+z^{2}+w^{2}=1.
+$$
+
+\item\label{exer:25}
+Find the extreme values of $f(x,y,z,w)=(x+z)(y+w)$ subject to
+$$
+x^{2}+y^{2}=1 \text{\;and \;\;} z^{2}+w^{2}=1.
+$$
+
+\item\label{exer:26}
+Find the extreme values of $f(x,y,z,w)=(x+z)(y+w)$ subject to
+$$
+x^{2}+z^{2}=1 \text{\;and \;\;} y^{2}+w^{2}=1.
+$$
+
+\item\label{exer:27}
+Find the distance between the circle $x^{2}+y^{2}=1$
+the hyperbola $xy=1$.
+
+\item\label{exer:28}
+Minimize
+ $f(x,y,x)=\dst{\frac{x^{2}}{\alpha^{2}}+\frac{y^{2}}{\beta^{2}}
++\frac{z^{2}}{\gamma^{2}}}$\;
+subject to $ax+by+cz=d$ and $x$, $y$, $z>0$.
+
+\item\label{exer:29}
+Find the distance  from
+$(c_{1},c_{2},\dots,c_{n})$ to the plane
+$$
+a_{1}x_{1}+a_{2}x_{2}+\cdots+a_{n}x_{n}=d.
+$$
+
+\item\label{exer:30}
+Find the maximum value of $f({\bf X})=\dst{\sum_{i=1}^{n}a_{i}x_{i}^{2}}$
+subject to
+$\dst{\sum_{i=1}^{n}b_{i}x_{i}^{4}}=1$, where $p,$ $q>0$ and
+$a_{i}$,  $b_{i}$ $x_{i}>0$,
+$1\le i\le n$.
+
+\item\label{exer:31}
+Find the extreme value of $f({\bf X})=\dst{\sum_{i=1}^{n}a_{i}x_{i}^{p}}$
+subject to
+$\dst{\sum_{i=1}^{n}b_{i}x_{i}^{q}}=1$, where $p$, $q$>0  and
+ $a_{i}$,  $b_{i}$, $x_{i}>0$,
+$1\le i\le n$.
+
+\item\label{exer:32}
+Find the minimum value of
+$$
+f(x,y,z,w)=x^{2}+2y^{2}+z^{2}+w^2
+$$
+subject to
+\begin{eqnarray*}
+x+y+\phantom{2}z+3w&=&1\\
+x+y+2z+\phantom{3}w&=&2.
+\end{eqnarray*}
+
+\item\label{exer:33}
+Find the minimum value of
+$$
+f(x,y,z)=
+\frac{x^{2}}{a^{2}}+\frac{y^{2}}{b^{2}}+\frac{z^{2}}{c^{2}}
+$$
+subject to $p_{1}x+p_{2}y+p_{3}z=d$, assuming that at least one of
+$p_{1}$,
+ $p_{2}$, $p_{3}$ is nonzero.
+
+\item\label{exer:34}
+Find the extreme values of
+$f(x,y,z)= p_{1}x+p_{2}y+p_{3}z$  subject to
+$$
+\frac{x^{2}}{a^{2}}+\frac{y^{2}}{b^{2}}+\frac{z^{2}}{c^{2}}=1,
+$$
+ assuming that at least one of
+$p_{1}$,
+ $p_{2}$, $p_{3}$ is nonzero.
+
+\item\label{exer:35}
+Find the distance from  $(-1,2,3)$  to the intersection of  the
+planes \\$x+2y-3z=4$ and $2x-y+2z=5$.
+
+\item\label{exer:36}
+Find the extreme values  of $f(x,y,z)=2x+y+2z$  subject to $x^{2}+y^{2}=4$
+and
+$x+z=2$.
+
+\item\label{exer:37}
+Find the distance between the parabola $y=1+x^{2}$ and the
+line $x+y=-1$.
+
+\item\label{exer:38}
+Find the distance between the ellipsoid
+$$
+3x^{2}+9y^{2}+6z^{2}=10
+$$
+and the plane
+$$
+3x+3y+6z=70.
+$$
+
+\item\label{exer:39}
+Show that the extreme values of $f(x,y,z)=xy+yz+zx$  subject to
+$$
+\frac{x^{2}}{a^{2}}+\frac{y^{2}}{b^{2}}+\frac{z^{2}}{c^{2}}=1
+$$
+are  the largest and smallest eigenvalues of the matrix
+$$
+\left[\begin{array}{ccccccc}
+0&a^{2}&a^{2}\\ b^{2}&0&b^{2}\\c^{2}&c^{2}&0
+\end{array}\right].
+$$
+
+\item\label{exer:40}
+Show that the extreme values of $f(x,y,z)=xy+2yz+2zx$  subject to
+$$
+\frac{x^{2}}{a^{2}}+\frac{y^{2}}{b^{2}}+\frac{z^{2}}{c^{2}}=1
+$$
+are the largest and smallest eigenvalues of the matrix
+$$
+\left[\begin{array}{ccccccc}
+0&a^{2}/2&a^{2}\\
+b^{2}/2&0&b^{2}\\c^{2}&c^{2}&0
+\end{array}\right].
+$$
+\item\label{exer:41}
+Find the extreme values of  $x(y+z)$   subject to
+$$
+\frac{x^{2}}{a^{2}}+\frac{y^{2}}{b^{2}}+\frac{z^{2}}{c^{2}}=1.
+$$
+
+\item\label{exer:42}
+Let $a$, $b$, $c$,  $p$, $q$, $r$, $\alpha$, $\beta$, and
+$\gamma$ be positive constants.
+Find the maximum value of $f(x,y,z)=x^{\alpha}y^{\beta}z^{\gamma}$  subject
+to
+$$
+ax^{p}+by^{q}+cz^{r}=1 \text{\; and\;\;} x,y,z>0 .
+$$
+
+\item\label{exer:43}
+ Find the extreme values  of
+$$
+f(x,y,z,w)=xw-yz \text{\quad subject to\quad}
+x^{2}+2y^{2}=4\text{\quad and\quad} 2z^{2}+w^{2}=9.
+$$
+
+\item\label{exer:44}
+Let $a$, $b$, $c$,and $d$ be positive. Find  the extreme values   of
+$$
+f(x,y,z,w)=xw-yz
+$$
+subject to
+$$
+ax^{2}+by^{2}=1, \quad cz^{2}+dw^{2}=1,
+$$
+if {\bf(a)}  $ad\ne bc$; {\bf(b)} $ad=bc.$
+
+\item\label{exer:45}
+Minimize $f(x,y,z)=\alpha x^{2}+\beta y^{2}+\gamma z^{2}$  subject to
+$$
+a_{1}x+a_{2}y+a_{3}z=c\text{\; and\;\;} b_{1}x+b_{2}y+b_{3}z=d.
+$$
+Assume that
+$$
+\alpha,\beta,\gamma>0,\quad a_{1}^{2}+a_{2}^{2}+a_{3}^{2}\ne0,
+\text{\; and\;\;}
+b_{1}^{2}+b_{2}^{2}+b_{3}^{2}\ne 0.
+$$
+Formulate and apply a required additional assumption.
+
+\item\label{exer:46}
+Minimize $f({\bf X},{\bf Y})=\dst{\sum_{i=1}^{n}(x_{i}-\alpha_{i})^{2}}$
+subject to
+$$
+\dst{\sum_{i=1}^{n}a_{i}x_{i}=c} \text{\; and\;\;}
+\dst{\sum_{i=1}^{n}b_{i}x_{i}=d},
+$$
+ where
+$$
+\sum_{i=1}^{n}a_{i}^{2}=\sum_{i=1}^{n}b_{i}^{2}=1
+\text{\; and\;\;}
+\sum_{i=1}^{n}a_{i}b_{i}=0.
+$$
+
+\item\label{exer:47}
+Find $(x_{10,x_{20}},\dots,x_{n0})$ to minimize
+$$
+Q(\mathbf{X})=\sum_{i=1}^{n}x_{i}^{2}
+$$
+subject to
+$$
+\sum_{i=1}^{n}x_{i}=1\text{\quad and\quad}  \sum_{i=1}^{n}ix_{i}=0.
+$$
+Prove explicitly that if
+$$
+\sum_{j=1}^{n}y_{i}=1,\quad   \sum_{i=1}^{n}iy_{i}=0
+$$
+and $y_{i}\ne x_{i0}$  for some $i\in\{1,2,\dots,n\}$,  then
+$$
+\sum_{i=1}^{n}y_{i}^{2}>\sum_{i=1}^{n}x_{i0}^{2}.
+$$
+
+\item\label{exer:48}
+Let $p_{1}$, $p_{2}$, \dots, $p_{n}$ and $s$ be positive numbers.
+Maximize
+$$
+f({\bf X})=
+(s-x_{1})^{p_{1}}(s-x_{2})^{p_{2}}\cdots(s-x_{n})^{p_{n}}
+$$
+subject to  $x_{1}+x_{2}+\cdots+x_{n}=s$.
+
+\item\label{exer:49}
+Maximize $f({\bf X})=x_{1}^{p_{1}}x_{2}^{p_{2}}\cdots x_{n}^{p_{n}}$
+subject to  $x_{i}>0$, $1\le i\le n$, and
+$$
+\sum_{i=1}^{n}\frac{x_{i}}{\sigma_{i}} = S,
+$$
+where $p_{1}$, $p_{2}$,\dots, $p_{n}$, $\sigma_{1}$, $\sigma_{2}$, \dots,
+$\sigma_{n}$, and
+$V$ are given positive numbers.
+
+\item\label{exer:50}
+Maximize
+$$
+ f({\bf X})=\sum_{i=1}^{n}\frac{x_{i}}{\sigma_{i}}
+$$
+subject to  $x_{i}>0$, $1\le i\le n$, and
+$$
+x_{1}^{p_{1}}x_{2}^{p_{2}}\cdots x_{n}^{p_{n}}=V,
+$$
+where $p_{1}$, $p_{2}$,\dots, $p_{n}$, $\sigma_{1}$, $\sigma_{2}$, \dots,
+$\sigma_{n}$, and
+$S$ are given positive numbers.
+
+\item\label{exer:51}
+Suppose that $\alpha_{1}$, $\alpha_{2}$, \dots $\alpha_{n}$ are positive
+and at least one of $a_{1}$, $a_{2}$, \dots, $a_{n}$ is nonzero.
+Let $(c_{1},c_{2},\dots,c_{n})$ be given.
+ Minimize
+$$
+Q({\bf X})=\sum_{i=1}^{n}\frac{(x_{i}-c_{i})^{2}}{\alpha_{i}}
+$$
+subject to
+$$
+a_{1}x_{1}+a_{2}x_{2}+\cdots+a_{n}x_{n}=d.
+$$
+
+\item\label{exer:52}
+Schwarz's inequality  says that $(a_{1},a_{2},\dots,a_{n})$  and
+$(x_{1},x_{2},\dots,x_{n})$  are arbitrary $n$-tuples of real
+numbers, then
+$$
+|a_{1}x_{1}+a_{2}x_{2}+\cdots+a_{n}x_{n}|\le
+(a_{1}^{2}+a_{2}^{2}+ \cdots+ a_{n}^{2})^{1/2}
+(x_{1}^{2}+x_{2}^{2}+ \cdots+ x_{n}^{2})^{1/2}.
+$$
+Prove this by finding the extreme values of
+$f({\bf X})=\dst{\sum_{i=1}^{n}a_{i}x_{i}}$
+subject to $\dst{\sum_{i=1}^{n}x_{i}^{2}}~=~\sigma^{2}$.
+
+\item\label{exer:53}
+Let $x_{1}$, $x_{2}$, \dots, $x_{m}$, $r_{1}$, $r_{2}$, \dots, $r_{m}$
+be positive and
+$$
+r_{1}+r_{2}+\cdots+r_{m}=r.
+$$
+Show that
+$$
+\left(x_{1}^{r_{1}}x_{2}^{r_{2}}\cdots x_{m}^{r_{m}}\right)^{1/r}
+ \le \frac{r_{1}x_{1}+r_{2}x_{2}+\cdots r_{m}x_{m}}{r},
+$$
+and give necessary and sufficient conditions for equality.
+(Hint: Maximize $x_{1}^{r_{1}}x_{2}^{r_{2}}\cdots
+x_{m}^{r_{m}}$ subject to $\sum_{j=1}^{m}r_{j}x_{j}=\sigma>0$,
+$x_{1}>0$, $x_{2}>0$, \dots, $x_{m}>0$.)
+
+\item\label{exer:54}
+Let $\mathbf{A}=[a_{ij}]$ be an $m\times n$ matrix. Suppose that
+$p_{1}$, $p_{2}$, \dots, $p_{m}>0$  and
+$$
+\sum_{j=1}^{m}\frac{1}{p_{j}}=1,
+$$
+and define
+$$
+\sigma_{i}=\sum_{j=1}^{n}|a_{ij}|^{p_{i}}, \quad 1 \le i \le m.
+$$
+Use Exercise~\ref{exer:53} to show that
+$$
+\left|\sum_{j=1}^{n}a_{ij}a_{2j}\cdots a_{mj}\right| \le
+\sigma_{1}^{1/p_{1}}\sigma_{2}^{1/p_{2}}\cdots \sigma_{m}^{1/p_{m}}.
+$$
+(With $m=2$ this is
+\href{http://www-history.mcs.st-and.ac.uk/Mathematicians/Holder.html}
+{\emph{H\"{o}lder's}}
+ \emph{inequality}, which  reduces to
+Schwarz's
+inequality if $p_{1}=p_{2}=2$.)
+%###
+
+\item\label{exer:55}
+Let $c_{0}$, $c_{1}$, \dots, $c_{m}$  be given constants and $n\ge m+1$.
+Show that the minimum value of
+$$
+Q({\bf X})=\sum_{r=0}^{n}x_{r}^{2}
+$$
+subject to
+$$
+\sum_{r=0}^{n}x_{r}r^{s}=c_{s},\quad 0\le s \le  m,
+$$
+is attained when
+$$
+x_{r}=\sum_{s=0}^{m}\lambda_{s}r^{s},\quad 0\le r\le n,
+$$
+where
+$$
+\sum_{\ell=0}^{m}\sigma_{s+\ell}\lambda_{\ell}=c_{s}
+\text{\; and\;\;} \sigma_{s}= \sum_{r=0}^{n}r^{s},\quad 0\le s\le m.
+$$
+Show  that if
+ $\{x_{r}\}_{r=0}^{n}$ satisfies the constraints and
+$x_{r}\ne x_{r0}$ for some $r$, then
+$$
+\sum_{r=0}^{n}x_{r}^{2}>\sum_{r=0}^{n}x_{r0}^{2}.
+$$
+
+\item\label{exer:56}
+Suppose that $n> 2k$. Show that the minimum value of
+$f({\bf W})=\dst{\sum_{i=-n}^{n}w_{i}^{2}}$, subject to the constraint
+$$
+\sum_{i=-n}^{n}w_{i}P(r-i)=P(r)
+$$
+whenever $r$  is an integer and $P$ is a polynomial of degree $\le 2k$,
+is attained with
+$$
+w_{i0}=\sum_{r=0}^{2k}\lambda_{r}i^{r},\quad 1\le i\le n,
+$$
+where
+$$
+\sum_{r=0}^{2k}\lambda_{r}\sigma_{r+s}=
+\begin{cases} 1& \text{if } s=0,\\ 0&\text{if  }1\le s\le 2k,  \end{cases}
+\text{\; and\;\;}
+ \sigma_{s}=\sum_{j=-n}^{n}j^{s}.
+$$
+Show  that if
+ $\{w_{i}\}_{i=-n}^{n}$ satisfies the constraint and
+$w_{i}\ne w_{i0}$ for some $i$, then
+$$
+\sum_{i=-n}^{n}w_{i}^{2}>\sum_{i=-n}^{n}w_{i0}^{2}.
+$$
+
+\item\label{exer:57}
+Suppose that $n\ge k$. Show that the minimum value of
+$f\dst{\sum_{i=0}^{n}w_{i}^{2}}$, subject to the constraint
+$$
+\sum_{i=0}^{n}w_{i}P(r-i)=P(r+1)
+$$
+whenever $r$  is an integer and $P$ is a polynomial of degree $\le k$,
+is attained with
+$$
+w_{i0}=\sum_{r=0}^{k}\lambda_{r}i^{r},\quad 0\le i\le n,
+$$
+where
+$$
+\sum_{r=0}^{k}\sigma_{r+s}\lambda_{r}=(-1)^{s},\quad 0\le s \le k,
+\text{\quad and\quad }  \sigma_{\ell}=\sum_{i=0}^{n}i^{\ell},\quad 0\le
+\ell\le 2k.
+$$
+Show  that if
+$$
+\sum_{i=0}^{n}u_{i}P(r-i)=P(r+1)
+$$
+whenever $r$  is an integer and $P$ is a polynomial of degree $\le k$,
+and
+$u_{i}\ne w_{i0}$ for some $i$, then
+$$
+\sum_{i=0}^{n}u_{i}^{2}>\sum_{i=0}^{n}w_{i0}^{2}.
+$$
+
+\item\label{exer:58}
+Minimize
+$$
+f({\bf X})=\sum_{i=1}^{n}\frac{(x_{i}-c_{i})^{2}}{\alpha_{i}}
+$$
+subject to
+$$
+\sum_{i=1}^{n}a_{ir}x_{i}=d_{r},\quad  1\le r \le m
+$$
+Assume that  $m>1$, $\alpha_{1}$, $\alpha_{2}$, \dots $\alpha_{m}>0$,
+and
+$$
+\sum_{i=1}^{n}\alpha_{i}a_{ir}a_{is}=
+\begin{cases}
+1 & \text{ if } r=s,\\0 & \text{ if }r\ne s.
+\end{cases}
+$$
+
+\end{exerciselist}
+
+\newpage
+\setlength{\parindent}{0pt}
+\section{Answers to selected exercises}\label{section:8}
+
+\medskip
+
+{\bf \ref{exer:1}.}
+$\left(\frac{15}{7} -\frac{2}{7},\frac{25}{7}\right)$
+\quad
+{\bf \ref{exer:2}.} $\pm5$
+\quad
+{\bf \ref{exer:3}.} $1/\sqrt{ab}$, $-1/\sqrt{ab}$
+
+\medskip
+
+{\bf \ref{exer:4}.}  $(8,16)$ is closest, $(-8,-16)$ is farthest.
+\quad
+{\bf \ref{exer:5}.}  $\pm\sqrt{53/6}$
+\quad
+{\bf \ref{exer:6}.} $1/4ab$
+\quad
+{\bf \ref{exer:7}.} $p^{2}/4$
+
+\medskip
+{\bf \ref{exer:8}.}  $4\sqrt{A}$
+\quad
+{\bf \ref{exer:9}.} $A^{3/2}/6\sqrt{6}$
+\quad
+{\bf \ref{exer:10}.} $A^{3/2}/6\sqrt{3}$
+\quad
+{\bf \ref{exer:11}.} $3(2V)^{2/3}$
+\quad
+{\bf \ref{exer:12}.} $abc/27$
+
+\medskip
+{\bf \ref{exer:13}.} $ab$
+\quad
+{\bf \ref{exer:15}.} $8abc/3\sqrt{3}$
+
+\quad
+
+{\bf \ref{exer:18}.}
+$(1-\mu)^{2}$ and  $(1+\mu)^{2}$, where
+$\mu =\dst{\left(\sum_{j=1}^{n}c_{j}^{2}\right)^{1/2}}$
+\quad
+{\bf \ref{exer:19}.} $-1$, $2$
+\quad
+{\bf \ref{exer:20}.} $2$, $4$
+
+\medskip
+{\bf \ref{exer:21}.} $-2/3$, $2$
+\quad
+{\bf \ref{exer:22}.} $\alpha\pm|\beta|/4|ab|$
+\quad
+{\bf \ref{exer:23}.} $-\sqrt{5}$, $73/16$
+\quad
+{\bf \ref{exer:24}.}  $\pm1$
+\quad
+{\bf \ref{exer:25}.}   $\pm2$
+
+\medskip
+{\bf \ref{exer:26}.}   $\pm2$
+\quad
+{\bf \ref{exer:27}.}  $\sqrt2-1$
+\quad
+{\bf \ref{exer:28}.}
+$\dst{\frac{d^{2}}{(a\alpha)^{2}+(b\beta^{2})+(c\gamma)^{2}}}$
+
+\medskip
+{\bf \ref{exer:29}.}
+$\dst{\frac{|d-a_{1}c_{1}-a_{2}c_{2}-\cdots-a_{n}c_{n})a_{i}|}
+{\sqrt{a_{1}^{2}+a_{2}^{2}+\cdots a_{n}^{2}}}}$
+\quad
+{\bf \ref{exer:30}.}
+$\dst{\left(\sum_{i=1}^{n}\frac{a_{i}^{2}}{b_{i}}\right)^{1/2}}$
+
+
+{\bf \ref{exer:31}.}
+$\dst{\left(\sum_{i=1}^{n}a_{i}^{q/(q-p)} b_{i}^{p/(p-q)}\right)^{1-p/q}}$
+is a constrained maximum if $p<q$, a constrained minimum if $p>q$
+
+\medskip
+{\bf \ref{exer:32}.} $689/845$
+\quad
+{\bf \ref{exer:33}.}
+$\dst{\frac{d^{2}}{p_{1}^{2}a^{2}+p_{2}^{2}b^{2}+p_{3}^{2}c^{2}}}$
+\quad
+{\bf \ref{exer:34}.} $\pm (p_{1}^{2}a^{2}+p_{2}^{2}b^{2}+p_{3}^{2}c^{2})^{1/2}$
+\quad
+
+
+\medskip
+
+{\bf \ref{exer:35}.}
+\quad
+$\sqrt{693/45}$
+{\bf \ref{exer:36}.}  $2$, $6$
+\quad
+{\bf \ref{exer:37}.} $7/4\sqrt{2}$
+\quad
+{\bf \ref{exer:38}.} $10\sqrt{6}/3$
+\quad
+{\bf \ref{exer:41}.}
+$\pm|c|\sqrt{a^{2}+b^{2}}/2$
+
+\medskip
+{\bf \ref{exer:42}.}
+$\dst{\frac{\alpha\beta\gamma}{pqr}
+\left(\frac{\alpha}{p}+\frac{\beta}{q}+\frac{\gamma}{r}\right)^{-3}}$
+{\bf \ref{exer:43}.}     $\pm3$
+\quad
+{\bf \ref{exer:44}.} {\bf (a)} $\pm1/\sqrt{bc}$
+{\bf (b)} $\pm1/\sqrt{ad}=\pm1/\sqrt{bc}$
+
+\medskip
+
+{\bf \ref{exer:46}.}
+$\dst{\left(c-\sum_{i=1}^{n}a_{i}\alpha_{i}\right)^{2}
++\left(d-\sum_{i=1}^{n}b_{i}\alpha_{i}\right)^{2}}$
+\quad
+{\bf \ref{exer:47}.} $x_{i0}=(4n+2-6i)/n(n-1)$
+
+\medskip
+
+{\bf \ref{exer:48}.}
+$\left[\frac{(n-1)s}{P}\right]^{P}p_{1}^{p_{1}}p_{2}^{p_{2}}\cdots
+p_{n}^{p_{n}}$
+
+\medskip
+
+{\bf \ref{exer:49}.}
+$\dst{\left(\frac{S}{p_{1}+p_{2}+\cdots+
+p_{n}}\right)^{p_{1}+p_{2}+\cdots+p_{n}}
+(p_{1}\sigma_{1})^{p_{1}}
+(p_{2}\sigma_{2})^{p_{2}} \cdots
+(p_{n}\sigma_{n})^{p_{n}}}$
+
+\medskip
+
+{\bf \ref{exer:50}.}
+$\dst{(p_{1}+p_{2}+\cdots+p_{n})
+\left(\frac{V}{(\sigma_{1}p_{1})^{p_{1}}(\sigma_{2}p_{2})^{p_{2}}
+\cdots (\sigma_{ n}p_{n})^{p_{n}}}\right)^{\frac{1}{p_{1}+p_{2}+\cdots+p_{n}}}}$
+
+
+{\bf \ref{exer:51}.}
+$\dst{\left(d-\sum_{i=1}^{n}a_{i}c_{i}\right))^{2}/
+\left(\sum_{i=1}^{n}a_{i}^{2}\alpha_{i}\right)}$
+\quad
+{\bf \ref{exer:52}.}
+$\dst{\pm\left(\sum_{i=1}^{n}a_{i}^{2}\right)^{1/2}
+\left(\sum_{i=1}^{n}x_{i0}^{2}\right)^{1/2}}$
+
+\medskip
+{\bf \ref{exer:58}.} $\dst\sum_{r=1}^{m}
+\left(d_{r}-\sum_{i=1}^{n}a_{ir}c_{i}\right)^{2}$
+
+\enlargethispage{\baselineskip}
+
+\end{document}
+\newpage
+
+
+\noindent
+
+\thispagestyle{empty}
+\bf
+\begin{center}
+{\Large INSTRUCT0R'S SOLUTIONS MANUAL}
+
+\medskip
+
+{\Huge THE METHOD OF \\ \medskip LAGRANGE MULTIPLIERS}
+
+\vspace{1in}
+\huge
+\href{http://ramanujan.math.trinity.edu/wtrench/index.shtml}
+{William F. Trench}
+\\ \medskip\large
+Professor Emeritus\\
+Department of Mathematics\\
+Trinity University \\
+San Antonio, Texas, USA\\
+\href{mailto:wtrench@trinity.edu}
+{wtrench@trinity.edu}
+\vspace*{1in}
+
+\bigskip
+
+
+\medskip
+
+\end{center}
+
+\noindent
+{\bf \copyright Copyright November 2012  William F. Trench, all rights
+reserved.
+ No part of this document may  be circulated or  posted on any
+website without the author's  permission. Under US copyright law,}
+\medskip
+
+{\bf
+\begin{quote}``Uploading or downloading works protected by copyright
+without the authority of the
+copyright owner is an infringement of the copyright owner's exclusive  rights  of
+reproduction and/or distribution. Anyone found to have infringed a copyrighted work may be
+liable for statutory damages up to \$30,000 for each work infringed and, if willful
+infringement is proven by the copyright owner, that amount may be increased up to \$150,000
+for each work infringed. In addition, an infringer of a work may also be liable for the
+attorney's fees incurred by the copyright owner to enforce his or her rights.''
+\end{quote}}
+
+\rm
+
+\newpage
+
+\setlength{\parindent}{0pt}
+ \medskip
+\centerline{\bf SOLUTIONS OF  EXERCISES}
+
+\bigskip
+{\bf \ref{exer:1}.}
+\quad
+\quad $L=\dst{\frac{(x-1)^{2}+(y+2)^{2}+(z-3)^{2}}{2}-\lambda(2x+3y+z)}$
+$$
+L_{x}=x-1-2\lambda,\quad
+L_{y}=y+2-3\lambda, \quad
+L_{z}=z-3-\lambda
+$$
+$$
+x_{0}=1+2\lambda,  \quad
+y_{0}=-2+3\lambda,  \quad
+z_{0}=3+\lambda \quad
+$$
+$$
+2(1+2\lambda)+3(-2+3\lambda)+(3+\lambda)=7, \quad
+\lambda=\dst{\frac{4}{7}}
+$$
+$$
+x_{0}=\dst{\frac{15}{7}}, \quad
+y_{0}=-\dst{\frac{2}{7}},\quad  z_{0}=\dst{\frac{25}{7}}
+$$
+The distance from $(x_{01},y_{01},z_{01})$ to the plane is
+$$
+\sqrt{(x_{0}-1)^{2}+(y_{0}+2)^{2}+(z_{0}-3)^{2}}=
+\sqrt{4\lambda^{2}+9\lambda^{2}+\lambda^{2}}=4\sqrt{\frac{2}{7}}.
+$$
+
+\bigskip
+{\bf \ref{exer:2}.}
+\centerline{$L=2x+y-\dst{\frac{\lambda}{2}}(x^{2}+y^{2})$,\quad
+$L_{x}=2-\lambda x$,\quad
+$L_{y}=1-\lambda y$}
+$$
+ x_{0}=2y_{0},\quad  5y_{0}^{2}=5, \quad
+(x_{0},y_{0})=\pm(2,1)
+$$
+Constrained minimum $=-5$, constrained maximum
+$=5$.
+
+\bigskip
+{\bf \ref{exer:3}.}
+\centerline{$L=\beta x+\alpha y-\dst{\frac{\lambda}{2}}(ax^{2}+by^{2})$}
+$$
+L_{x}=\beta-\lambda  ax,\quad
+L_{y}=\alpha-\lambda by,\quad
+x_{0}=\dst{\frac{\beta}{\lambda a}}, \quad
+y_{0}=\dst{\frac{\alpha}{\lambda b}}
+$$
+$$
+1=ax_{0}^{2}+by_{0}^{2}=\frac{1}{\lambda^{2}}
+\left(\frac{\beta^{2}}{a}+\frac{\alpha^{2}}{b}\right)
+=\frac{1}{ab\lambda^{2}}(a\alpha^{2}+b\beta^{2})=\frac{1}{ab\lambda^{2}}.
+$$
+$\dst{\frac{1}{\lambda}}=\pm\sqrt{ab}$;
+$(x_{0},y_{0})=\pm\dst{\left(\beta\sqrt{\frac{b}{a}},\alpha\sqrt\frac{a}{b}\right)}$.
+Choosing ``$+$'' yields the constrained maximum
+$$
+f(x_{0},y_{0})=\beta^{2}\sqrt{\frac{b}{a}}+\alpha^{2}\sqrt{\frac{a}{b}}
+=\frac{b\beta^{2}}{\sqrt{ab}}+\frac{a\alpha^{2}}{\sqrt{ab}}=\frac{1}{\sqrt{ab}}.
+$$
+Choosing ``$-$'' yields the constrained minimum
+$-\dst{\frac{1}{\sqrt{ab}}}$.
+
+\bigskip
+{\bf \ref{exer:4}.}
+\centerline{$L=\dst{\frac{(x-2)^{2}+(y-4)^{2}-\lambda(x^{2}+y^{2})}{2}}$}
+$$
+L_{x}(x,y)=(x-2)-\lambda x,\quad
+L_{y}(x,y)=(y-4)-\lambda y
+$$
+$$
+\frac{x_{0}-2}{x_{0}}=\frac{y_{0}-4}{y_{0}}=\lambda, \text{\; so\;\;}
+y_{0}=2x_{0}.
+$$
+ Therefore, $x_{0}^{2}+y_{0}^{2}=5x_{0}^{2}=320$,
+$(x_{0},y_{0})=\pm(8,16)$ so the constrained critical
+points
+are $(8,16)$ and $(-8,-16)$; $(8,16)$ is closest to $(2,4)$ and $(-8,-16)$
+is farthest.
+
+\bigskip
+{\bf \ref{exer:5}.}
+\centerline{$L=2x+3y+z-\dst{\frac{\lambda}{2}}(x^{2}+2y^{2}+3z^{2})$}
+$$
+L_{x}=2-\lambda x,\quad  L_{y}=3-2\lambda y,\quad  L_{z}=1-3\lambda z
+$$
+$$
+x_{0}=\frac{2}{\lambda}\quad  y_{0}=\frac{3}{2\lambda},  \quad
+z_{0}=\frac{1}{3\lambda}, \quad
+x_{0}^{2}+2y_{0}^{2}+3z_{0}^{2}=\dst{\frac{53}{6\lambda^{2}}}=1,\quad
+\lambda=\pm\sqrt{53/6}.
+$$
+Since $f(2/\lambda,3/2\lambda,1/3\lambda)=\dst{\frac{53}{6\lambda}}=\pm
+\lambda$, the constrained extreme values are  $\pm\sqrt{53/6}$.
+
+\bigskip
+{\bf \ref{exer:6}.}
+\centerline{$L=xy-\lambda (ax+by)$, $L_{x}(x,y)=y-\lambda a$,
+$L_{y}=x-\lambda b$}
+$$
+x_{0}=\lambda b,\quad  y_{0}=\lambda a, \quad ax_{0}+by_{0}=2\lambda
+ab=1,\quad
+\lambda=\frac{1}{2ab}
+$$
+$$
+ x_{0}=\frac{1}{2a},\quad
+y_{0}=\frac{1}{2b},\quad
+x_{0}y_{0}=\frac{1}{4ab}=\text{constrained maximum\;\;}
+$$
+
+\bigskip
+{\bf \ref{exer:7}.}
+$p=2x+2y$, $A=xy$,
+$L=xy-\lambda(x+y)$, $L_{x}=y-\lambda$, $L_{y}=x-\lambda$,
+$y_{0}=x_{0}$,
+ $x_{0}=p/4$, $A_{\text max}=p^{2}/4$.
+
+\bigskip
+{\bf \ref{exer:8}.}
+Let $x$ and $y$ denote lengths of sides. We must mimimize
+$x+y$  subject to $xy=A$.
+$$
+L=x+y-\lambda xy,\quad L_{x}=1-\lambda y,\;  L_{y}=1-\lambda x, \;
+x_{0}=y_{0},\; x_{0}y_{0}=A,\; x_{0}=\sqrt{A}.
+$$
+The minimum perimeter is $4\sqrt{A}$.
+
+\bigskip
+{\bf \ref{exer:9}.}
+Denote the vertices of the box by $(0,0,0)$, $(x,0,0)$, $(0,y,0)$, and
+$(0,0,z)$.
+$$
+V=xyz,\quad  A=2xz+2yz +2xy,\quad
+L=xyz-\lambda(xz+yz+xy)
+$$
+$$
+L_{x}=yz-\lambda(z+y),\quad
+ L_{y}=xz-\lambda(z+x), \quad
+L_{z}=xy-\lambda(x+y)
+$$
+$$
+y_{0}z_{0}=\lambda(z_{0}+y_{0}),\quad
+x_{0}z_{0}=\lambda(z_{0}+x_{0}), \quad
+x_{0}y_{0}=\lambda(x_{0}+y_{0})
+$$
+$$
+x_{0}z_{0}+x_{0}y_{0}=z_{0}y_{0}+x_{0}y_{0}
+=x_{0}z_{0}+y_{0}z_{0},\quad
+x_{0}=y_{0}=z_{0}
+$$
+$$
+A=6z_{0}^{2}, \quad
+z=\sqrt{\frac{A}{6}},\quad
+V_{\text{max}}=z_{0}^{3}=\dst{\frac{A^{3/2}}{6\sqrt{6}}}.
+$$
+
+\bigskip
+{\bf \ref{exer:10}.}
+Denote the vertices of the box by
+ $(0,0,0)$, $(x,0,0)$, $(0,y,0)$, and
+$(0,0,z)$.
+$$
+V=xyz,\quad  A=2xz+2yz+xy,\quad
+L=xyz-\lambda(2xz+2yz+xy)
+$$
+$$
+L_{x}=yz-\lambda(2z+y),\quad   L_{y}=xz-\lambda(2z+x), \quad
+L_{z}=xy-\lambda(2x+2y)
+$$
+$$
+y_{0}z_{0}=\lambda(2z_{0}+y_{0}),\quad
+x_{0}z_{0}=\lambda(2z_{0}+x_{0}),\quad
+x_{0}y_{0}=\lambda(2x_{0}+2y_{0})
+$$
+$$
+x_{0}y_{0}z_{0}=\lambda x_{0}(2z_{0}+y_{0}),\quad
+x_{0}y_{0}z_{0}=\lambda y_{0}(2z_{0}+x_{0}),\quad
+x_{0}y_{0}z_{0}=\lambda z_{0}(2x_{0}+2y_{0})
+$$
+$$
+2x_{0}z_{0}+x_{0}y_{0}=2y_{0}z_{0}+x_{0}y_{0}=2x_{0}z_{0}+2y_{0}z_{0}
+$$
+$$
+x_{0}=y_{0}=2z_{0}, \quad
+A=12z_{0}^{2},  \quad
+z_{0}=\sqrt{\frac{A}{12}},\quad
+V_{\text{max}}=z_{0}^{3}=\dst{\frac{A^{3/2}}{6\sqrt{3}}}.
+$$
+
+\bigskip
+{\bf \ref{exer:11}.}
+Denote the vertices of the box by  $(0,0,0)$, $(x,0,0)$, $(0,y,0)$, and
+$(0,0,z)$.
+$$
+ V=xyz,\quad   A=2xz+2yz+xy, \quad
+L=2xz+2yz+xy-\lambda xyz,\quad
+$$
+$$
+L_{x}=2z+y-\lambda yz, \quad  L_{y}=2z+x-\lambda xz, \quad
+L_{z}=2x+2y-\lambda xy
+$$
+$$
+2z_{0}+y_{0}=\lambda y_{0}z_{0}, \quad  2z_{0}+x_{0}=\lambda x_{0}z_{0},
+\quad 2x_{0}+2y_{0}-\lambda x_{0}y_{0}
+$$
+$$
+2x_{0}z_{0}+x_{0}y_{0}=2y_{0}z_{0}+x_{0}y_{0}=2x_{0}z_{0}+2y_{0}z_{0}
+$$
+$$
+ x_{0}=y_{0}=2z_{0},\; V=4z_{0}^{3}, \;
+z_{0}=\frac{(2V)^{1/3}}{2},\;
+x_{0}=y_{0}=(2V)^{1/3},\;  A_\text{min}=3(2V)^{2/3}
+$$
+
+
+\bigskip
+{\bf \ref{exer:12}.}
+$L=xyz-\lambda\dst{\left(\dst{\frac{x}{a}+\frac{y}{b}+\frac{z}{c}}\right)}$,\;
+$L_{x}=yz-\dst{\frac{\lambda}{a}}$,\;
+$L_{y}=xz-\dst{\frac{\lambda}{b}}$, \;
+ $L_{z}=xy-\dst{\frac{\lambda}{c}}$
+$$
+ y_{0}z_{0}=\dst{\frac{\lambda}{a}},\quad
+x_{0}z_{0}=\dst{\frac{\lambda}{b}}, \quad
+x_{0}y_{0}=\dst{\frac{\lambda}{c}},\quad
+\dst{\frac{x_{0}}{a}} =
+\dst{\frac{y_{0}}{b}}=\dst{\frac{z_{0}}{c}}=\dst{\frac{1}{3}},\quad
+V_{\text{max}}=\frac{abc}{27}.
+$$
+
+\bigskip
+{\bf \ref{exer:13}.}
+We may assume without loss of generality that $y>0$, so $A=ay$.
+$$
+L=\dst{ay-\frac{\lambda}{2}\left(\frac{x^{2}}{a^{2}}+\frac{y^{2}}{b^{2}}\right)},\quad
+\dst{L_{x}=\frac{\lambda x}{a^{2}}},\quad
+x_{0}=0,\quad  y_{0}=b,\quad   A_{\text{max}}=ab.
+$$
+
+\bigskip
+{\bf \ref{exer:14}.}
+We must maximize $A^{2}=s(s-x)(s-y)(s-z)$ subject to
+$x+y+z=s$.
+$$
+L=-s(s-x)(s-y)(s-z)-\lambda(x+y+z)
+$$
+$$
+L_{x}=s(s-y)(s-z)-\lambda,\quad
+L_{y}=s(s-x)(s-z)-\lambda,\quad
+L_{z}=s(s-x)(s-y)-\lambda\quad
+$$
+$$
+s(s-y_{0})(s-z_{0})=
+s(s-x_{0})(s-z_{0})=
+s(s-x_{0})(s-y_{0})=\lambda,\quad
+x_{0}=y_{0}=z_{0}=\frac{s}{3}.
+$$
+
+\bigskip
+{\bf \ref{exer:15}.}
+We must maximize $V=8xyz$ subject to   \quad
+$\dst{\frac{x^{2}}{a^{2}}+\frac{y^{2}}{b^{2}}+\frac{z^{2}}{c^{2}}}=1.$
+$$
+L=xyz-\frac{\lambda}{2}\left(\frac{x^{2}}{a^{2}}+\frac{y^{2}}{b^{2}}+\frac{z^{2}}{c^{2}}\right)
+$$
+$$
+L_{x}=yz-\frac{\lambda x}{a^{2}}, \quad
+L_{y}=xz-\frac{\lambda y}{b^{2}}, \quad
+L_{z}=xy-\frac{\lambda z}{c^{2}}
+$$
+$$
+y_{0}z_{0}=\frac{\lambda x_{0}}{a^{2}}, \quad
+x_{0}z_{0}=\frac{\lambda y_{0}}{b^{2}}, \quad
+x_{0}y_{0}=\frac{\lambda z}{c^{2}}\quad
+$$
+$$
+\dst{\frac{x_{0}^{2}}{a^{2}}}=\dst{\frac{y_{0}^{2}}{b^{2}}}=\dst{\frac{z_{0}^{2}}{c^{2}}}
+=\lambda x_{0}y_{0}z_{0}
+$$
+To satisfy the constraint,
+$x_{0}=\dst{\frac{a}{\sqrt{3}}}$,
+$y_{0}=\dst{\frac{b}{\sqrt{3}}}$,
+$z_{0}=\dst{\frac{c}{\sqrt{3}}}$,
+so $V_{\text max}=\dst{\frac{8abc}{3\sqrt{3}}}$.
+
+\bigskip
+{\bf \ref{exer:16}.}
+Let $(x_{0},y_{0},z_{0})$  be the point on the plane closest to
+$(x_{1},y_{1},z_{1})$, so
+\begin{equation} \tag{A}
+ax_{0}+by_{0}+cz_{0}=\sigma.
+\end{equation}
+$$
+L=\dst{\frac{(x-x_{1})^{2}+(y-y_{1})^{2}+(z-z_{1})^{2}}{2}}-\lambda(ax+by+cz)
+$$
+$$
+L_{x}=(x-x_{1})-\lambda a,\quad
+L_{y}=(y-y_{1})-\lambda b,\quad
+L_{z}=(z-z_{1})-\lambda c
+$$
+\begin{equation}
+x_{0}=x_{1}+\lambda a,\quad y_{0}=y_{1}+\lambda b,\text{\quad and\quad}
+z_{0}=z_{1}+\lambda c, \tag{B}
+\end{equation}
+\begin{equation} \tag{C}
+d^{2}=\lambda^{2}(a^{2}+b^{2}+c^{2})
+\end{equation}
+ (A) and (B) imply that
+$$
+ax_{1}+by_{1}+cz_{1}+\lambda(a^{2}+b^{2}+c^{2})=\sigma,
+$$
+so
+$$
+\lambda=\frac{\sigma-ax_{1}-by_{1}-cz_{1}}{a^{2}+b^{2}+c^{2}},
+$$
+and  (C) implies that
+$$
+d=\frac{|\sigma-ax_{1}-by_{1}-cz_{1}|}{\sqrt{a^{2}+b^{2}+c^{2}}}.
+$$
+
+\bigskip
+{\bf \ref{exer:17}.}
+\quad $\dst{
+L=\frac{1}{2}\sum_{i=1}^{n}\left[(x-x_{i})^{2}+(y-y_{i})^{2}+(z-z_{i})^{2}\right]
+-\lambda(ax+by+cz)}$
+$$
+L_{x}=nx - \lambda a -\sum_{i=1}^{n}x_{i},\quad
+L_{y}=ny - \lambda b -\sum_{i=1}^{n}y_{i},\quad
+L_{z}=nz - \lambda b -\sum_{i=1}^{n}z_{i}.
+$$
+$$
+x_{0}=\dst{\frac{1}{n}\left[\lambda a+\sum_{i=1}^{n}x_{i}\right]},\quad
+y_{0}=\dst{\frac{1}{n}\left[\lambda b+\sum_{i=1}^{n}y_{i}\right]},\quad
+z_{0}=\dst{\frac{1}{n}\left[\lambda c+\sum_{i=1}^{n}z_{i}\right]}
+$$
+$$
+ax_{0}+by_{0}+cz_{0}=\frac{1}{n}
+\left[\lambda(a^{2}+b^{2}+c^{2})+\sum_{i=1}^{n}(ax_{i}+by_{i}+cz_{i})\right]
+$$
+Since $ax_{0}+by_{0}+cz_{0}=\sigma$,
+$$
+ \lambda=(a^{2}+b^{2}+c^{2})^{-1}\dst{\sum_{i=1}^{n}
+(\sigma-ax_{i}-by_{i}-cz_{i})}.
+$$
+
+\bigskip
+{\bf \ref{exer:18}.}
+$L=\dst{\frac{1}{2}}\dst\left({\sum_{i=1}^{n}(x_{i}-c_{i})^{2}-
+\lambda\sum_{i=1}^{n}x_{i}^{2}}\right)$,\,
+$L_{x_{i}}=x_{i}-c_{i}-\lambda x_{i}$,\, $x_{i0}=(1-\lambda)^{-1} c_{i}$
+\medskip
+
+$\dst{\sum_{i=1}^{n}x_{i0}^{2}=(1-\lambda)^{-2}\sum_{j=1}^{n}c_{j}^{2}}=1$,
+so
+$\lambda =1\pm \mu$ where
+$\mu =\dst{\left(\sum_{j=1}^{n}c_{j}^{2}\right)^{1/2}}$
+Since   $x_{i0}=c_{i}+\lambda x_{i0}$  and
+$\dst{\sum_{i=1}^{n}x_{i0}^{2}}=1$,
+$\dst{\sum_{i=1}^{n}(x_{i0}-c_{i})^{2}=\lambda^{2}}$.  Since
+$x_{i0}=(1-\lambda)^{-1}c_{i}$, the constrained maximum is $(1+\mu)^{2}$,
+attained with $x_{i0}=-c_{i}/\mu$, $1\le i\le n$, and the constrained
+ minimum is $(1-\mu)^{2}$,
+attained with $x_{i0}=c_{i}/\mu$, $1\le i\le n$.
+
+{\bf \ref{exer:19}.}
+\centerline{$L=xy+xz+yz-\dst{\frac{\lambda}{2}(x^{2}+y^{2}+z^{2})}$}
+$$
+L_{x}=y+z-\lambda x,\quad  L_{y}=x+z-\lambda y,\quad
+L_{z}=x+y-\lambda z
+$$
+
+$$
+\left[\begin{array}{ccccccc}
+0&1&1\\1&0&1\\1&1&0
+\end{array}\right]
+\left[\begin{array}{ccccccc}
+x_{0}\\y_{0}\\z_{0}
+\end{array}\right]=\lambda
+\left[\begin{array}{ccccccc}
+x_{0}\\y_{0}\\z_{0}
+\end{array}\right].
+$$
+The eigenvalues of the matrix are $2$ and $-1$, which are therefore the
+extremes  of $Q$ subject to the constraint.
+
+\bigskip
+{\bf \ref{exer:20}.}
+\quad \quad \quad
+\centerline{$L=\dst{\frac{3x^{2}+2y^{2}+3z^{2}+2xz}{2}}-\dst{\frac{\lambda}{2}(x^{2}+y^{2}+z^{2})}$}
+$$
+L_{x}=3x+z-\lambda x,\quad  L_{y}=2y-\lambda y,\quad
+L_{z}=3z+x-\lambda z
+$$
+
+$$
+\left[\begin{array}{ccccccc}
+3&0&1\\0&2&0\\1&0&3
+\end{array}\right]
+\left[\begin{array}{ccccccc}
+x_{0}\\y_{0}\\z_{0}
+\end{array}\right]=\lambda
+\left[\begin{array}{ccccccc}
+x_{0}\\y_{0}\\z_{0}
+\end{array}\right]
+$$
+The largest and smallest eigenvalues of the matrix are $4$ and $2$, which
+are therefore the extremes  of $Q$ subject to the constraint.
+
+\bigskip
+{\bf \ref{exer:21}.}
+\quad \quad
+\quad $L=\dst{\frac{x^{2}+8xy+4y^{2}-\lambda(x^{2}+2xy+4y^{2})}{2}}$
+\begin{eqnarray*}
+L_{x}&=&(x+4y)-\lambda(x+y)=(1-\lambda)x+(4-\lambda)y   \\
+L_{y}&=& (4x+4y)-\lambda(x+4y)=(4-\lambda)x+4(1-\lambda y)
+\end{eqnarray*}
+$$
+\left[\begin{array}{ccccccc}
+1-\lambda & 4-\lambda \\ 4-\lambda &4(1-\lambda)
+\end{array}\right]
+\left[\begin{array}{ccccccc}
+x_{0}\\ y_{0}
+\end{array}\right]=
+\left[\begin{array}{ccccccc}
+0\\0
+\end{array}\right],
+$$
+so
+$$
+4(\lambda-1)^{2}-(\lambda-4)^{2}=3(\lambda-2)(\lambda+2)=0.
+$$
+If $\lambda=2$,  then  $x_{0}=2y_{0}$. To satisfy the constraint,
+$(x_{0},y_{0})=\pm\left(\frac{1}{\sqrt3},\frac{1}{2\sqrt3}\right)$  and
+$f(x_{0},y_{0})=2$.
+If $\lambda=-2$, then  $x_{0}=-2y_{0}$. To satisfy the constraint,
+$(x_{0},y_{0})=\pm\left(-\frac{1}{\sqrt3},\frac{1}{2\sqrt3}\right)$  and
+$f(x_{0},y_{0})=-\frac{2}{3}$.
+
+\bigskip
+{\bf \ref{exer:22}.}
+$L=\alpha+\beta xy-\dst{\frac{\lambda}{2}(ax+by)^{2}}$,\,
+$L_{x}=\beta y-\lambda a(ax+by)$,\,
+$L_{y}=\beta x-\lambda b(ax+by)$
+
+\centerline{$x_{0}=\dst{\frac{\lambda b(ax_{0}+by_{0})}{\beta}}$,\quad
+$y_{0}=\dst{\frac{\lambda a(ax_{0}+by_{0})}{\beta}}$,\quad
+$(x_{0},y_{0})=\dst{\pm\left(\frac{\lambda
+b}{\beta},\frac{\lambda a}{\beta}\right)}$}\quad
+
+\centerline{$ax_{0}+by_{0}=\dst{\frac{2\lambda ab}{\beta}=\pm1}$,\quad
+$\lambda=\dst{\pm\dst{\frac{\beta}{2ab}}}$,\quad
+$(x_{0},y_{0})=\dst{\pm\left(\frac{1}{2a},\frac{1}{2b}\right)}$}
+
+\centerline{$(\alpha+\beta
+x_{0}y_{0})_\text{max}=\dst{\alpha+\frac{|\beta|}{4|ab|}}$,\quad
+$(\alpha+\beta
+x_{0}y_{0})_\text{min}=\alpha-\dst{\frac{|\beta|}{4|ab|}}$}
+
+
+\bigskip
+{\bf \ref{exer:23}.}
+\centerline{$L=x+y^{2}+2z-\dst{\frac{\lambda}{2}(4x^{2}+9y^{2}-36z^{2})}$}
+$$
+L_{x}=1-4\lambda x,\;
+L_{y}=2y-9\lambda y, \;
+L_{z}=2+36\lambda z
+$$
+$$
+x_{0}=\dst{\frac{1}{4\lambda}},\;
+z_{0}=-\dst{\frac{1}{18\lambda}}=-\frac{2}{9}x_{0},
+$$
+  and
+either $y_{0}=0$ or $\lambda=\dst{\frac{2}{9}}$.
+If $y_{0}=0$,  then
+$$
+36=4x_{0}^{2}-36z_{0}^{2}=\left(4-36\left(\frac{2}{9}\right)^{2}\right)x_{0}^{2}
+=\frac{20}{9}x_{0}^{2},\text{\quad so\quad}
+(x_{0},z_{0})=\pm \left(\frac{9}{\sqrt{5}},-\frac{2}{\sqrt{5}}\right)
+$$
+and $f(x_{0},0,z_{0})=x_{0}+2z_{0}=\pm\sqrt{5}$.
+If $\lambda=\dst{\frac{2}{9}}$, then $x_{0}=\dst{\frac{9}{8}}$
+and
+$z_{0}=-\dst{\frac{1}{4}}$, so
+$$
+9y_{0}^{2}=36(1+z_{0}^{2})-4x_{0}^{2}=36\left(1+\frac{1}{16}\right)-4\left(\frac{81}{64}\right)
+=\frac{531}{16},
+\text{\; so\;\;}y_{0}=\pm\dst{\frac{\sqrt{59}}{4}}.
+$$
+Therefore, the constrained maximum is
+$f\left(\frac{9}{8},\frac{\sqrt{59}}{4},-\frac{1}{4}\right)=
+f\left(\frac{9}{8},-\frac{\sqrt{59}}{4},-\frac{1}{4}\right)=\frac{73}{16}$
+and the constrained minimum is
+$f\left(-\frac{9}{\sqrt{5}},0,\frac{2}{\sqrt{5}}\right)=-\sqrt{5}$.
+
+\bigskip
+{\bf \ref{exer:24}.}
+\quad \quad \quad \quad
+$L=(x+z)(y+w)-\dst{\frac{\lambda}{2}(x^{2}+y^{2}+z^{2}+w^{2})}$
+
+$$
+L_{x}=y+w-\lambda x,\,
+ L_{y}=x+z-\lambda y,\, L_{z}=y+w -\lambda z, \,
+L_{w}=x+z-\lambda w
+$$
+$$
+x_{0}+z_{0}=\lambda y_{0}=\lambda w_{0},  \quad
+y_{0}+w_{0}=\lambda x_{0}=\lambda z_{0}
+$$
+
+If $\lambda=0$, then
+all  $(x_{0},y_{0},-x_{0},w_{0})$ with  $2x_{0}^{2}+y_{0}^{2}+w_{0}^{2}=1$
+and all $(x_{0},y_{0},z_{0},-y_{0})$ with
+$x_{0}^{2}+2y_{0}^{2}+z_{0}^{2}=1$ are constrained critical points, with
+$f(x_{0},y_{0},-x_{0},w_{0})=0$ and $f(x_{0},y_{0},z_{0},-y_{0})$.
+
+\medskip
+
+If $\lambda  \ne0$, then $y_{0}=w_{0}$ and $x_{0}=z_{0}$, so
+$$
+2x_{0}=\lambda y_{0},\quad  2y_{0}=\lambda x_{0},\quad
+2z_{0}=\lambda w_{0},\quad 2w_{0} =\lambda z_{0},
+$$
+and
+$$
+2x_{0}=\lambda y_{0} =\frac{\lambda}{2}(2y_{0})=\frac{\lambda^{2}}{2}x_{0}
+\text{\; and \;\;}2z_{0}=\lambda w_{0}=\frac{\lambda}{2}(2w_{0})=
+\frac{\lambda^{2}}{2}z_{0}.
+$$
+If $\lambda\ne2$, then
+ $x_{0}=y_{0}=z_{0}=w_{0}$, which does not satisfy the constraint.
+ If $\lambda=2$,  then
+$$
+x_{0}=y_{0}=z_{0}=w_{0}=\pm\frac{1}{2}\text{\; and\;\;}
+(x_{0}+z_{0})(y_{0}+w_{0})=1.
+$$
+If $\lambda=-2$, then
+$$
+x_{0}=-y_{0}=z_{0}=-w_{0}=\pm\frac{1}{2}
+\text{\; and\;\;}
+(x_{0}+z_{0})(y_{0}+w_{0})=-1.
+$$
+Therefore, the constrained maximum  is $1$, attained at
+$\pm\left(\frac{1}{2},\frac{1}{2},\frac{1}{2},\frac{1}{2}\right)$
+ the constrained minimum  is $-1$, attained at
+$\pm\left(\frac{1}{2},-\frac{1}{2},\frac{1}{2},-\frac{1}{2}\right)$.
+
+\bigskip
+{\bf \ref{exer:25}.}
+\quad \quad \quad \quad
+$L=(x+z)(y+w)-\dst{\frac{\lambda}{2}(x^{2}+y^{2})}
+-\dst{\frac{\mu}{2}(z^{2}+w^{2})}$
+
+$$
+L_{x}=y+w-\lambda x,\,
+ L_{y}=x+z-\lambda y,\, L_{z}=y+w -\mu z, \,
+L_{w}=x+z-\mu w
+$$
+\begin{equation} \tag{A}
+x_{0}+z_{0}=\lambda y_{0}=\mu w_{0}, \quad
+y_{0}+w_{0}=\lambda x_{0}=\mu z_{0}
+\end{equation}
+
+\medskip
+
+If $\lambda=\mu=0$, then $z_{0}=-x_{0}$ and $w_{0}=-y_{0}$,
+$(x_{0},y_{0},-x_{0},-y_{0})$ satisfies the constraints and
+$f(x_{0},y_{0},-x_{0},-y_{0})=0$  for all $(x_{0},y_{0})$
+such that $x_{0}^{2}+y_{0}^{2}=1$.
+
+\medskip
+If $\lambda=0$
+and $\mu\ne0$, then $z_{0}=w_{0}=0$, which does not satisfy the constraint
+$z^{2}+y^{2}=1$. If $\mu=0$  and $\lambda\ne0$, then $x_{0}=y_{0}=0$,
+which does not satisfy the constraint  $x^{2}+y^{2}=1$.
+
+\medskip
+Now assume that $\lambda$, $\mu\ne0$.  From (A),
+ $\lambda(x_{0}^{2}+y_{0}^{2})=\mu^{2}(z_{0}^{2}+w_{0}^{2})$, so
+$\lambda=\pm\mu$.    If $\lambda=-\mu$,   (A) implies  that
+$y_{0}=-w_{0}$ and $x_{0}=-z_{0}$, so  again
+$(x_{0},y_{0},-x_{0},-y_{0})$ satisfies the constraints and
+$f(x_{0},y_{0},-x_{0},-y_{0})=0$  for all $(x_{0},y_{0})$
+such that $x_{0}^{2}+y_{0}^{2}=1$.
+
+\medskip
+
+ If $\lambda=\mu$,  (A) becomes
+$$
+x_{0}+z_{0}=\lambda y_{0}= \lambda w_{0},\quad
+y_{0}+w_{0}=\lambda x_{0}=\lambda z_{0},
+$$
+so
+$y_{0}=w_{0}$, $x_{0}=z_{0}$,  $2x_{0}=\lambda y_{0}$, and $2y_{0}=\lambda
+x_{0}$,  $4x_{0}=2\lambda y_{0}=\lambda^{2}x_{0}$, so $\lambda=\pm2$ .
+
+\medskip
+If
+$\lambda=2$, $x_{0}=y_{0}=z_{0}=w_{0}$. To satisfy the constraints,
+
+$$
+(x_{0},y_{0},z_{0},w_{0})=\pm\left( \frac{1}{\sqrt2},
+ \frac{1}{\sqrt2}, \frac{1}{\sqrt2},
+\frac{1}{\sqrt2}
+\right), \text{\; so\;\;}
+$$
+and the constrained maximum  is  $f(x_{0},y_{0},z_{0},w_{0})=2$.
+
+\medskip
+
+If
+$\lambda=-2$, $x_{0}=-y_{0}=z_{0}=-w_{0}$. To satisfy the constraints,
+$$
+(x_{0},y_{0},z_{0},w_{0})=\pm\left( \frac{1}{\sqrt2},
+- \frac{1}{\sqrt2}, \frac{1}{\sqrt2},
+-\frac{1}{\sqrt2}
+\right), \text{\; so\;\;}
+$$
+and the constrained minimum  is  $f(x_{0},y_{0},z_{0},w_{0})=-2$.
+
+\bigskip
+{\bf \ref{exer:26}.}
+\centerline{$L=(x+z)(y+w)-\dst{\frac{\lambda}{2}}(x^{2}+z^{2})
+-\dst{\frac{\mu}{2}}(y^{2}+w^{2})$}
+
+$$
+L_{x}=y+w-\lambda x,\;
+L_{y}=x+z-\mu y,\;
+L_{w}=x+z-\mu w,\;
+L_{z}=y+w-\lambda z
+$$
+
+\centerline{$y_{0}+w_{0}=\lambda x_{0}$,\;
+$x_{0}+z_{0}=\mu y_{0}$,\;
+$x_{0}+z_{0}=\mu w_{0}$,\;
+$y_{0}+w_{0}=\lambda z_{0}$}
+
+If $\mu=0$, then $x_{0}=-z_{0}$, so the constrained critical points
+are  $\pm\left(\frac{1}{\sqrt2},y_{0},-\frac{1}{\sqrt2},w_{0}\right)$
+for all $(y_{0},w_{0})$ such that $y_{0}^{2}+w_{0}^{2}=1$; $f=0$
+at all such points.
+
+If $\lambda=0$, then $y_{0}=-w_{0}$, so the constrained critical points
+are  $\pm\left(x_{0},\frac{1}{\sqrt2},z_{0},-\frac{1}{\sqrt2}\right)$
+for all $(x_{0},z_{0})$ such that $x_{0}^{2}+z_{0}^{2}=1$; $f=0$
+at all such points.
+
+\medskip
+
+Now suppose  that
+$\lambda\mu\ne0$.   Since
+$\lambda x_{0}=\lambda z_{0}$ and
+$\mu y_{0}=\mu w_{0}$,
+ $x_{0}=z_{0}$ and $y_{0}=w_{0}$. Therefore,
+$(x_{0},z_{0})=\pm\left(\frac{1}{\sqrt2},\frac{1}{\sqrt2}\right)$
+and
+$(y_{0},w_{0})=\pm\left(\frac{1}{\sqrt2},\frac{1}{\sqrt2}\right)$, so
+the constrained maximum is $2$, attained at
+$\pm(\frac{1}{\sqrt2},\frac{1}{\sqrt2},\frac{1}{\sqrt2},\frac{1}{\sqrt2})$,
+and constrained minimum is $-2$, attained
+$\pm\left(\frac{1}{\sqrt2},-\frac{1}{\sqrt2},\frac{1}{\sqrt2},-\frac{1}{\sqrt2}\right)$,
+
+\bigskip
+{\bf \ref{exer:27}.}
+\quad \quad \quad $L=\dst{\frac{(x_{1}-x_{2})^{2}+(y_{1}-y_{2})^{2}}{2}}-
+\dst{\frac{\lambda}{2}}(x_{1}^{2}+y_{1}^{2})-\mu x_{2}y_{2}$
+
+$$
+L_{x_{1}}=x_{1}-x_{2}-\lambda x_{1},\; L_{x_{2}}=x_{2}-x_{1}-\mu
+y_{2},\;  L_{y_{1}}=y_{1}-y_{2}-\lambda y_{1},\;
+L_{y_{2}}=y_{2}-y_{1}-\mu x_{2}
+$$
+
+
+\centerline{(i) $x_{10}-x_{20}=\lambda  x_{10}$,\quad  (ii)
+$y_{10}-y_{20}=\lambda y_{10}$}
+
+\medskip
+
+\centerline{(iii) $x_{20}-x_{10}=\mu y_{20}$,\quad
+(iv) $y_{20}-y_{10}=\mu x_{20}$}
+\medskip
+
+Since $0<x_{10}<x_{20}$ and  $0<y_{10}<y_{20}$,  $\lambda<0$
+and $\mu>0$
+Since $x_{20}\ne0$, $\lambda \ne 1$, (i) and (ii) imply that
+(v) $x_{10}y_{20}=y_{10}x_{20}$.  From (i) and (iii),
+(vi) $\lambda x_{10}=-\mu y_{20}$; from (ii) and (iv), (vii) $\lambda
+y_{10}=-\mu x_{20}$. Since $x_{20}y_{20}=1$, (vi) and (vii)  imply that
+$x_{10}x_{20}=y_{10}y_{20}$. This and (v) imply that
+$$
+\frac{x_{10}}{y_{10}}=\frac{x_{20}}{y_{20}}=\frac{y_{20}}{x_{20}}.
+$$
+Therefore, $x_{20}=y_{20}=1$  and $x_{10}=y_{10}=\frac{1}{\sqrt2}$,
+so
+$$
+(x_{10}-x_{20})^{2}+(y_{10}-y_{20})^{2}=
+2\left(1-\frac{1}{\sqrt 2}\right)^{2}
+$$
+and the distance between the curves is $\sqrt2-1$.
+
+\bigskip
+{\bf \ref{exer:28}.}
+\centerline{$L=\dst{\frac{1}{2}}\left(\dst{\frac{x^{2}}{\alpha^{2}}+\frac{y^{2}}{\beta^{2}}}
++\frac{z^{2}}{\gamma^{2}}\right)
+-\lambda (ax+by+cz)$}
+$$
+L_{x}=\frac{x}{\alpha^{2}}-\lambda a,\quad
+L_{y}=\frac{y}{\beta^{2}}-\lambda b,\quad
+L_{z}=\frac{z}{\gamma^{2}}-\lambda c
+$$
+$$
+x_{0}=\lambda a \alpha^{2},\quad
+y_{0}=\lambda b \beta^{2},\quad
+z_{0}=\lambda c \gamma^{2}
+$$
+$$
+ax_{0}+by_{0}+cz_{0}=
+\lambda[(a \alpha)^{2}+(b\beta)^{2}+(c\gamma^{2})]=d,
+\quad
+\lambda=\frac{d}{(a\alpha)^{2}+(b\beta^{2})+(c\gamma)^{2}}
+$$
+$$
+\frac{x_{0}^{2}}{\alpha^{2}}+\frac{y_{0}^{2}}{\beta^{2}}
++\frac{z_{0}^{2}}{\gamma^{2}}=
+\lambda^{2}[(a\alpha)^{2}+(b\beta)^{2}+(c\gamma)^{2}]
+= \frac{d^{2}}{(a\alpha)^{2}+(b\beta^{2})+(c\gamma)^{2}}.
+$$
+
+\bigskip
+{\bf \ref{exer:29}.}
+\quad
+$\dst{L(x_{1},x_{2},\dots,x_{n})=\frac{(x_{1}-c_{1})^{2}+(x_{2}-c_{2})^2+
+\cdots+(x_{n}-c_{n})^2}{2}}$
+$$
+-\lambda(a_{1}x_{1}+a_{2}x_{2}+\cdots+a_{n}x_{n})
+$$
+$L_{x_{i}}=x_{i}-c_{i}-\lambda a_{i}$, $1\le i\le n$. We must choose
+$\lambda$ so that if $x_{i0}=c_{i}+\lambda a_{i}$, $1\le i\le n$, then
+\begin{eqnarray*}
+a_{1}x_{10}+a_{2}x_{20}+\cdots+a_{n}x_{n0}&=&a_{1}c_{1}+a_{2}c_{2}+\dots +
+a_{n}c_{n}\\ &+& \lambda (a_{1}^{2}+a_{2}^{2}+\cdots+ a_{n}^{2})=d,
+\end{eqnarray*}
+which holds if and only if
+$$
+\lambda=\frac{d-a_{1}c_{1}-a_{2}c_{2}-\cdots-a_{n}c_{n}}
+{a_{1}^{2}+a_{2}^{2}+\cdots +a_{n}^{2}}.
+$$
+Therefore,
+$$
+x_{i0}=c_{i}+
+\frac{(d-a_{1}c_{1}-a_{2}c_{2}-\cdots-a_{n}c_{n})a_{i}}
+{a_{1}^{2}+a_{2}^{2}+\cdots a_{n}^{2}},\quad  1\le i\le n,
+$$
+and the distance from $(x_{10},x_{10},\dots,x_{n0})$  to
+ $(c_{1},c_{2},\dots,c_{n})$  is
+$$
+\frac{|(d-a_{1}c_{1}-a_{2}c_{2}-\cdots-a_{n}c_{n})a_{i}|}
+{\sqrt{a_{1}^{2}+a_{2}^{2}+\cdots a_{n}^{2}}}.
+$$
+
+\bigskip
+{\bf \ref{exer:30}.}
+\centerline{$L=\dst{\frac{1}{2}\sum_{i=1}^{n}a_{i}x_{i}^{2}-
+\frac{\lambda}{4}\sum_{i=1}^{n}b_{i}x_{i}^{4}}$,\quad
+$L_{x_{i}}=a_{i}x_{i}-\lambda b_{i}x_{i}^{3}$,\quad
+$a_{i}x_{i0}^{2}=\lambda b_{i}x_{i0}^{4}$}
+
+$\dst{\sum_{i=1}^{n}a_{i}x_{i0}^{2}=\lambda \sum_{i=1}^{n}
+b_{i}x_{i0}^{4}=\lambda}$,\;
+$x_{i0}^{2}=\dst{\frac{a_{i}}{\lambda b_{i}}}$,\quad
+$\lambda=\dst{\sum_{i=1}^{n}a_{i}x_{i0}^{2}=
+\frac{1}{\lambda}\sum_{i=1}^{n}\frac{a_{i}^{2}}{b_{i}}}$,\;
+$\lambda=\dst{\left(\sum_{i=1}^{n}\frac{a_{i}^{2}}{b_{i}}\right)^{1/2}}$
+
+
+{\bf \ref{exer:31}.}
+\centerline{$L=\dst{\frac{1}{p}\sum_{i=1}^{n}a_{i}x_{i}^{p}-
+\frac{\lambda}{q}\sum_{i=1}^{n}b_{i}x_{i}^{q}}$,\quad
+$L_{x_{i}}=a_{i}x_{i}^{p}-\lambda b_{i}x_{i}^{q}$,\quad
+$a_{i}x_{i0}^{p}=\lambda b_{i}x_{i0}^{q}$}
+
+$\dst{\sum_{i=1}^{n}a_{i}x_{i0}^{p}=\lambda \sum_{i=1}^{n}
+b_{i}x_{i0}^{q}=\lambda}$,\;
+$x_{i0}^{q-p}=\dst{\frac{a_{i}}{\lambda b_{i}}}$,\quad
+$x_{i0}=\dst{\left(\frac{a_{i}}{\lambda b_{i}}\right)^{1/(q-p)}}$,
+$x_{i0}^{p}=\dst{\left(\frac{a_{i}}{\lambda b_{i}}\right)^{p/(q-p)}}$
+
+$$
+\lambda=\sum_{i=1}^{n}a_{i}x_{i0}^{p}=\lambda^{p/(p-q)}
+ \sum_{i=1}^{n}a_{i}^{q/(q-p)} b_{i}^{p/(p-q)},\quad
+$$
+$$
+\lambda^{q/(q-p)}=
+ \sum_{i=1}^{n}a_{i}^{q/(q-p)} b_{i}^{p/(p-q)},\quad
+\lambda=
+\left(\sum_{i=1}^{n}a_{i}^{q/(q-p)} b_{i}^{p/(p-q)}\right)^{1-p/q}=
+\sum_{i=1}^{n}a_{i}x_{i0}^{p}
+$$
+$\lambda$  is the constrained maximum if $p<q$, the constrained minimum if
+$p>q$, undefined if $p=q$.
+
+{\bf \ref{exer:32}.}
+$L=\dst{\frac{x^{2}+2y^{2}+z^{2}+w^{2}}{2}}-\lambda(x+y+z+3w)-\mu(x+y+2z+w)$
+$$
+L_{x}=x-\lambda-\mu, \quad L_{y}=2y-\lambda-\mu, \quad
+L_{z}=z-\lambda-2\mu, \quad L_{w}=w-3\lambda-\mu
+$$
+$$
+x_{0}=\lambda+\mu, \quad y_{0}=\frac{\lambda+\mu}{2}, \quad
+z_{0}=\lambda+2\mu,
+\quad w_{0}=3\lambda+\mu
+$$
+$$
+x_{0}+y_{0}+z_{0}+3w_{0}=\frac{23}{2}\lambda+\frac{13}{2}\mu=1, \quad
+x_{0}+y_{0}+2z_{0}+w_{0}=\frac{13}{2}\lambda+\frac{13}{2}\mu=2
+$$
+$$
+\lambda=-\frac{1}{5},\, \mu=\frac{33}{65},\, x_{0}=\frac{4}{13},\,
+y_{0}=\frac{2}{13},\,
+z_{0}=\frac{53}{65},\,
+w_{0}=-\frac{6}{65},\,\
+\min=\frac{689}{845}
+$$
+
+\bigskip
+{\bf \ref{exer:33}.}
+\centerline{$\dst{L=\frac{1}{2}\left(\frac{x^{2}}{a^{2}}+\frac{y^{2}}{b^{2}}+\frac{z^{2}}{c^{2}}\right)
+-\lambda(p_{1}x+p_{2}y+p_{3}z)}$}
+
+\medskip
+
+\centerline{$L_{x}=\dst{\frac{x}{a^{2}}}-\lambda p_{1}$,\quad
+$L_{y}=\dst{\frac{y}{b^{2}}}-\lambda p_{2}$,\quad
+$L_{z}=\dst{\frac{z}{c^{2}}}-\lambda p_{3}$}
+
+\medskip
+
+\centerline{$x_{0}=\lambda p_{1}a^{2}$,\quad
+$y_{0}=\lambda p_{2}b^{2}$,\quad
+$z_{0}=\lambda p_{3}c^{2}$}
+
+\medskip
+
+\centerline{$p_{1}x_{0}+p_{2}y_{0}+p_{3}z_{0}=
+\lambda(p_{1}^{2}a^{2}+p_{2}^{2}b^{2}+p_{3}^{2}c^{2})=d$}
+
+\medskip
+
+\centerline{$\lambda=\dst{\frac{d}{p_{1}^{2}a^{2}+p_{2}^{2}b^{2}+p_{3}^{2}c^{2}}}$,\quad
+$\dst{\frac{x_{0}}{a}=\lambda p_{1}a}$,\quad
+$\dst{\frac{y_{0}}{b}=\lambda p_{2}b}$, \quad
+$\dst{\frac{z_{0}}{b}=\lambda p_{3}c}$}
+
+\medskip
+
+$$
+\frac{x_{0}^{2}}{a^{2}}+\frac{y_{0}^{2}}{b^{2}}+\frac{z_{0}^{2}}{c^{2}}
+=\lambda^{2}(p_{1}^{2}a^{2}+p_{2}^{2}b^{2}+p_{3}^{2}c^{2})
+=\frac{d^{2}}{p_{1}^{2}a^{2}+p_{2}^{2}b^{2}+p_{3}^{2}c^{2}}
+$$
+
+\bigskip
+{\bf \ref{exer:34}.}
+\centerline{$L=p_{1}x+p_{2}y+p_{3}z-
+\dst{\frac{\lambda}{2}\left(\frac{x^{2}}{a^{2}}+\frac{y^{2}}{b^{2}}+
+\frac{z^{2}}{c^{2}}\right)}$}
+
+\medskip
+
+\centerline{$L_{x}=p_{1}-\lambda\dst{\frac{x}{a^{2}}}$,\quad
+$L_{y}=p_{2}-\lambda\dst{\frac{y}{b^{2}}}$,\quad
+$L_{z}=p_{3}-\lambda\dst{\frac{z}{c^{2}}}$}
+
+\medskip
+
+\centerline{$x_{0}=\dst{\frac{p_{1}a^{2}}{\lambda}}$,\quad
+$y_{0}=\dst{\frac{p_{2}b^{2}}{\lambda}}$,\quad
+$z_{0}=\dst{\frac{p_{3}c^{2}}{\lambda}}$}
+
+$$
+\frac{x_{0}^{2}}{a^{2}}+\frac{y_{0}^{2}}{b^{2}}+\frac{z_{0}^{2}}{c^{2}}
+=\frac{p_{1}^{2}a^{2}+p_{2}^{2}b^{2}+p_{3}^{2}c^{2}}{\lambda^{2}}=1
+$$
+ $$
+\lambda=\pm(p_{1}^{2}a^{2}+p_{2}^{2}b^{2}+p_{3}^{2}c^{2})^{1/2}
+$$
+$$
+p_{1}x_{0}+p_{2}y_{0}+p_{3}z_{0}=
+\frac{p_{1}^{2}a^{2}+p_{2}^{2}b^{2}+p_{3}^{2}c^{2}}{\lambda}
+=\pm (p_{1}^{2}a^{2}+p_{2}^{2}b^{2}+p_{3}^{2}c^{2})^{1/2}
+$$
+
+\medskip
+{\bf \ref{exer:35}.}
+$L=\dst{\frac{(x+1)^{2}+(y-2)^{2}+(z-3)^{2}}{2}}-\lambda(x+2y-3z)-\mu(2x-y+2z)$
+
+$$
+L_{x}=x+1-\lambda-2\mu,\quad  L_{y}=y-2-2\lambda +\mu,\quad
+L_{z}=z-3+3\lambda-2\mu
+$$
+$$
+x_{0}=-1+\lambda+2\mu,\quad  y_{0}=2+2\lambda-\mu,  \quad
+z_{0}=3-3\lambda+2\mu
+$$
+$$
+x_{0}+2y_{0}-3z_{0}-4=-10+14\lambda-6\mu,\quad
+2x_{0}-y_{0}+2z_{0}-5=-3-6\lambda+9\mu
+$$
+$$
+7\lambda-3\mu=5, \quad -2\lambda+3\mu=1,\quad  \lambda=\frac{18}{15},
+\quad \mu=\frac{17}{15}
+$$
+$$
+(x_{0},y_{0},z_{0})=\left(\frac{37}{15},
+\frac{49}{15},\frac{25}{15}\right),\quad
+$$
+$$
+\sqrt{(x_{0}+1)^{2}+(y_{0}-2)^{2}+(z_{0}-3)^{2}}
+=\left[\left(\frac{52}{15}\right)+\left(\frac{19}{15}\right)^{2}+
+\left(\frac{20}{15}\right)^{2}\right]^{1/2}=\sqrt{\frac{693}{45}}
+$$
+
+
+\bigskip
+{\bf \ref{exer:36}.}
+\centerline{$L=2x+y+2z-\dst{\frac{\lambda}{2}}(x^{2}+y^{2})-\mu(x+z)$}
+$$
+L_{x}=2-\lambda x-\mu,\quad  L_{y}=1-\lambda y,\quad  L_{z}=2-\mu
+$$
+ $\mu=2$, so $\lambda x_{0}=0$. Since $\lambda y_{0}=1$, $\lambda\ne0$;
+hence,
+ $x_{0}=0$. Since $x_{0}^{2}+y_{0}^{2}=4$,
+$y_{0}=\pm2$.
+Therefore,
+$(0,2,2)$ and $(0,-2,2)$, are constrained extreme points, and
+the constrained extreme values  are
+$f(0,2,2)=6$ and $f(0,-2,2)=2$.
+
+
+\bigskip
+{\bf \ref{exer:37}.}
+Let $(x_{1},y_{1})$  be on the parabola,  $(x_{2},y_{2})$ on the line.
+$$
+L=\frac{(x_{1}-x_{2})^{2}+(y_{1}-y_{2})^{2}}{2}
+-\lambda(y_{1}-x_{1}^{2})-\mu(x_{2}+y_{2}).
+$$
+$$
+L_{x_{1}}=x_{1}-x_{2}+2\lambda x_{1},\,
+L_{x_{2}}=x_{2}-x_{1}-\mu,\,
+$$
+$$
+L_{y_{1}}=y_{1}-y_{2}-\lambda,\,
+L_{y_{2}}=y_{2}-y_{1}-\mu
+$$
+\begin{eqnarray*}
+x_{10}-x_{20}&=&-2\lambda x_{10}\\
+x_{20}-x_{10}&=&\mu\\
+y_{10}-y_{20}&=&\lambda\text{\quad (i)}\\
+y_{20}-y_{10}&=&\mu\text{\quad (ii)}
+\end{eqnarray*}
+From (i) and (ii), $\lambda=-\mu$, so
+\begin{eqnarray*}
+x_{10}-x_{20}&=& 2\mu x_{10}\text{\quad (i)}\\
+x_{20}-x_{10}&=&\mu\text{\quad\quad \;\,  (ii)}\\
+y_{20}-y_{10}&=&\mu\text{\quad\quad \;\,  (iii)}
+\end{eqnarray*}
+From (i) and (ii), $x_{10}=-1/2$, so $y_{10}=1+x_{10}^{2}=5/4$ and
+$$
+2\mu=x_{20}+y_{20}-x_{10}-y_{10}=-1+\frac{1}{2}-\frac{5}{4}=-\frac{7}{4},
+$$
+since $x_{20}+y_{20}=-1$ (constraint). Therefore, $\mu=-7/8$ so (ii)
+and (iii) imply that
+$$
+x_{20}=x_{10}=\mu=-\frac{1}{2}-\frac{7}{8}=-\frac{11}{8}
+\text{\; and\;\;}
+y_{20}=y_{10}-\frac{7}{8}=\frac{5}{4}-\frac{7}{8}=\frac{3}{8}.
+$$
+ The distance between the line and the
+parabola is
+$$
+\sqrt{(x_{10}-x_{20})^{2}+(y_{10}-y_{20})^{2}}=\frac{7}{4\sqrt{2}}.
+$$
+
+\bigskip
+{\bf \ref{exer:38}.}
+Let $(x_{1},y_{1},z_{1})$ be on the ellipsoid and
+$(x_{2},y_{2},z_{2})$ be on the plane.
+$$
+L=
+\frac{(x_{1}-x_{2})^{2}+(y_{1}-y_{2})^{2}+(z_{1}-z_{2})^{2}}{2}
+-\frac{\lambda}{2}(3x_{1}^{2}+9y_{1}^{2}+6z_{1}^{2})
+-\mu(x_{2}+y_{2}+2z_{2}).
+$$
+$$
+ L_{x_{1}}=x_{1}-x_{2}-3\lambda x_{1}=0,\quad
+L_{y_{1}}=y_{1}-y_{2}-9\lambda y_{1}=0,\quad
+L_{z_{1}}=z_{1}-z_{2}-6\lambda z_{1}
+$$
+$$
+L_{x_{2}}=x_{2}-x_{1}-\mu,\quad Ly_{2}=y_{2}-y_{1}-\mu,\quad
+L_{z_{2}}=z_{2}-z_{1}-2\mu
+$$
+\begin{eqnarray*}
+x_{10}-x_{20}&=& 3\lambda x_{10}\\
+y_{10}-y_{20}&=&    9\lambda y_{10}\\
+z_{10}-z_{20}&=&  6\lambda z_{10}\\
+x_{20}-x_{10}&=&  \mu\\
+y_{20}-y_{10}&=&  \mu \\
+z_{20}-z_{10}&=&  2\mu
+\end{eqnarray*}
+Therefore, $3\lambda x_{10}=-\mu$, $9\lambda y_{10}=-\mu$, and
+ $3\lambda z_{10}=-\mu$, so
+ $y_{10}=x_{1}/3$ and
+$z_{10}=x_{10}$. Since $(x_{10},x_{10}/3,x_{10})$ is on the ellipsoid if
+and only if $x_{10}=\pm1$, either
+$$
+\text{\; (a)\;\;}(x_{10},y_{10},z_{10})=\left(1,\frac{1}{3},1\right)
+\text{\; or \quad (b)\;\;}
+ (x_{10},y_{10},z_{10})=\left(-1,-\frac{1}{3},-1\right).
+$$
+Since
+\begin{equation} \tag{A}
+x_{2}=x_{1}+\mu,\quad  y_{2}=y_{1}+\mu,\quad  z_{2}=z_{1}+2\mu,
+\end{equation}
+\begin{equation} \tag{B}
+(x_{10}-x_{20})^{2}+(y_{10}-y_{20})^{2}+(z_{10}-z_{20})=6\mu^{2}, \text{\;
+so\;\;} d=\mu.\sqrt{6}.
+\end{equation}
+Since
+$3x_{20}+3y_{20}+6z_{20}=70$, (A) implies that
+$$
+\mu=\frac{70-3x_{10}-3y_{10}-6z_{10}}{18},
+$$
+
+In Case (a) $\mu=\frac{10}{3}$ so (A) implies that  $d=\frac{10\sqrt{6}}{3}$
+In case (b)
+ $\mu=\frac{40}{9}>\frac{10}{3}$, so
+the distance between the plane and the ellipsoid is
+$\frac{10\sqrt{6}}{3}$.
+
+\bigskip
+{\bf \ref{exer:39}.}
+\quad \quad \quad \quad $L=xy+yz+zx-\dst{\frac{\lambda}{2}
+\left(\frac{x^{2}}{a^{2}}+\frac{y^{2}}{b^{2}}+\frac{z^{2}}{c^{2}}\right)}$
+$$
+L_{x}=y+z-\lambda\frac{x}{a^{2}},\quad
+L_{y}=z+x-\lambda\frac{y}{b^{2}},\quad
+L_{z}=x+y-\lambda\frac{z}{c^{2}}
+$$
+$$
+y_{0}+z_{0}=\lambda\frac{x_{0}}{a^{2}},\quad
+z_{0}+x_{0}=\lambda\frac{y_{0}}{b^{2}},\quad
+x_{0}+y_{0}-\lambda\frac{z_{0}}{c^{2}}
+$$
+$$
+\left[\begin{array}{ccccccc}
+0&a^{2}&a^{2}\\ b^{2}&0&b^{2}\\c^{2}&c^{2}&0
+\end{array}\right]
+\left[\begin{array}{ccccccc}
+x_{0}\\y_{0}\\z_{0}
+\end{array}\right]=\lambda
+\left[\begin{array}{ccccccc}
+x_{0}\\y_{0}\\z_{0}
+\end{array}\right]
+$$
+$$
+x_{0}(y_{0}+z_{0})=\lambda\frac{x_{0}^{2}}{a^{2}},\quad
+y_{0}(z_{0}+x_{0})=\lambda\frac{y_{0}^{2}}{b^{2}},\quad
+z_{0}(x_{0}+y_{0})=\lambda\frac{z_{0}^{2}}{c^{2}},
+$$
+
+$$
+x_{0}(y_{0}+z_{0})+
+y_{0}(z_{0}+x_{0})+
+z_{0}(x_{0}+y_{0})=
+\lambda\left(\frac{x_{0}^{2}}{a^{2}}+\frac{y_{0}^{2}}{b^{2}}+\frac{z_{0}^{2}}{c^{2}}\right)
+=\lambda
+$$
+
+\bigskip
+{\bf \ref{exer:40}.}
+\quad \quad \quad $L=xy+2yz+2zx-\lambda
+\dst{\left(\frac{x^{2}}{a^{2}}+\frac{y^{2}}{b^{2}}+\frac{z^{2}}{c^{2}}\right)}$
+$$
+L_{x}=y+2z-2\lambda\frac{x}{a^{2}},\quad
+L_{y}=x+2z-2\lambda\frac{y}{b^{2}},\quad
+L_{z}=2x+2y-2\lambda\frac{z}{c^{2}}
+$$
+$$
+y_{0}+2z_{0}=2\lambda\frac{x_{0}}{a^{2}},\quad
+x_{0}+2z_{0}=2\lambda\frac{y_{0}}{b^{2}},\quad
+2x_{0}+2y_{0}-2\lambda\frac{z_{0}}{c^{2}}
+$$
+
+$$
+\left[\begin{array}{ccccccc}
+0&a^{2}/2&a^{2}\\ b^{2}/2&0&b^{2}\\c^{2}&c^{2}&0
+\end{array}\right]
+\left[\begin{array}{ccccccc}
+x_{0}\\y_{0}\\z_{0}
+\end{array}\right]=\lambda
+\left[\begin{array}{ccccccc}
+x_{0}\\y_{0}\\z_{0}
+\end{array}\right].
+$$
+
+$$
+x_{0}(y_{0}+2z_{0})=2\lambda\frac{x_{0}^{2}}{a^{2}},\quad
+y_{0}(x_{0}+2z_{0})=2\lambda\frac{y_{0}^{2}}{b^{2}};\quad
+z_{0}(2x_{0}+2y_{0})=2\lambda\frac{z_{0}^{2}}{c^{2}},
+$$
+$$
+\frac{x_{0}(y_{0}+2z_{0})+
+y_{0}(x_{0}+2z_{0})+
+z_{0}(2x_{0}+2y_{0})}{2}=
+\lambda\left(\frac{x_{0}^{2}}{a^{2}}+\frac{y_{0}^{2}}{b^{2}}+\frac{z_{0}^{2}}{c^{2}}\right)
+=\lambda,
+$$
+
+\bigskip
+{\bf \ref{exer:41}.}
+\quad \quad \quad $L=xz+yz-\dst{\frac{\lambda}{2}
+\left(\frac{x^{2}}{a^{2}}+\frac{y^{2}}{b^{2}}+\frac{z^{2}}{c^{2}}\right)}$
+$$
+L_{x}=z-\lambda\frac{x}{a^{2}},\quad
+L_{y}=z-\lambda\frac{y}{b^{2}},\quad
+L_{z}=x+y-\lambda\frac{z}{c^{2}}
+$$
+$$
+z_{0}=\lambda\frac{x_{0}}{a^{2}},\quad
+z_{0}=\lambda\frac{y_{0}}{b^{2}},\quad
+x_{0}+y_{0}=\lambda\frac{z_{0}}{c^{2}},\text{\; so\;\;}
+\frac{a^{2}}{\lambda}+\frac{b^{2}}{\lambda}=\frac{\lambda}{c^{2}}.
+$$
+Therefore, $\lambda=\pm |c|\sqrt{a^{2}+b^{2}}$. To determine $z_{0}$,
+ note  that $x_{0}=\dst{\frac{a^{2}z_{0}}{\lambda}}$ and
+$y_{0}=\dst{\frac{b^{2}z_{0}}{\lambda}}$. Therefore,
+$$
+1=\frac{x_{0}^{2}}{a^{2}}
++\frac{y_{0}^{2}}{b^{2}}+\frac{z_{0}^{2}}{c^{2}} =
+\left(\frac{a^{2}+b^{2}}{\lambda^{2}}+\frac{1}{c^{2}}\right)z_{0}^{2}=
+\frac{2z_{0}^{2}}{c^{2}},
+$$
+so
+$$
+z_{0}=\pm\frac{|c|}{\sqrt2}\text{\; and\;\;}
+(x_{0},y_{0},z_{0})=\pm
+\left(\frac{a^{2}}{\sqrt{2(a^{2}+b^{2})}},
+\frac{b^{2}}{\sqrt{2(a^{2}+b^{2})}},
+\dst{\frac{|c|}{\sqrt{2}}}
+\right)
+$$
+$$
+(x_{0}+y_{0})z_{0}=\dst{\frac{\lambda
+z_{0}^{2}}{c^{2}}}=\pm\frac{\lambda}{2}=\pm
+\frac{|c|\sqrt{a^{2}+b^{2}}}{2}.
+$$
+
+\bigskip
+{\bf \ref{exer:42}.}
+\centerline{$L=x^{\alpha}y^{\beta}z^{\gamma}-\lambda(ax^{p}+by^{q}+cz^{r})$}
+$$
+L_{x}=\alpha x^{\alpha-1}y^{\beta}z^{\gamma}-\lambda pax^{p-1},\quad
+L_{y}=\beta x^{\alpha}y^{\beta-1}z^{\gamma}-\lambda qby^{q-1}
+$$
+$$
+L_{z}=\gamma x^{\alpha}y^{\beta}z^{\gamma-1}-\lambda rcz^{r-1}
+$$
+$$
+\dst{\frac{p}{\alpha}ax_{0}^{p}=\frac{q}{\beta}by_{0}^{q}=\frac{r}{\gamma}cz_{0}^{q}=C}
+$$
+where $C$  is to be determined as follows:
+$$
+\dst{ax_{0}^{p}=\frac{C\alpha}{p},\quad by_{0}^{q}=\frac{C\beta}{q},\quad
+cz_{0}^{q}=\frac{C\gamma}{r}}
+$$
+From the constraint,
+$$
+ax_{0}^p+by_{0}^{p}+cz_{0}^{r}=1,
+$$
+so
+$$
+C=\dst{\left(\frac{\alpha}{p}+\frac{\beta}{q}+\frac{\gamma}{r}\right)^{-1}}
+\text{\; and\;\;}
+\dst{x_{0}^{p}y_{0}^{q}z_{0}^{r}=\frac{\alpha\beta\gamma}{pqr}
+\left(\frac{\alpha}{p}+\frac{\beta}{q}+\frac{\gamma}{r}\right)^{-3}}.
+$$
+
+\bigskip
+{\bf \ref{exer:43}.}
+\quad \quad \quad \quad $L=xw-yz-\dst{\frac{\lambda
+(x^{2}+2y^{2})}{2}-\frac{\mu(2z^{2}+w^{2})}{2}}$
+
+$$
+ L_{x}=w-\lambda x,\quad
+ L_{y}=-z-2\lambda y,\quad
+ L_{z}=-y-2\mu z,\quad
+ L_{w}=x-\mu w
+$$
+$$
+ w_{0}=\lambda x_{0},\quad
+ z_{0}=-2\lambda y_{0},\quad
+ y_{0}=-2\mu z_{0},\quad
+ x_{0}=\mu w_{0}
+$$
+The first and last equality imply that $w_{0}=\lambda\mu w_{0}$
+and $z_{0}=4\lambda\mu z_{0}$.
+Since\\ $2z_{0}^{2}+w_{0}^{2}=9$, $w_{0}$ and $z_{0}$ cannot both be zero,
+so either
+$\lambda\mu=1$ or $4\lambda\mu=1$.
+
+\bigskip
+
+ If $\lambda\mu=1$,
+$z_{0}=y_{0}=0$,
+$x_{0}^{2}=4$, and
+$w_{0}^{2}=9$, so the constrained critical values    are
+$$
+f(2,0,0,3)=f(-2,0,0,-3)=6 \text{\; and\;\;}
+f(-2,0,0,3)=f(2,0,0,-3)=-6.
+$$
+
+\bigskip
+If $4\lambda\mu=1$,  then $x_{0}=w_{0}=0$, $y_{0}^{2}=2$ and
+$z_{0}^{2}=9/2$, so the constrained critical values are
+$$
+f\left(0,\sqrt{2},\frac{3}{\sqrt{2}},0\right)=
+f\left(0,-\sqrt{2},-\frac{3}{\sqrt{2}},0\right)=3
+$$
+and
+$$
+f\left(0,\sqrt{2},-\frac{3}{\sqrt{2}},0\right)=
+f\left(0,-\sqrt{2},\frac{3}{\sqrt{2}},0\right)= -3.
+$$
+Hence the constrained maximum and minimum values are $3$  and
+$-3$.
+
+
+\bigskip
+{\bf \ref{exer:44}.}
+\centerline{$L=xw-yz-\dst{
+\frac{\lambda}{2}(ax^{2}+by^{2})-\frac{\mu}{2}(cz^{2}+dw^{2})}$}
+$$
+ L_{x}=w-a\lambda x,\quad
+ L_{y}=-z-b\lambda y,
+$$
+$$
+ L_{z}=-y-c\mu z=0,\quad
+ L_{w}=x-d\mu w=0
+$$
+$$
+x_{0}=\mu dw_{0},\quad y_{0}=-c\mu z_{0},\quad z_{0}=-b\lambda y_{0},
+\text{\; and\;\;}  w_{0}=\lambda a x_{0}.
+$$
+This implies that
+$$
+x_{0}w_{0}-y_{0}z_{0}=\lambda (ax_{0}^{2}+by_{0}^{2})=\lambda
+\text{\; and\;\;}
+x_{0}w_{0}-y_{0}z_{0}=\mu(cz_{0}^{2}+dw_{0}^{2}) =\mu,
+$$
+so $\lambda =\mu$. Therefore,
+$$
+x_{0}=\lambda dw_{0},\quad y_{0}=-c\lambda z_{0},\quad z_{0}=-b\lambda
+y_{0},
+\text{\; and\;\;}  w_{0}=\lambda a x_{0},
+$$
+so $z_{0}=bc\lambda^{2} z_{0}$ and $w_{0}=ad\lambda^{2}w_{0}$.
+ Since $cz_{0}^{2}+dw_{0}^{2}=1$, $w_{0}$ and $z_{0}$ cannot
+both be zero; hence, either $ad\lambda^{2}=1$ or $bc\lambda^{2}=1$.
+
+\bigskip
+{\bf (a)}
+Suppose that $ad\ne bc$. If $\lambda^{2} ad=1$, then
+$\lambda^{2} bc\ne1$, so
+$z_{0}=y_{0}=0$, and the constraints imply that
+$x_{0}^{2}=1/a$, and
+$w_{0}^{2}=1/d$.
+Therefore,
+the constrained  maximum is
+$$
+\dst{\frac{1}{\sqrt{ad}}},\text{\; attained at\;\;}
+\pm \dst{\left(\frac{1}{\sqrt{a}},0,0,\frac{1}{\sqrt{d}}\right)}
+$$
+and
+the constrained  minimum is
+$$
+-\dst{\frac{1}{\sqrt{ad}}},\text{\; attained at\;\;}
+\pm \dst{\left(-\frac{1}{\sqrt{a}},0,0,\frac{1}{\sqrt{d}}\right)}.
+$$
+If $\lambda^{2} bc=1$,  then  $\lambda^{2} ad\ne1$, so $x_{0}=w_{0}=0$
+and the constraints imply that $y_{0}^{2}=1/b$ and
+$z_{0}^{2}=1/c$.
+Therefore, the constrained  maximum is
+$$
+\dst{\frac{1}{\sqrt{bc}}}, \text{\; attained at\;\;}
+\pm \dst{\left(0,\frac{1}{\sqrt{b}},-\frac{1}{\sqrt{c}},0\right)},
+$$
+and the constrained  minimum is
+$$
+-\dst{\frac{1}{\sqrt{bc}}}, \text{\; attained at\;\;}
+\pm \dst{\left(0,\frac{1}{\sqrt{b}},\frac{1}{\sqrt{c}},0\right)}.
+$$
+
+\medskip
+{\rm (b)}
+Suppose that $ad=bc$.
+Since $x_{0}=\lambda dw_{0}$ and $y_{0}=-c\lambda z_{0}$,
+$$
+1=ax_{0}^{2}+by_{0}^{2}=\lambda^{2}[(ad)dw_{0}^2+(bc)cz_{0}^{2}]=
+\lambda^{2}ad(cz_{0}^{2}+d(w_{0})^{2}=\lambda^{2}ad,
+$$
+so $\lambda=\pm \dst{\frac{1}{\sqrt {ad}}}=\pm\frac{1}{\sqrt{bc}}$.
+Therefore, the constrained maximum value of $f$ is
+$\dst{\frac{1}{\sqrt {ad}}}=\frac{1}{\sqrt{bc}}$,  is attained
+at all points of the form
+$\dst{\left(w_{0}\sqrt{\frac{d}{a}},-z_{0}\sqrt{\frac{c}{b}},z_{0},w_{0}\right)}$
+and the constrained minimum value of $f$ is
+$-\dst{\frac{1}{\sqrt {ad}}}=-\frac{1}{\sqrt{bc}}$,  attained
+at all points of the form
+$\dst{\left(-w_{0}\sqrt{\frac{d}{a}},z_{0}\sqrt{\frac{c}{b}},z_{0},w_{0}\right)}$
+where, in both cases, $cz_{0}^2+dw_{0}^{2}=1$. Alternatively, all the
+constrained maximum  points are of the  form
+$\dst{\left(x_{0},y_{0},-y_{0}\sqrt{\frac{b}{c}},x_{0}\sqrt{\frac{a}{d}}\right)}$
+and
+all the
+constrained minimum  points  are of the  form
+$\dst{\left(x_{0},y_{0},y_{0}\sqrt{\frac{b}{c}},-x_{0}\sqrt{\frac{a}{d}}\right)}$
+where, in both cases, $ax_{0}^{2}+by_{0}^{2}=1$.
+
+\bigskip
+{\bf \ref{exer:45}.}
+\centerline{$L=\dst{\frac{\alpha x^{2}+\beta y^{2}+\gamma z^{2}}{2}}
+-\lambda(a_{1}x+a_{2}y+a_{3}z)-\mu(b_{1}x+b_{2}y+b_{3}z)$}
+$$
+L_{x}=\alpha x-\lambda a_{1}-\mu b_{1},\quad
+L_{y}=\beta y-\lambda a_{2}-\mu b_{2},    \quad
+L_{z}=\gamma y-\lambda a_{3}-\mu b_{3}
+$$
+
+\begin{equation}\tag{A}
+x_{0}=\frac{\lambda a_{1}+\mu b_{1}}{\alpha},\quad
+y_{0}=\frac{\lambda a_{2}+\mu b_{2}}{\beta},\quad
+z_{0}=\frac{\lambda a_{3}+\mu b_{3}}{\gamma}.
+\end{equation}
+
+\begin{equation}\tag{B}
+\frac{a_{1}(\lambda a_{1}+\mu b_{1})}{\alpha}+
+\frac{a_{2}(\lambda a_{2}+\mu b_{2})}{\beta}+
+\frac{a_{3}(\lambda a_{3}+\mu b_{3})}{\gamma}=c.
+\end{equation}
+
+\begin{equation}\tag{C}
+\frac{b_{1}(\lambda a_{1}+\mu b_{1})}{\alpha}+
+\frac{b_{2}(\lambda a_{2}+\mu b_{2})}{\beta}+
+\frac{b_{3}(\lambda a_{3}+\mu b_{3})}{\gamma}=d.
+\end{equation}
+
+Assume that
+$$
+{\bf u}=\frac{a_{1}}{\sqrt{\alpha}}{\bf i}+
+\frac{a_{2}}{\sqrt{\beta}}{\bf j}+
+\frac{a_{3}}{\sqrt{\gamma}}{\bf k}
+\text{\; and\;\;}
+{\bf v}=\frac{b_{1}}{\sqrt{\alpha}}{\bf i}+
+\frac{b_{2}}{\sqrt{\beta}}{\bf j}+
+\frac{b_{3}}{\sqrt{\gamma}}{\bf k}
+$$
+are linearly independent. Then (B) and (C) can be written as
+\begin{equation}\tag{D}
+|{\bf u}|^{2}\lambda+({\bf u}\cdot{\bf v})\mu=c,\quad
+({\bf u}\cdot{\bf v})\lambda+|{\bf v}|^2\mu=d.
+\end{equation}
+Since ${\bf u}$ and ${\bf v}$ are linearly independent,
+$\Delta=_\text{def}|{\bf u}|^{2}|{\bf v}|^{2}-({\bf u}\cdot{\bf
+v})^{2}\ne0$. Therfore  the solution of (D) is
+$$
+\lambda=\frac{c|{\bf v}|^{2}-d({\bf u}\cdot{\bf v})}{\Delta},\quad
+\mu=\frac{d|{\bf u}|^{2}-c({\bf u}\cdot{\bf v})}{\Delta}.
+$$
+From (A),
+\begin{eqnarray*}
+\alpha x_{0}^2+\beta y_{0}^{2}+\gamma z_{0}^{2} &=&
+(\lambda a_{1}+\mu b_{1})^{2}+
+(\lambda a_{2}+\mu b_{2})^{2}+
+(\lambda a_{3}+\mu b_{3})^{2}\\
+&=&
+\lambda^{2} (a_{1}^{2}+a_{2}^{2}+a_{3}^{2})+
+\mu^{2} (b_{1}^{2}+b_{2}^{2}+b_{3}^{2})\\
+&&+ 2\lambda\mu(a_{1}b_{1}+a_{2}b_{2}+a_{3}b_{3}).
+\end{eqnarray*}
+
+\bigskip
+{\bf \ref{exer:46}.}
+\centerline{$L=\dst{\frac{1}{2}\sum_{i=1}^{n}(x_{i}-\alpha_{i})^{2}-
+\lambda\sum_{i=1}^{n}a_{i}x_{i}-\mu\sum_{i=1}^{n}b_{i}x_{i}}$}
+
+$$
+L_{x_{i}}=x_{i}-\alpha_{i}-\lambda a_{i}-\mu_{i} b_{i},\quad
+x_{i0}=\alpha_{i}+\lambda a_{i}+\mu b_{i}
+$$
+$$
+c=\sum_{i=1}^{n}a_{i}x_{i0}=\sum_{i=1}^{n}a_{i}\alpha_{i}
++\lambda \sum_{i=1}^{n}a_{i}^{2}+\mu\sum_{i=1}^{n}a_{i}b_{i}
+= \sum_{i=1}^{n}a_{i}\alpha_{i} +\lambda
+$$
+
+$$
+d=\sum_{i=1}^{n}b_{i}x_{i0}=\sum_{i=1}^{n}b_{i}\alpha_{i}
++\lambda \sum_{i=1}^{n}a_{i}b_{i}+\mu\sum_{i=1}^{n}b_{i}^{2}
+= \sum_{i=1}^{n}b_{i}\alpha_{i} +\mu
+$$
+
+$$
+\lambda=c-\sum_{i=1}^{n}a_{i}\alpha_{i},\quad
+\mu=d-\sum_{i=1}^{n}b_{i}\alpha_{i}
+$$
+\begin{eqnarray*}
+\sum_{i=1}^{n}(x_{i0}-\alpha_{i})^{2}&=&
+\sum_{i=1}^{n}(\lambda a_{i}+\mu b_{i})^{2}
+=\lambda^{2}\sum_{i=1}^{n}a_{i}^{2}\\&+&2\lambda
+\mu\sum_{i=1}^{n}a_{i}b_{i}
++\mu^{2}\sum_{i=1}^{n}b_{i}^{2}=\lambda^{2}+\mu^{2}\\
+&=&\left(c-\sum_{i=1}^{n}a_{i}\alpha_{i}\right)^{2}
++\left(d-\sum_{i=1}^{n}b_{i}\alpha_{i}\right)^{2}
+\end{eqnarray*}
+
+\bigskip
+{\bf \ref{exer:47}.}
+$L=\dst{\frac{1}{2}}\sum_{i=1}^{n}x_{i}^{2}-
+\lambda\sum_{i=1}^{n}x_{i}-\mu\sum_{i=1}^{n}jx_{i}$;
+$L_{x_{i}}=x_{i}-\lambda-\mu i$, so $x_{i0}=\lambda+\mu i$.
+To satisfy the constraints,
+\begin{equation}
+\dst{\sum_{i=1}^{n}(\lambda+ \mu i)=1}
+\text{\; and\;\;}
+\dst{\sum_{i=1}^{n}i(\lambda+ \mu i)=0}.  \tag{A}
+\end{equation}
+Let
+$$
+s_{0}=n, \quad  s_{1}=\sum_{j=1}^{n}i=\frac{n(n+1)}{2},\text{\; and\;\;}
+s_{2}=\sum_{i=1}^{n}i^{2}=\frac{n(n+1)(2n+1)}{6}.
+$$
+Then (A) is equvalent to,
+$$
+\left[\begin{array}{ccccccc}
+s_{0}&s_{1}\\ s_{1}&s_{2}
+\end{array}\right]
+\left[\begin{array}{ccccccc}
+\lambda\\\mu
+\end{array}\right] =
+\left[\begin{array}{ccccccc}
+1\\0
+\end{array}\right].
+$$
+
+ By Cramer's rule,
+$$
+\lambda=\frac{s_{2}}{s_{0}s_{2}-s_{1}^{2}}=\frac{2(2n+1)}{n(n-1)}
+\text{\; and\;\;}
+\mu=-\frac{s_{1}}{s_{0}s_{2}-s_{1}^{2}}=-\frac{6}{n(n-1)}.
+$$
+Therefore,
+$$
+x_{i0}=\dst{\frac{4n+2-6i}{n(n-1)}},\quad  1\le i\le n.
+$$
+
+\medskip
+
+If
+$$
+\sum_{i=1}^{n}y_{i}=1\text{\; and\;\;}\sum_{i=1}^{n}iy_{i}=0,
+\text{\; then\;\;}\sum_{i=1}^{n}(y_{i}-x_{i0})x_{i0}=0,
+$$
+so
+\begin{eqnarray*}
+\sum_{i=1}^{n}y_{i}^{2}&=&\sum_{i=1}^{n}(y_{i}-x_{i0}+x_{i0})^{2}
++\sum_{i=1}^{n}(y_{i}-x_{i0})^{2}+
+2\sum_{i=1}^{n}(y_{i}-x_{i0})x_{i0}
++\sum_{i=1}^{n}x_{i0}^{2}\\
+&=&
+\sum_{i=1}^{n}(y_{i}-x_{i0})^{2}+
+\sum_{i=1}^{n}x_{i0}^{2}>\sum_{i=1}^{n}x_{i0}^{2}
+\end{eqnarray*}
+if $y_{i}\ne x_{i0}$ for some $i\in\{1,2,\dots,n\}$.
+
+\bigskip
+{\bf \ref{exer:48}.}
+$L=f({\bf X})-
+\lambda (x_{1}+x_{2}+\cdots+x_{n})$
+
+$$
+L_{x_{i}}=-\frac{p_{i}f({\bf X})}{s-x_{i}}- \lambda,\text{\; so\;\;}
+\frac{s-x_{10}}{p_{1}}=
+\frac{s-x_{20}}{p_{2}}=\cdots=
+\frac{s-x_{n0}}{p_{n}}=_\text{ def}C.
+$$
+$x_{i0}=s-Cp_{i}$, $1\le i\le n$.\quad
+Denote $P=p_{1}+p_{2}+\cdots +p_{n}$.
+
+$$
+x_{1}+x_{2}+\cdots+x_{n}=ns-C(p_{1}+p_{2}+\cdots+p_{n})=ns-CP=s.
+$$
+$$
+\dst{C=\frac{(n-1)s}{P}};\quad
+x_{i0}=\dst{\frac{[P-(n-1)]sp_{i}}{P}}.
+$$
+$$
+f_\text{max}=C^{P}p_{1}^{p_{1}}p_{2}^{p_{2}}\cdots p_{n}^{p_{n}}=
+\left[\frac{(n-1)s}{P}\right]^{P}p_{1}^{p_{1}}p_{2}^{p_{2}}\cdots
+p_{n}^{p_{n}}
+$$
+\bigskip
+
+{\bf \ref{exer:49}.}
+$L({\bf X})=\dst{f({\bf X})-\lambda
+\sum_{i=1}^{n}\frac{x_{i}}{\sigma_{i}}}$, \;
+$L_{x_{i}}=\dst{\frac{p_{i}f({\bf X})}{x_{i}}-\frac{\lambda}{\sigma_{i}}}$,
+so $\dst{\frac{x_{i0}}{\sigma_{i}}}=Cp_{i}$.
+To satisfy the constraint, $C=(p_{1}+p_{2}\cdots+p_{n})^{-1}$, so
+$$
+x_{i0}=\dst{\frac{p_{i}\sigma_{i}S}{p_{1}+p_{2}+\cdots+p_{n}}}.
+$$
+and
+$$
+x_{10}^{p_{1}}x_{20}^{p_{2}}\cdots x_{n0}^{p_{n}}=
+\left(\frac{S}{p_{1}+p_{2}+\cdots+ p_{n}}\right)^{p_{1}+p_{2}+\cdots+p_{n}}
+(p_{1}\sigma_{1})^{p_{1}}
+(p_{2}\sigma_{2})^{p_{2}} \cdots
+(p_{n}\sigma_{n})^{p_{n}}
+$$
+
+\bigskip
+{\bf \ref{exer:50}.}
+$\dst{L=\sum_{i=1}^{n}\frac{x_{i}}{\sigma_{i}}-
+\lambda
+x_{1}^{p_{1}}x_{2}^{p_{2}}\cdots x_{n}^{p_{n}}}$,
+$L_{x_{i}}=\dst{\frac{1}{\sigma_{i}}-\lambda\frac{p_{i}V}{x_{i}}}$,
+$\dst{\frac{x_{i0}}{\sigma_{i}}}=Cp_{i}$,
+where $C$ must be chosen to satisfy the constraints.
+
+\medskip
+$x_{i0}=C\sigma_{i}p_{i}$,
+$x_{i0}^{p_{i}}=(C\sigma_{i}p_{i})^{p_{i}}$,
+$V=(C\sigma_{1}p_{1})^{p_{1}}
+(C\sigma_{2}p_{2})^{p_{2}}\cdots
+(C\sigma_{n})^{p_{n}}$
+$$
+C^{p_{1}+p_{2}+\cdots+p_{n}}=\frac{V}{(\sigma_{1}p_{1})^{p_{1}}(\sigma_{2}p_{2})^{p_{2}}
+\cdots (\sigma_{ n}p_{n})^{p_{n}}}
+$$
+
+$$
+C=\left(\frac{V}{(\sigma_{1}p_{1})^{p_{1}}(\sigma_{2}p_{2})^{p_{2}}
+\cdots (\sigma_{ n}p_{n})^{p_{n}}}\right)^{\frac{1}{p_{1}+p_{2}+\cdots+p_{n}}}
+$$
+$$
+\frac{x_{i0}}{\sigma_{i}}=p_{i}
+\left(\frac{V}{(\sigma_{1}p_{1})^{p_{1}}(\sigma_{2}p_{2})^{p_{2}}
+\cdots (\sigma_{ n}p_{n})^{p_{n}}}\right)^{\frac{1}{p_{1}+p_{2}+\cdots+p_{n}}}
+$$
+
+$$
+\sum_{i=1}^{n}\frac{x_{i0}}{\sigma_{i}}=(p_{1}+p_{2}+\cdots+p_{n})
+\left(\frac{V}{(\sigma_{1}p_{1})^{p_{1}}(\sigma_{2}p_{2})^{p_{2}}
+\cdots (\sigma_{ n}p_{n})^{p_{n}}}\right)^{\frac{1}{p_{1}+p_{2}+\cdots+p_{n}}}.
+$$
+
+\bigskip
+{\bf \ref{exer:51}.}
+\quad \quad \quad
+$L=\dst{\frac{1}{2}\sum_{i=1}^{n}\frac{(x_{i}-c_{i})^{2}}{\alpha_{i}}}
+-\lambda (a_{1}x_{1}+a_{2}x_{2}+\cdots+a_{n}x_{n})$
+
+$$
+L_{x_{i}}=\dst{\frac{x_{i}-c_{i}}{\alpha_{i}}}-\lambda a_{i},\quad
+x_{i0}=c_{i}+\lambda a_{i}\alpha_{i}
+$$
+$$
+\sum_{i=1}^{n}a_{i}x_{i0}=\sum_{i=1}^{n}a_{i}c_{i}+
+\lambda\sum_{i=1}^{n}a_{i}^{2}\alpha_{i}=d,\quad
+\lambda=\frac{d-\sum_{i=1}^{n}a_{i}c_{i}}{\sum_{i=1}^{n}a_{i}^{2}\alpha_{i}}
+$$
+$$
+\sum_{i=1}^{n}\frac{(x_{i0}-c_{i})^{2}}{\alpha_{i}}=\lambda^{2}
+\sum_{i=1}^{n}a_{i}^{2}\alpha_{i}=
+\frac{(d-\sum_{i=1}^{n}a_{i}c_{i})^{2}}{\sum_{i=1}^{n}a_{i}^{2}\alpha_{i}}
+$$
+
+\bigskip
+{\bf \ref{exer:52}.}
+It suffices to extremize
+$\dst{\sum_{i=1}^{n}a_{i}x_{i}}$  subject to
+$\sum_{i=1}^{n}x_{i}^{2}=\sigma^{2}$ for arbitrary $\sigma>0$.
+$$
+L=\dst{\sum_{i=1}^{n}a_{i}x_{i}-\frac{\lambda}{2}\sum_{i=1}^{n}x_{i}^{2}},
+\quad L_{y_{i}}=a_{i}-\lambda x_{i},\quad  a_{i}=\lambda x_{i0},
+$$
+$$
+\sum_{i=1}^{n}a_{i}^{2}=\lambda^{2}\sum_{i=1}^{n}x_{i0}^{2}=\lambda^{2}\sigma^{2}
+$$
+$$
+\sum_{i=1}^{n}a_{i}x_{i0}=\lambda
+\sum_{i=1}^{n}x_{i0}^{2}=\lambda\sigma^{2}=(\lambda\sigma)\sigma =
+\pm\left(\sum_{i=1}^{n}a_{i}^{2}\right)^{1/2}
+\left(\sum_{i=1}^{n}x_{i0}^{2}\right)^{1/2}
+$$
+
+\bigskip
+{\bf \ref{exer:53}.}
+For every $\sigma>0$,
+ $f({\bf X})=
+x_{m})=x_{1}^{r_{1}}x_{2}^{r_{2}}\cdots x_{m}^{r_{m}}$ assumes a maximum
+value on the closed set
+$$
+S_{\sigma}=\set{(x_{1},x_{2}, \dots, x_{m})}{x_{i}>0, \,1 \le i \le m,\,
+r_{1}x_{1}+r_{2}x_{2}+\cdots+ r_{m}x_{m}=\sigma}.
+$$
+$$
+L=x_{1}^{r_{1}}x_{2}^{r_{2}}\cdots x_{m}^{r_{m}}
+-\lambda\sum_{i=1}^{m}r_{i}x_{i},\quad
+L_{x_{i}}=r_{i}\left(\frac{x_{1}^{r_{1}}x_{2}^{r_{2}}\cdots
+x_{m}^{r_{m}}}{x_{i}}-\lambda\right), \quad 1 \le i \le m.
+$$
+Therefore, the constrained extremum is attained  at
+ $x_{1}=x_{2}=\cdots =x_{m}=\sigma/r$, and the value of the constrained
+extremum is $(\sigma/r)^{r}$,   so
+$$
+\left(x_{1}^{r_{1}}x_{2}^{r_{2}}\cdots x_{m}^{r_{m}}\right)^{1/r}
+ \le \frac{\sigma}{r}=\frac{r_{1}{x_{1}+r_{2}x_{2}+\cdots+r_{k}x_{k}}}{r}
+$$
+with equality if and only if $x_{1}=x_{2}=\cdots= x_{m}=\sigma/r$.
+
+
+\bigskip
+{\bf \ref{exer:54}.}
+The statement is trivial if $\sigma_{i}=0$ for some $i$. If
+$\sigma_{i}\ne0$, $1 \le i \le m$,
+ then  Exercise~\ref{exer:53}
+with $r_{i}=\dst{\frac{1}{p_{i}}}$ and
+$x_{i}=\dst{\frac{|a_{ij}|^{p_{i}}}{\sigma_{i}}}$ implies that
+$$
+\frac{|a_{1j}||a_{2j}|\cdots|a_{mj}|}
+{\sigma_{1}^{1/p_{1}}\sigma_{2}^{1/p_{2}}\cdots\sigma_{m}^{1/p_{m}}}
+ \le \sum_{i=1}^{m} \frac{|a_{ij}|^{p_{i}}}{p_{i}\sigma_{i}}.
+$$
+Summing both sides from $j=1$ to $n$ yields the stated conclusion.
+
+\bigskip
+{\bf \ref{exer:55}.}
+\quad \quad $\dst{L
+=\frac{1}{2}\sum_{r=0}^{n}x_{r}^{2}-\sum_{s=0}^{m}
+\lambda_{s}\sum_{r=0}^{n}x_{r}r^{s}}$,\quad
+$L_{x_{r}}=x_{r}-\dst{\sum_{s=0}^{m}\lambda_{s}r^{s}}$
+$$
+x_{r0}=\sum_{s=0}^{m}\lambda_{s}r^{s},\quad 0\le r\le n.
+$$
+$$
+\sum_{r=0}^{n}x_{r0}r^{s}=\sum_{r=0}^{n}\sum_{\ell=0}^{m}\lambda_{\ell}r^{\ell+s}
+=\sum_{\ell=0}^{m}\lambda_{\ell}\sum_{r=0}^{n}r^{\ell+s}=
+\sum_{\ell=0}^{m}\sigma_{s+\ell}\lambda_{\ell}=c_{s},
+\quad 0\le s \le  m,
+$$
+so $(x_{10},x_{20},\dots,x_{n0})$ is a  critical point  of $L$.
+To see that it is constrained minimum point of $Q$, suppose that
+$(y_{0},y_{1},\dots,y_{n})$ also satisfies the constraints; thus,
+$$
+\sum_{r=0}^{n}y_{r}r^{s}=c_{s},\quad 0\le s \le  m.
+$$
+Then
+$$
+\sum_{r=0}^{n}(y_{r}-x_{r0})x_{r0}=\sum_{r=0}^{n}(y_{r}-x_{r0})
+\sum_{s=0}^{m}\lambda_{s}r^{s}=\sum_{s=0}^{m}\lambda_{s}\sum_{r=0}^{n}
+(y_{r}-x_{r0})r^{s}=0,
+$$
+so
+\begin{eqnarray*}
+\sum_{r=0}^{n}y_{r}^{2}&=&\sum_{r=0}^{n}(y_{r}-x_{r0}+x_{r0})^{2}
+=\sum_{r=0}^{n}[(y_{r}-x_{r0})^{2}+2(y_{r}-x_{r0})x_{r0}
++x_{r0}^{2}]\\
+&=&\sum_{r=0}^{n}[(y_{r}-x_{r0})^{2} +\sum_{r=0}^{n}x_{r0}^{2}>
+\sum_{r=0}^{n}x_{r0}^{2}.
+\end{eqnarray*}
+
+\bigskip
+{\bf \ref{exer:56}.}
+Imposing the constraint  with $r=0$ and $P(x)=x^{s}$, $1\le s\le 2k$,
+yields
+the necessary condition
+\begin{equation} \tag{A}
+\sum_{i=-n}^{n}w_{i}i^{s}=
+\begin{cases} 1& \text{if } s=0,\\ 0&\text{if  }1\le s\le 2k.  \end{cases}
+\end{equation}
+If $P$ is an arbitrary polynomial of degree $\le 2k$ and $r$ is an
+arbitrary integer, then \\ $P(r-i)=P(r)+$ a linear combination of
+$i$, $i^{2}$, \dots, $i^{2k}$, so (A) implies that
+$$
+\sum_{i=-n}^{n}w_{i}P(r-i)=P(r)
+$$
+whenever $r$  is an integer and $P$ is a polynomial of degree $\le 2k$.
+Therefore,
+$$
+L=\frac{1}{2}\sum_{i=-n}^{n}w_{i}^{2}-\sum_{r=0}^{2k}\lambda_{r}
+\sum_{i=-n}^{n}w_{i}i^{r},
+$$
+$$
+L_{w_{i}}=w_{i}-\sum_{r=0}^{2k}\lambda_{r}i^{r},\quad
+w_{i0}=\sum_{r=0}^{2k}\lambda_{r}i^{r}, \quad -n\le i\le n,
+$$
+and
+$$
+\sum_{i=-n}^{n}w_{i0}i^{s}= \sum_{i=-n}^{n}
+\left(\sum_{r=0}^{2k} \lambda_{r}i^{r}\right)i^{s}
+=\sum_{r=0}^{2k}\lambda_{r}\sigma_{r+s}\text{\; where\;\;}
+\sigma_{m}=\sum_{i=-n}^{n}i^{m}.
+$$
+
+\medskip
+
+If $\{w_{i}\}_{i=-n}^{n}$ also satisfies the constraint,
+then
+$$
+\sum_{i=-n}^{n}(w_{i}-w_{i0})w_{i0}=
+\sum_{i=-n}^{n}(w_{i}-w_{i0})\sum_{r=0}^{2k}\lambda_{r}i^{r}=0.
+$$
+Therefore,
+\begin{eqnarray*}
+\sum_{i=-n}^{n}w_{i}^{2}&=&\sum_{i=-n}^{n}(w_{i0}+w_{i}-w_{i0})^{2}=
+\sum_{i=-n}^{n}\left(w_{i0}^{2}+2(w_{i}-w_{i0})w_{i0}+(w_{i}-w_{i0})^{2}\right)\\
+&=&\sum_{i=-n}^{n}w_{i0}^{2}+\sum_{i=-n}^{n}(w_{i}-w_{i0})^{2}
+>\sum_{i=-n}^{n}w_{i0}^{2}
+\end{eqnarray*}
+if $w_{i}\ne w_{i0}$ for some $i$.
+
+\medskip
+{\bf \ref{exer:57}.}
+The coefficients $w_{0}$, $w_{1}$, \dots, $w_{k}$ satisfy the constraint
+if and only if
+$$
+\sum_{i=0}^{n}w_{i}(r-i)^{j}=(r+1)^{j},\quad 0\le j\le k,
+$$
+for all integers $r$. This is equivalent to
+$$
+\sum_{i=0}^{n}w_{i}\sum_{s=0}^{j}(-1)^{s}
+\binom{j}{s}s^{j}r^{j-s}
+=\sum_{s=0}^{j}\binom{j}{s}r^{j-s},\quad 0\le j\le k,
+$$
+which is equivalent to
+\begin{equation} \tag{A}
+ \sum_{i=0}^{n}w_{i}i^{s}=(-1)^{s},\quad  0\le s\le k.
+\end{equation}
+$$
+L=\frac{1}{2}\sum_{i=0}^{k}w_{i}^{2}-\sum_{r=0}^{k}\lambda_{r}
+\sum_{i=0}^{k}w_{i}i^{r};\quad
+L_{x_{i}}=w_{i}-\sum_{r=0}^{k}\lambda_{r} i^{r};\quad
+w_{i0}=\sum_{r=0}^{k}\lambda_{r}i^{r}.
+$$
+Now
+ must choose $\lambda_{1}$, $\lambda_{2}$, \dots, $\lambda_{k}$ to
+satisfy (A).
+
+$$
+\sum_{i=0}^{n}w_{i0}i^{s}\sum_{r=0}^{k}\lambda_{r}i^{r}
+=\sum_{r=0}^{k}\lambda_{r}\sum_{i=0}^{n}i^{r+s}
+= \sum_{r=0}^{k}\sigma_{r+s}\lambda_{r}=(-1)^{s}, \quad 0\le s\le k.
+$$
+
+If $\{w_{i}\}_{i=0}^{n}$ also satisfies the constraint,
+then
+$$
+\sum_{i=0}^{n}(w_{i}-w_{i0})w_{i0}=
+\sum_{i=n}^{n}(w_{i}-w_{i0})\sum_{r=0}^{2k}\lambda_{r}i^{r}=0.
+$$
+Therefore,
+\begin{eqnarray*}
+\sum_{i=0}^{n}w_{i}^{2}&=&\sum_{i=0}^{n}(w_{i0}+w_{i}-w_{i0})^{2}=
+\sum_{i=0}^{n}\left(w_{i0}^{2}+2(w_{i}-w_{i0})w_{i0}+(w_{i}-w_{i0})^{2}\right)\\
+&=&\sum_{i=0}^{n}w_{i0}^{2}+\sum_{i=-n}^{n}(w_{i}-w_{i0})^{2}
+>\sum_{i=0}^{n}w_{i0}^{2}
+\end{eqnarray*}
+if $w_{i}\ne w_{i0}$ for some $i$.
+
+\bigskip
+{\bf \ref{exer:58}.}
+\quad \quad \quad \quad \quad \quad
+$L=\dst{\frac{1}{2}\sum_{i=1}^{n}\frac{(x_{i}-c_{i})^{2}}{\alpha_{i}}
+-\sum_{s=1}^{m}\lambda_{s}\sum_{i=1}^{n}a_{is}x_{i}}$
+
+$$
+L_{x_{i}}=\frac{x_{i}-c_{i}}{\alpha_{i}}, \quad
+x_{i0}=c_{i}+\alpha_{i}\dst{\sum_{s=1}^{m}\lambda_{s}a_{is}}
+$$
+
+\medskip
+$$
+\dst{\sum_{i=1}^{n}a_{ir}x_{i0}}=\dst{\sum_{i=1}^{n}a_{ir}c_{i}+
+\sum_{s=1}^{m}\lambda_{s}\sum_{i=1}^{n}\alpha_{i}a_{ir}a_{is}
+= \sum_{i=1}^{n}a_{ir}c_{i}+\lambda_{r} =d_{r}}
+$$
+
+$$
+\lambda_{r}=d_{r}-\dst{\sum_{i=1}^{n}a_{ir} c_{i}},\quad
+\dst{\frac{(x_{i}-c_{i})^{2}}{\alpha_{i}}=\alpha_{i}\sum_{r,s=1}^{m}
+\lambda_{r}\lambda_{s}a_{ir}a_{is}}
+$$
+
+$$
+\sum_{i=1}^{n}\frac{(x_{i}-c_{i})^{2}}{\alpha_{i}}=\sum_{r,s=1}^{m}
+\lambda_{r}\lambda_{s}\sum_{i=1}^{n}\alpha_{i}a_{ir}a_{is}
+=\sum_{r=1}^{m}\lambda_{r}^{2} =\sum_{r=1}^{m}
+\left(d_{r}-\sum_{i=1}^{n}a_{ir}c_{i}\right)^{2}
+$$
+
+\end{document}
+\place %3903

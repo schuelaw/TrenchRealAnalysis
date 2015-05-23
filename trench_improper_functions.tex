@@ -1,0 +1,3735 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\renewcommand{\rmdefault}{ptm}
+\usepackage[scaled=0.92]{helvet}
+\usepackage[psamsfonts]{amsfonts}
+\usepackage{amsmath, amsbsy,verbatim}
+\usepackage[dvips, bookmarks, colorlinks=true, plainpages = false,
+  citecolor = blue, urlcolor = blue, filecolor = blue]{hyperref}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+\newtheorem{example}{Example}
+\newcommand{\proof}{\noindent{\sc\bf Proof}\quad }
+\def\endproof{{\hfill \vbox{\hrule\hbox{%
+ \vrule height1.3ex\hskip0.8ex\vrule}\hrule }}\par}
+\newcommand{\bbox}{\phantom{1}\hfill{\rule{6pt}{6pt}}}
+\newcommand{\pd}[2]{\frac{\partial{#1}}{\partial{#2}}}
+\newcommand{\dst}{\displaystyle}
+\newcommand{\place}{\bigskip\hrule\bigskip\noindent}
+\newcommand{\set}[2]{\left\{#1\, \big|\, #2\right\}}
+
+\newcommand{\exer}[1]{\par\noindent{\bf $#1$}.}
+\newcommand{\boxit}[1]{\bigskip\noindent{\bf
+#1}\\\vskip-6pt\hskip-\parindent}
+
+\newcounter{lcal}
+\newenvironment{alist}{\begin{list}{\bf (\alph{lcal})}
+{\topsep 0pt\partopsep 0pt\labelwidth 14pt
+\labelsep 8pt\leftmargin 22pt\itemsep 0pt
+\usecounter{lcal}}}{\end{list}}
+
+\newcounter{exercise}
+\newenvironment{exerciselist}{\begin{list}{\bf \arabic{exercise}.}
+{\topsep 10pt\partopsep 0pt\labelwidth 16pt
+\labelsep 12pt\leftmargin 28pt
+\itemsep 8pt\usecounter{exercise}}}{\end{list}}
+\begin{document}
+
+\thispagestyle{empty}
+\bf
+\begin{center}
+{\Huge FUNCTIONS DEFINED BY\\ \medskip IMPROPER INTEGRALS}
+\vspace{.5in}
+\huge
+\bigskip
+\vspace{.75in}
+\bf\huge
+\href{http://ramanujan.math.trinity.edu/wtrench/index.shtml}
+{William F. Trench}
+\medskip
+\\\large
+Andrew G. Cowles Distinguished Professor Emeritus\\
+Department of Mathematics\\
+Trinity University \\
+San Antonio, Texas, USA\\
+\href{mailto:{wtrench@trinity.edu}}
+{wtrench@trinity.edu}
+\large
+\vspace*{.75in}
+\end{center}
+
+
+\rm
+\noindent
+This is a supplement to the author's
+\href{http://ramanujan.math.trinity.edu/wtrench/texts/TRENCH_REAL_ANALYSIS.PDF}
+{\large Introduction to Real Analysis}.
+It   has been judged to meet the evaluation criteria set by the
+Editorial  Board
+of the American Institute of Mathematics in connection with the Institute's
+\href{http://www.aimath.org/textbooks/}
+{Open
+Textbook Initiative}.
+It may be copied, modified, redistributed, translated,  and
+built upon  subject to the Creative
+Commons
+      \href{http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_G}
+{Attribution-NonCommercial-ShareAlike 3.0 Unported License}.
+A complete instructor's solution manual is available by email to
+\href{mailto:wtrench@trinity.edu}
+{wtrench@trinity.edu},
+ subject to verification of the requestor's
+faculty status.
+
+
+
+\newpage
+\rm
+\section{Foreword} \label{section:foreword}
+This is a revised version of Section~7.5 of my \emph{Advanced Calculus}
+(Harper \& Row, 1978).
+It is a supplement to my textbook
+\href{http://ramanujan.math.trinity.edu/wtrench/texts/TRENCH_REAL_ANALYSIS.PDF}
+{\emph{Introduction to Real Analysis}}, which
+is referenced several times here.
+You
+should review   Section~3.4  (Improper Integrals) of that book before
+reading this document.
+
+\section{Introduction}\label{section:introduction}
+  In  Section~7.2 (pp. 462--484)
+we considered functions of the form
+$$
+F(y)=\int_{a}^{b}f(x,y)\,dx, \quad c \le y \le d.
+$$
+We saw   that if $f$  is continuous on
+$[a,b]\times
+[c,d]$,  then
+$F$  is continuous on $[c,d]$ (Exercise~7.2.3, p.~481) and that
+we can reverse the order of integration  in
+$$
+\int_{c}^{d}F(y)\,dy=\int_{c}^{d}\left(\int_{a}^{b}f(x,y)\,dx\right)\,dy
+$$
+to evaluate it as
+$$
+\int_{c}^{d}F(y)\,dy=\int_{a}^{b}\left(\int_{c}^{d}f(x,y)\,dy\right)\,dx
+$$
+(Corollary~7.2.3, p.~466).
+
+Here is  another important property of $F$.
+
+\begin{theorem}  \label{theorem:1}
+If $f$  and $f_{y}$ are continuous on  $[a,b]\times [c,d],$
+then
+\begin{equation} \label{eq:1}
+F(y)=\int_{a}^{b}f(x,y)\,dx, \quad c \le y \le d,
+\end{equation}
+is continuously differentiable on $[c,d]$ and $F'(y)$ can be obtained
+by differentiating \eqref{eq:1}
+under the
+integral sign with respect to $y;$ that is,
+\begin{equation} \label{eq:2}
+F'(y)=\int_{a}^{b}f_{y}(x,y)\,dx, \quad c \le y \le d.
+\end{equation}
+Here $F'(a)$ and $f_{y}(x,a)$ are  derivatives
+from the right and $F'(b)$ and $f_{y}(x,b)$  are
+derivatives from the left$.$
+\end{theorem}
+
+\proof
+If $y$  and $y+\Delta y$  are in $[c,d]$ and $\Delta y\ne0$, then
+\begin{equation} \label{eq:3}
+\frac{F(y+\Delta y)-F(y)}{\Delta y}=
+\int_{a}^{b}\frac{f(x,y+\Delta y)-f(x,y)}{\Delta y}\,dx.
+\end{equation}
+From the mean value theorem (Theorem~2.3.11, p.~83), if
+$x\in[a,b]$ and $y$, $y+\Delta y\in[c,d]$, there is a
+$y(x)$ between  $y$  and $y+\Delta y$ such that
+$$
+f(x,y+\Delta y)-f(x,y)=f_{y}(x,y)\Delta y=
+f_{y}(x,y(x))\Delta y+(f_{y}(x,y(x)-f_{y}(x,y))\Delta y.
+$$
+From this and \eqref{eq:3},
+\begin{equation} \label{eq:4}
+\left|\frac{F(y+\Delta y)-F(y)}{\Delta
+y}-\int_{a}^{b}f_{y}(x,y)\,dx\right|
+\le \int_{a}^{b} |f_{y}(x,y(x))-f_{y}(x,y)|\,dx.
+\end{equation}
+Now suppose $\epsilon>0$. Since $f_{y}$  is uniformly continuous
+on the compact set  $[a,b]\times [c,d]$
+(Corollary~5.2.14, p.~314) and $y(x)$ is between $y$ and $y+\Delta y$,
+there is a $\delta>0$    such that  if $|\Delta|<\delta$ then
+$$
+|f_{y}(x,y)-f_{y}(x,y(x))|<\epsilon,\quad
+(x,y)\in[a,b]\times [c,d].
+$$
+This and \eqref{eq:4} imply that
+$$
+\left|\frac{F(y+\Delta y-F(y))}{\Delta
+y}-\int_{a}^{b}f_{y}(x,y)\,dx\right|<\epsilon(b-a)
+$$
+if $y$ and $y+\Delta y$ are in $[c,d]$ and $0<|\Delta y|<\delta$.
+This implies \eqref{eq:2}. Since
+the integral in \eqref{eq:2} is  continuous
+on $[c,d]$ (Exercise~7.2.3, p.~481, with $f$ replaced by $f_{y}$),  $F'$
+is continuous on
+$[c,d]$.
+ \endproof
+
+\begin{example}  \label{example:1}  \rm
+Since
+$$
+f(x,y)=\cos xy\text{\quad and\quad} f_{y}(x,y)=-x\sin xy
+$$
+are continuous for all $(x,y)$,
+Theorem~\ref{theorem:1} implies that if
+\begin{equation} \label{eq:5}
+F(y)=\int_{0}^{\pi} \cos xy\,dx,\quad -\infty<y<\infty,
+\end{equation}
+then
+\begin{equation} \label{eq:6}
+F'(y)=-\int_{0}^{\pi}x\sin xy\,dx,\quad -\infty<y<\infty.
+\end{equation}
+(In applying Theorem~\ref{theorem:1} for a specific value
+of $y$, we take
+$R=[0,\pi]\times [-\rho,\rho]$, where $\rho>|y|$.)  This provides a
+convenient way to evaluate the integral in \eqref{eq:6}:
+integrating the right side of  \eqref{eq:5} with respect to $x$ yields
+$$
+F(y)=\frac{\sin xy}{y}\bigg|_{x=0}^{\pi}=\frac{\sin\pi y}{y}, \quad
+y\ne0.
+$$
+Differentiating this and using \eqref{eq:6}  yields
+$$
+\int_{0}^{\pi}x\sin xy\,dx =\frac{\sin \pi y}{y^{2}}-
+\frac{\pi\cos \pi y}{y}, \quad y\ne0.
+$$
+To verify this, use integration by parts. \bbox
+\end{example}
+
+
+
+We will study the continuity,
+differentiability, and integrability of
+$$
+F(y)=\int_{a}^{b}f(x,y)\,dx,\quad  y\in S,
+$$
+where $S$ is an interval or a union of intervals,
+and $F$ is a convergent improper integral for each $y\in S$.
+If the domain of $f$ is $[a,b)\times S$  where
+$-\infty<a< b\le \infty$,
+we say that $F$ is \emph{pointwise  convergent on $S$} or simply
+\emph{convergent on $S$},  and write
+\begin{equation} \label{eq:7}
+\int_{a}^{b}f(x,y)\,dx=\lim_{r\to b-}\int_{a}^{r}f(x,y)\,dx
+\end{equation}
+  if,
+ for each $y\in S$  and every
+$\epsilon>0$,  there is an $r=r_{0}(y)$ (which also depends on $\epsilon$)
+such that
+\begin{equation} \label{eq:8}
+\left|F(y)-\int_{a}^{r}f(x,y)\,dx\right|=
+\left|\int_{r}^{b}f(x,y)\,dx\right|< \epsilon,
+\quad  r_{0}(y)\le y<b.
+\end{equation}
+If the domain of $f$  is $(a,b]\times S$ where $-\infty\le a<b<\infty$,
+  we replace  \eqref{eq:7} by
+$$
+\int_{a}^{b}f(x,y)\,dx=\lim_{r\to a+}\int_{r}^{b}f(x,y)\,dx
+$$
+and \eqref{eq:8} by
+$$
+\left|F(y)-\int_{r}^{b}f(x,y)\,dx\right|=
+\left|\int_{a}^{r}f(x,y)\,dx\right|< \epsilon,
+\quad a<r\le  r_{0}(y).
+$$
+
+
+
+
+In general, pointwise convergence of $F$ for all $y\in S$ does not imply
+that $F$ is continuous or integrable on $[c,d]$, and the additional
+assumptions that $f_{y}$ is continuous and $\int_{a}^{b}f_{y}(x,y)\,dx$
+converges do not  imply \eqref{eq:2}.
+
+
+\begin{example}  \label{example:2}  \rm
+The function
+$$
+f(x,y)=ye^{-|y|x}
+$$
+is continuous on $[0,\infty)\times (-\infty,\infty)$ and
+$$
+F(y)=\int_{0}^{\infty}f(x,y)\,dx =\int_{0}^{\infty}ye^{-|y|x}\,dx
+$$
+converges for all $y$, with
+$$
+F(y)=
+\begin{cases}
+-1& y<0,\\
+\phantom{-}0&y=0,\\
+\phantom{-}1&y>0;\\
+\end{cases}
+$$
+therefore, $F$ is discontinuous at $y=0$.
+\end{example}
+
+\begin{example}  \label{example:3}  \rm
+The function
+$$
+f(x,y)=y^{3}e^{-y^{2}x}
+$$
+is continuous on $[0,\infty)\times (-\infty,\infty)$.
+Let
+$$
+F(y)=\int_{0}^{\infty}f(x,y)\,dx=
+\int_{0}^{\infty}y^{3}e^{-y^{2}x}\,dx  =y,\quad -\infty<y<\infty.
+$$
+ Then
+$$
+F'(y)=1, \quad -\infty<y<\infty.
+$$
+However,
+$$
+\int_{0}^{\infty}\pd{}{y}(y^{3}e^{-y^{2}x})\,dx
+=\int_{0}^{\infty}(3y^{2}-2y^{4}x)e^{-y^{2}x}\,dx=
+\begin{cases}
+1,& y\ne0,\\
+0,& y=0,
+\end{cases}
+$$
+so
+$$
+F'(y)\ne\int_{0}^{\infty}\pd{f(x,y)}{y}\,dx\text{\quad if\quad}y=0.
+$$
+\end{example}
+
+\section{Preparation} \label{section:preparation}
+
+
+ We begin with two useful convergence criteria for improper integrals
+that do not involve a parameter.
+Consistent with the definition on p.~152, we say that $f$ is locally
+integrable on
+an interval $I$ if it is integrable on every finite closed subinterval of
+$I$.
+
+\begin{theorem}[
+\href{http://www-history.mcs.st-and.ac.uk/Biographies/Cauchy.html}
+{Cauchy}
+Criterion for Convergence of an Improper
+Integral I]
+\label{theorem:2}
+Suppose  $g$ is
+locally integrable on  $[a,b)$ and denote
+$$
+G(r)=\int_{a}^{r}g(x)\,dx,\quad  a\le r<b.
+$$
+Then the improper integral $\int_{a}^{b}g(x)\,dx$ converges if and only
+if$,$ for each
+$\epsilon >0,$ there is an $r_{0}\in[a,b)$  such that
+\begin{equation} \label{eq:9}
+|G(r)-G(r_{1})|<\epsilon,\quad  r_{0}\le r,r_{1}<b.
+\end{equation}
+\end{theorem}
+
+ \proof For necessity, suppose $\int_{a}^{b}g(x)\,dx=L$. By definition,
+this  means that for each $\epsilon>0$ there is an $r_{0}\in [a,b)$
+such that
+$$
+|G(r)-L|<\frac{\epsilon}{2}
+\text{\quad and\quad}
+|G(r_{1})-L|<\frac{\epsilon}{2},\quad
+r_{0}\le r,r_{1}<b.
+$$
+Therefore
+\begin{eqnarray*}
+|G(r)-G(r_{1})|&=&|(G(r)-L)-(G(r_{1})-L)|\\
+&\le& |G(r)-L|+|G(r_{1})-L|<
+\epsilon,\quad  r_{0}\le r,r_{1}<b.
+\end{eqnarray*}
+
+For sufficiency, \eqref{eq:9} implies that
+$$
+|G(r)|= |G(r_{1})+(G(r)-G(r_{1}))|< |G(r_{1})|+|G(r)-G(r_{1})|\le
+|G(r_{1})|+\epsilon,
+$$
+  $r_{0}\le r\le r_{1}<b$. Since $G$  is also bounded on the
+compact set
+$[a,r_{0}]$ (Theorem~5.2.11, p.~313),  $G$ is bounded on $[a,b)$. Therefore
+the monotonic functions
+$$
+\overline{G}(r)=\sup\set{G(r_{1})}{r\le r_{1}<b} \text{\quad and\quad}
+\underline{G}(r)=\inf\set{G(r_{1})}{r\le r_{1}<b}
+$$
+are well defined on $[a,b)$, and
+$$
+\lim_{r\to b-}\overline{G}(r)=\overline{L}
+\text{\quad and\quad}
+\lim_{r\to b-}\underline{G}(r)=\underline{L}
+$$
+both exist  and are finite (Theorem~2.1.11, p.~47).
+From  \eqref{eq:9},
+\begin{eqnarray*}
+|G(r)-G(r_{1})|&=&|(G(r)-G(r_{0}))-(G(r_{1})-G(r_{0}))|\\
+&\le &|G(r)-G(r_{0})|+|G(r_{1})-G(r_{0})|< 2\epsilon,
+\end{eqnarray*}
+so
+$$
+\overline{G}(r)-\underline{G}(r)\le 2\epsilon, \quad  r_{0}\le r, r_{1}<b.
+$$
+ Since
+$\epsilon$  is an arbitrary positive number, this implies that
+$$
+\lim_{r\to b-}(\overline{G}(r)-\underline{G}(r))=0,
+$$
+so
+$\overline{L}=\underline{L}$. Let $L=\overline{L}=\underline{L}$.
+Since
+$$
+\underline{G}(r)\le G(r)\le \overline{G}(r),
+$$
+it follows that $\lim_{r\to b-} G(r)=L$. \endproof
+
+We leave the proof of the following theorem to you
+(Exercise~\ref{exer:2}).
+
+
+
+
+\begin{theorem}[Cauchy Criterion for Convergence of an Improper
+Integral II]
+\label{theorem:3}
+Suppose  $g$ is
+locally integrable on  $(a,b]$ and denote
+$$
+G(r)=\int_{r}^{b}g(x)\,dx,\quad   a\le r<b.
+$$
+Then the improper integral $\int_{a}^{b}g(x)\,dx$ converges if and only
+if$,$ for each
+$\epsilon >0,$ there is an $r_{0}\in(a,b]$  such that
+$$
+|G(r)-G(r_{1})|<\epsilon,\quad  a<r,r_{1}\le r_{0}.
+$$
+\end{theorem}
+
+
+To see why we associate Theorems~\ref{theorem:2} and~\ref{theorem:3} with
+Cauchy, compare them with Theorem~4.3.5 (p.~204)
+
+\section{Uniform convergence of improper integrals}\label{section:uniform}
+\medskip
+
+Henceforth we deal with functions $f=f(x,y)$  with domains
+ $I\times S$, where $S$ is an interval or a union of intervals and   $I$ is
+of one of the following forms:
+\begin{itemize}
+\item  $[a,b)$ with $-\infty<a<b\le \infty$;
+\item $(a,b]$ with $-\infty\le a<b< \infty$;
+\item   $(a,b)$ with $-\infty\le a\le b\le \infty$.
+\end{itemize}
+In all cases it is to be understood that $f$  is locally integrable with
+respect to $x$ on  $I$.
+ When we say that the
+improper integral $\int_{a}^{b}f(x,y)\,dx$  has a stated property ``on
+S'' we mean that it has the property for every $y\in S$.
+
+\begin{definition}  \label{definition:1}
+If the improper integral
+\begin{equation} \label{eq:10}
+\int_{a}^{b}f(x,y)\,dx=\lim_{r\to b-}\int_{a}^{r}f(x,y)\,dx
+\end{equation}
+converges on $S,$   it
+ is said to converge
+uniformly $($or be uniformly convergent$)$  on $S$ if$,$  for each
+$\epsilon>0,$ there is an
+$r_{0} \in [a,b)$
+  such that
+$$
+\left|\int_{a}^{b}f(x,y)\,dx-\int_{a}^{r}f(x,y)\,dx\right|
+< \epsilon,\quad  y\in S, \quad  r_{0}\le r<b,
+$$
+or$,$ equivalently$,$
+\begin{equation} \label{eq:11}
+\left|\int_{r}^{b}f(x,y)\,dx\right|< \epsilon, \quad
+y\in S,\quad    r_{0}\le r<b.
+\end{equation}
+\end{definition}
+
+
+
+The crucial difference between pointwise and uniform convergence is that
+$r_{0}(y)$  in \eqref{eq:8} may depend upon the particular value of $y$,
+while the
+$r_{0}$ in \eqref{eq:11} does not: one choice must work for all $y\in S$.
+Thus, uniform convergence
+implies pointwise convergence, but pointwise convergence does not imply
+uniform convergence.
+
+\begin{theorem}{\bf$($Cauchy Criterion for  Uniform Convergence I$)$}
+\label{theorem:4}
+The improper integral in \eqref{eq:10}
+converges uniformly on $S$ if and only if$,$ for each $\epsilon>0,$ there
+is an
+$r_{0} \in [a,b)$ such that
+\begin{equation} \label{eq:12}
+\left|\int_{r}^{r_{1}}f(x,y)\,dx\right|< \epsilon, \quad  y\in S,\quad
+r_{0}\le  r,r_{1}<b.
+\end{equation}
+\end{theorem}
+
+\proof  Suppose  $\int_{a}^{b} f(x,y)\,dx$ converges uniformly on
+$S$ and $\epsilon>0$.
+From Definition~\ref{definition:1},
+there is an
+$r_{0}\in [a,b)$  such that
+\begin{equation} \label{eq:13}
+\left|\int_{r}^{b}f(x,y)\,dx\right| <\frac{\epsilon}{2}
+\text{\, and\,}
+\left|\int_{r_{1}}^{b}f(x,y)\,dx\right|
+<\frac{\epsilon}{2} ,\quad  y\in S, \quad r_{0}\le r,r_{1}<b.
+\end{equation}
+ Since
+$$
+\int_{r}^{r_{1}}f(x,y)\,dx=
+\int_{r}^{b}f(x,y)\,dx-
+\int_{r_{1}}^{b}f(x,y)\,dx,
+$$
+\eqref{eq:13} and the triangle inequality imply
+\eqref{eq:12}.
+
+For the converse, denote
+$$
+F(y)=\int_{a}^{r}f(x,y)\,dx.
+$$
+Since \eqref{eq:12} implies that
+\begin{equation} \label{eq:14}
+|F(r,y)-F(r_{1},y)|< \epsilon,\quad y\in S, \quad
+r_{0}\le r, r_{1}<b,
+\end{equation}
+ Theorem~\ref{theorem:2} with $G(r)=F(r,y)$ ($y$ fixed
+but arbitrary in $S$) implies that  $\int_{a}^{b} f(x,y)\,dx$
+converges  pointwise for   $y\in S$.
+ Therefore, if  $\epsilon>0$
+then, for each $y\in S$,
+there is an $r_{0}(y) \in [a,b)$ such that
+\begin{equation} \label{eq:15}
+\left|\int_{r}^{b}f(x,y)\,dx\right|< \epsilon, \quad  y\in S,\quad
+r_{0}(y)\le r< b.
+\end{equation}
+For each $y\in S$, choose $r_{1}(y)\ge \max[{r_{0}(y),r_{0}}]$. (Recall
+\eqref{eq:14}).  Then
+$$
+\int_{r}^{b}f(x,y)\,dx =
+\int_{r}^{r_{1}(y)}f(x,y)\,dx+
+\int_{r_{1}(y)}^{b}f(x,y)\,dx, \quad
+$$
+so \eqref{eq:12}, \eqref{eq:15}, and the triangle inequality imply
+that
+$$
+\left|\int_{r}^{b} f(x,y)\,dx\right|< 2\epsilon, \quad  y\in S, \quad
+r_{0}\le r<b.
+$$
+\endproof
+
+In practice, we don't  explicitly exhibit $r_{0}$ for each  given
+$\epsilon$.
+It suffices to obtain estimates that clearly imply its existence.
+
+
+
+\begin{example}  \label{example:4}  \rm
+For the improper integral of Example~\ref{example:2},
+$$
+\left|\int_{r}^{\infty}f(x,y)\,dx\right|=
+\int_{r}^{\infty} |y|e^{-|y|x}=e^{-r|y|}, \quad y\ne0.
+$$
+If $|y| \ge \rho$, then
+$$
+\left|\int_{r}^{\infty}f(x,y)\,dx\right| \le e^{-r\rho},
+$$
+so $\int_{0}^{\infty}f(x,y)\,dx$  converges uniformly on
+$(-\infty,\rho]\cup[\rho,\infty)$ if $\rho>0$; however, it does not
+converge uniformly  on any neighborhood of $y=0$, since, for any
+$r>0$,
+$e^{-r|y|}>\frac{1}{2}$ if $|y|$ is sufficiently small.
+\end{example}
+
+
+
+\begin{definition}  \label{definition:2}
+If the  improper integral
+$$
+\int_{a}^{b}f(x,y)\,dx=\lim_{r\to a+}\int_{r}^{b}f(x,y)\,dx
+$$
+converges on $S,$ it
+ is said to converge
+uniformly $($or be uniformly convergent$)$  on $S$ if$,$  for each
+$\epsilon>0,$ there is an
+$r_{0} \in (a,b]$
+  such that
+$$
+\left|\int_{a}^{b}f(x,y)\,dx-\int_{r}^{b}f(x,y)\,dx\right|
+<\epsilon, \quad  y\in S,\quad
+a<r\le  r_{0},
+$$
+or$,$ equivalently$,$
+$$
+\left|\int_{a}^{r} f(x,y)\,dx\right|< \epsilon, \quad  y\in S,\quad
+  a<r\le  r_{0}.
+$$
+\end{definition}
+
+We leave proof of the following theorem to you (Exercise~\ref{exer:3}).
+
+
+\begin{theorem}{\bf $($Cauchy Criterion for Uniform Convergence II$)$}
+\label{theorem:5}
+The improper integral
+$$
+\int_{a}^{b}f(x,y)\,dx =\lim_{r\to a+}\int_{r}^{b}f(x,y)\,dx
+$$
+converges uniformly on $S$ if and only if$,$
+ for each $\epsilon>0,$ there is
+an  $r_{0}\in (a,b]$ such that
+$$
+\left|\int_{r_{1}}^{r}f(x,y)\,dx\right|< \epsilon,\quad
+y\in S,\quad  a <r,r_{1}\le r_{0}.
+$$
+\end{theorem}
+
+We need one more definition, as follows.
+
+\begin{definition}  \label{definition:3}
+Let $f=f(x,y)$ be defined on $(a,b) \times S,$ where $-\infty\le a<b\le
+\infty.$ Suppose  $f$ is locally  integrable on
+$(a,b)$ for all $y\in S$ and let
+ $c$ be an arbitrary point in $(a,b).$
+Then
+$\int_{a}^{b}f(x,y)\,dx$ is said to converge
+uniformly on  $S$ if  $\int_{a}^{c}f(x,y)\,dx$  and
+$\int_{c}^{b}f(x,y)\,dx$ both converge uniformly on $S.$
+\end{definition}
+
+
+We leave it to you
+(Exercise~\ref{exer:4}) to show that this definition is independent
+ of $c$; that is,  if
+  $\int_{a}^{c}f(x,y)\,dx$  and
+$\int_{c}^{b}f(x,y)\,dx$ both converge uniformly  on $S$ for
+some
+$c\in(a,b)$, then they both converge uniformly on $S$ for every
+$c \in (a,b)$.
+
+We also leave it  you (Exercise~\ref{exer:5}) to show that if
+$f$  is bounded
+on $[a,b]\times [c,d]$ and  $\int_{a}^{b}f(x,y)\,dx$
+exists as a proper integral for each $y\in [c,d]$, then it converges
+uniformly  on $[c,d]$ according to all three
+Definitions~\ref{definition:1}--\ref{definition:3}.
+
+
+\begin{example}  \label{example:5}  \rm
+Consider the improper integral
+$$
+F(y)=\int_{0}^{\infty}x^{-1/2}e^{-xy}\,dx,
+$$
+which diverges
+if $y\le 0$ (verify).   Definition~\ref{definition:3}
+applies if $y>0$, so we consider the improper
+integrals
+$$
+F_{1}(y)=\int_{0}^{1}x^{-1/2}e^{-xy}\,dx
+\text{\quad and\quad}
+F_{2}(y)=\int_{1}^{\infty}x^{-1/2}e^{-xy}\,dx
+$$
+separately. Moreover, we could just as well   define
+\begin{equation}\label{eq:16}
+F_{1}(y)=\int_{0}^{c}x^{-1/2}e^{-xy}\,dx
+\text{\quad and\quad}
+F_{2}(y)=\int_{c}^{\infty}x^{-1/2}e^{-xy}\,dx,
+\end{equation}
+where $c$  is any positive number.
+
+
+ Definition~\ref{definition:2} applies to $F_{1}$.
+If $0<r_{1}<r$  and $y\ge 0$, then
+$$
+\left|\int_{r}^{r_{1}}x^{-1/2}e^{-xy}\,dx\right| <
+\int_{r_{1}}^{r}x^{-1/2}\,dx<2r^{1/2},
+$$
+so $F_{1}(y)$  converges for uniformly on $[0,\infty)$.
+
+Definition~\ref{definition:1} applies to $F_{2}$. Since
+$$
+\left|\int_{r}^{r_{1}}x^{-1/2}e^{-xy}\,dx\right| < r^{-1/2}
+\int_{r}^{\infty}e^{-xy}\,dx = \frac{e^{-ry}}{yr^{1/2}},
+$$
+$F_{2}(y)$ converges uniformly on   $[\rho,\infty)$ if
+ $\rho>0$. It does not converge uniformly on
+$(0,\rho)$, since the change of variable $u=xy$ yields
+$$
+\int_{r}^{r_{1}}x^{-1/2}e^{-xy}\,dx=y^{-1/2}
+\int_{ry}^{r_{1}y}u^{-1/2}e^{-u}\,du,
+$$
+which, for any fixed $r>0$, can be made arbitrarily large
+by taking $y$ sufficiently small and $r=1/y$. Therefore we
+conclude that $F(y)$ converges uniformly on $[\rho,\infty)$
+if $\rho>0.$
+
+Note that  that the constant $c$ in \eqref{eq:16} plays no role in this
+argument.
+\end{example}
+
+
+
+\begin{example}  \label{example:6}  \rm
+Suppose we take
+\begin{equation} \label{eq:17}
+\int_{0}^{\infty}\frac{\sin u}{u}\,du =\frac{\pi}{2}
+\end{equation}
+as given (Exercise~\ref{exer:31}{\bf(b)}).  Substituting $u=xy$ with $y>0$
+yields
+\begin{equation} \label{eq:18}
+\int_{0}^{\infty}\frac{\sin xy}{x}\,dx=\frac{\pi}{2},\quad y>0.
+\end{equation}
+What about uniform convergence?
+Since $(\sin xy)/x$ is continuous at $x=0$, Definition~\ref{definition:1}
+and Theorem~\ref{theorem:4} apply here.
+If $0<r<r_{1}$ and $y>0$, then
+$$
+\int_{r}^{r_{1}}\frac{\sin xy}{x}\,dx=-\frac{1}{y}
+\left(\frac{\cos xy}{x}\biggr|_{r}^{r_{1}}+
+\int_{r}^{r_{1}}\frac{\cos xy}{x^{2}}\,dx\right),
+\text{\, so\quad}
+\left|\int_{r}^{r_{1}}\frac{\sin xy}{x}\,dx\right|<\frac{3}{ry}.
+$$
+Therefore \eqref{eq:18} converges uniformly on
+$[\rho,\infty)$ if $\rho>0$. On the other hand, from \eqref{eq:17},
+there is a $\delta>0$  such that
+$$
+\int_{u_{0}}^{\infty}\frac{\sin u}{u}\,du>\frac{\pi}{4}, \quad
+0 \le u_{0}<\delta.
+$$
+This and \eqref{eq:18} imply that
+$$
+\int_{r}^{\infty}\frac{\sin xy}{x}\,dx=\int_{yr}^{\infty}\frac{\sin
+u}{u}\,du
+>\frac{\pi}{4}
+$$
+for any $r>0$ if   $0 <y<\delta/r$. Hence, \eqref{eq:18}
+does not converge uniformly  on any interval $(0,\rho]$  with $\rho>0$.
+\end{example}
+
+\section{ Absolutely Uniformly Convergent Improper
+Integrals}\label{section:absolutely}
+
+\begin{definition}{\bf$($Absolute Uniform Convergence I$)$}
+\label{definition:4}
+The improper integral
+$$
+\int_{a}^{b}f(x,y)\,dx=\lim_{r\to b-}\int_{a}^{r}f(x,y)\,dx
+$$
+is said to converge absolutely  uniformly on $S$ if the improper
+integral
+$$
+\int_{a}^{b}|f(x,y)|\,dx=\lim_{r\to b-}\int_{a}^{r}|f(x,y)|\,dx
+$$
+converges uniformly on $S$; that is,
+ if, for each $\epsilon>0$,
+there is an $r_{0}\in [a,b)$  such that
+$$
+\left|\int_{a}^{b}|f(x,y)|\,dx-\int_{a}^{r}|f(x,y)|\,dx\right|
+<\epsilon, \quad y\in S,\quad
+ r_{0}<r<b.
+$$
+\end{definition}
+
+To see that this definition makes sense, recall that if $f$ is
+locally integrable on $[a,b)$ for all $y$ in $S$, then so is $|f|$
+(Theorem~3.4.9, p.~161).
+Theorem~\ref{theorem:4}  with $f$  replaced by $|f|$ implies that
+$\int_{a}^{b}f(x,y)\,dx$ converges absolutely uniformly  on
+$S$ if and only if, for each
+$\epsilon>0$, there is an $r_{0}\in [a,b)$  such that
+$$
+\int_{r}^{r_{1}}|f(x,y)|\,dx<\epsilon,\quad  y\in S,\quad
+r_{0}\le r<r_{1}<b .
+$$
+Since
+$$
+\left|\int_{r}^{r_{1}}f(x,y)\,dx\right| \le
+\int_{r}^{r_{1}}|f(x,y)|\,dx,
+$$
+Theorem~\ref{theorem:4} implies that if $\int_{a}^{b}f(x,y)\,dx$
+ converges absolutely uniformly on  $S$ then it converges
+ uniformly   on $S$.
+
+\begin{theorem}  \label{theorem:6}
+{\bf$($
+\href{http://www-history.mcs.st-and.ac.uk/Biographies/Weierstrass.html}
+{Weierstrass}'s
+Test for  Absolute Uniform Convergence I$)$}
+Suppose $M=M(x)$ is nonnegative on $[a,b),$
+$\int_{a}^{b}M(x)\,dx<\infty,$ and
+\begin{equation} \label{eq:19}
+|f(x,y)| \le M(x), \quad  y\in S,\quad
+a\le x<b.
+\end{equation}
+  Then $\int_{a}^{b}f(x,y)\,dx$
+converges absolutely uniformly on $S.$
+\end{theorem}
+
+\proof
+Denote $\int_{a}^{b}M(x)\,dx=L<\infty$. By  definition,
+for each $\epsilon>0$ there is an $r_{0}\in [a,b)$  such that
+$$
+L-\epsilon < \int_{a}^{r}M(x)\,dx \le L,\quad
+r_{0}<r<b.
+$$
+Therefore, if $r_{0}< r\le  r_{1},$  then
+$$
+0\le \int_{r}^{r_{1}}M(x)\,dx=\left(\int_{a}^{r_{1}}M(x)\,dx
+-L\right)-
+\left(\int_{a}^{r}M(x)\,dx -L\right)<\epsilon
+$$
+   This and \eqref{eq:19} imply that
+$$
+\int_{r}^{r_{1}}|f(x,y)|\,dx\le
+\int_{r}^{r_{1}} M(x)\,dx <\epsilon,\quad  y\in S, \quad
+a\le  r_{0}<r<r_{1}<b.
+$$
+Now Theorem~\ref{theorem:4}
+implies the stated conclusion.  \endproof
+
+
+\begin{example}  \label{example:7}  \rm
+Suppose $g=g(x,y)$ is locally integrable  on
+$[0,\infty)$ for all $y\in S$
+and, for some $a_{0}\ge 0$, there are  constants $K$ and  $p_{0}$ such that
+$$
+|g(x,y)| \le Ke^{p_{0}x},\quad y\in S, \quad x\ge a_{0}.
+$$
+If $p>p_{0}$ and $r\ge a_{0}$,  then
+\begin{eqnarray*}
+\int_{r}^{\infty}e^{-px} |g(x,y)|\,dx &=&
+\int_{r}^{\infty} e^{-(p-p_{0})x}e^{-p_{0}x}|g(x,y)|\,dx\\
+&\le& K\int_{r}^{\infty} e^{-(p-p_{0})x}\,dx= \frac{K
+e^{-(p-p_{0})r}}{p-p_{0}},
+\end{eqnarray*}
+so
+$\int_{0}^{\infty}e^{-px} g(x,y)\,dx $
+converges absolutely on  $S$.
+For example, since
+$$
+|x^{\alpha}\sin xy|<e^{p_{0}x}\text{\quad and \quad}
+|x^{\alpha}\cos xy|<e^{p_{0}x}
+$$
+for $x$  sufficiently large if $p_{0}>0$, Theorem~\ref{theorem:4}
+ implies that
+$\int_{0}^{\infty}e^{-px}x^{\alpha}\sin xy\,dx$
+and
+$\int_{0}^{\infty}e^{-px}x^{\alpha}\cos xy\,dx$
+converge absolutely uniformly on $(-\infty,\infty)$ if $p>0$
+and $\alpha~\ge~0$.  As a matter of fact, $\int_{0}^{\infty}e^{-px}x^{\alpha}\sin xy\,dx$
+converges absolutely on $(-\infty,\infty)$ if $p>0$  and
+$\alpha>-1$. (Why?)
+\end{example}
+
+
+
+
+\begin{definition}{\bf$($Absolute Uniform Convergence II$)$}
+\label{definition:5}
+The improper integral
+$$
+\int_{a}^{b}f(x,y)\,dx=\lim_{r\to a+}\int_{r}^{b}f(x,y)\,dx
+$$
+is said to converge absolutely  uniformly on $S$ if the improper
+integral
+$$
+\int_{a}^{b}|f(x,y)|\,dx=\lim_{r\to a+}\int_{r}^{b}|f(x,y)|\,dx
+$$
+converges uniformly on $S$; that is,
+ if, for each $\epsilon>0$,
+there is an $r_{0}\in (a,b]$  such that
+$$
+\left|\int_{a}^{b}|f(x,y)|\,dx-\int_{r}^{b}|f(x,y)|\,dx\right|
+<\epsilon, \quad y\in S, \quad   a<r<r_{0}\le b.
+$$
+\end{definition}
+
+
+
+We leave it to you (Exercise~\ref{exer:7}) to prove the following theorem.
+
+
+\begin{theorem}  \label{theorem:7}
+{\bf$($Weierstrass's Test for Absolute Uniform Convergence II$)$}
+Suppose $M=M(x)$ is nonnegative on $(a,b],$ $\int_{a}^{b}M(x)\,dx<\infty,$
+ and
+$$
+|f(x,y)| \le M(x), \quad  y\in S, \quad  x\in (a,b].
+$$
+Then $\int_{a}^{b}f(x,y)\,dx$    converges absolutely uniformly on $S$.
+\end{theorem}
+
+
+
+\begin{example}  \label{example:8}  \rm
+If $g=g(x,y)$ is locally integrable on $(0,1]$ for all $y\in S$
+and
+$$
+|g(x,y)| \le Ax^{-\beta}, \quad 0<x \le x_{0},
+$$
+for each $y \in S$, then
+$$
+\int_{0}^{1} x^{\alpha}g(x,y)\,dx
+$$
+converges absolutely uniformly on $S$  if $\alpha>\beta-1$. To
+ see this, note that if $0<r< r_{1}\le x_{0}$, then
+$$
+\int_{r_{1}}^{r}x^{\alpha}|g(x,y)|\,dx \le A\int_{r_{1}}^{r}
+x^{\alpha-\beta}\,dx=
+\frac{Ax^{\alpha-\beta+1}}{\alpha-\beta+1}\biggr|_{r_{1}}^{r}<
+\frac{Ar^{\alpha-\beta+1}}{\alpha-\beta+1}.
+$$
+Applying this with $\beta=0$ shows that
+$$
+F(y)=\int_{0}^{1} x^{\alpha}\cos xy\,dx
+$$
+converges absolutely uniformly on $(-\infty,\infty)$ if $\alpha>-1$
+and
+$$
+G(y)=\int_{0}^{1}x^{\alpha}\sin xy \,dx
+$$
+converges absolutely uniformly on $(-\infty,\infty)$  if
+$\alpha>-2$.
+\end{example}
+
+
+By recalling Theorem~4.4.15 (p.~246),
+you can see why   we associate  Theorems~\ref{theorem:6}  and
+\ref{theorem:7}
+ with Weierstrass.
+
+\section{Dirichlet's Tests} \label{section:dirichlet}
+ Weierstrass's test is useful and important, but  it has a basic
+shortcoming:
+it applies only to absolutely uniformly convergent improper integrals.
+ The next theorem applies in some cases
+where $\int_{a}^{b}f(x,y)\,dx$   converges uniformly on  $S$,
+but
+$\int_{a}^{b}|f(x,y)|\,dx$  does not.
+
+
+
+\begin{theorem}  \label{theorem:8}
+$(${\bf
+\href{http://www-history.mcs.st-and.ac.uk/Biographies/Dirichlet.html}
+{Dirichlet}'s
+Test for Uniform Convergence I}$)$
+If $g,$  $g_{x},$ and $h$ are continuous on $[a,b)\times S,$  then
+$$
+\int_{a}^{b}g(x,y)h(x,y)\,dx
+$$
+converges uniformly on  $S$ if  the following
+conditions are satisfied$:$
+\begin{alist}
+\item % a
+$\dst{\lim_{x\to b-}\left\{\sup_{y\in S}|g(x,y)|\right\}=0};$
+\item % b
+There is a constant $M$ such that
+$$
+\sup_{y\in S}\left|\int_{a}^{x}h(u,y)\,du\right|< M, \quad
+a\le x<b;
+$$
+
+\item % c
+$\int_{a}^{b}|g_{x}(x,y)|\,dx$   converges uniformly on $S.$
+
+\end{alist}
+\end{theorem}
+
+\proof
+If
+\begin{equation} \label{eq:20}
+H(x,y)=\int_{a}^{x}h(u,y)\,du,
+\end{equation}
+then integration by parts yields
+\begin{eqnarray}
+\int_{r}^{r_{1}}g(x,y)h(x,y)\,dx&=&\int_{r}^{r_{1}}g(x,y)H_{x}(x,y)\,dx
+\nonumber\\
+&=&g(r_{1},y)H(r_{1},y)-g(r,y)H(r,y)\label{eq:21}\\
+&&-\int_{r}^{r_{1}}g_{x}(x,y)H(x,y)\,dx.
+\nonumber
+\end{eqnarray}
+Since assumption   {\bf(b)}  and \eqref{eq:20}  imply that
+$|H(x,y)|\le M,$  $(x,y)\in (a,b]\times S$,
+Eqn.~\eqref{eq:21}  implies that
+\begin{equation} \label{eq:22}
+\left|\int_{r}^{r_{1}}g(x,y)h(x,y)\,dx\right|<
+M\left(2\sup_{x\ge
+r}|g(x,y)|+\int_{r}^{r_{1}}|g_{x}(x,y)|\,dx\right)
+\end{equation}
+on $[r,r_{1}]\times S$.
+
+Now suppose  $\epsilon>0$.    From assumption {\bf (a)}, there is an
+$r_{0} \in [a,b)$ such that $|g(x,y)|<\epsilon$ on $S$ if
+$r_{0}\le x <b$.
+From assumption  {\bf(c)} and Theorem~\ref{theorem:6},  there is an
+$s_{0}\in
+[a,b)$ such that
+$$
+\int_{r}^{r_{1}}|g_{x}(x,y)|\,dx<\epsilon, \quad  y\in S, \quad
+s_{0}<r<r_{1}<b.
+$$
+Therefore
+\eqref{eq:22}  implies that
+$$
+\left|\int_{r}^{r_{1}}g(x,y)h(x,y)\right| < 3M\epsilon, \quad  y\in S, \quad
+\max(r_{0},s_{0})<r<r_{1}<b.
+$$
+Now Theorem~\ref{theorem:4} implies the stated conclusion.
+\endproof
+
+
+The statement of this theorem is complicated, but applying it isn't;
+just look for a factorization $f=gh$, where $h$ has a bounded
+antderivative
+  on $[a,b)$ and  $g$  is ``small'' near $b$. Then integrate by
+parts and hope that something nice happens. A similar comment applies
+to Theorem~9, which follows.
+
+
+
+
+\begin{example}  \label{example:9}  \rm
+Let
+$$
+I(y)=\int_{0}^{\infty}\frac{\cos xy}{x+y}\,dx,\quad y>0.
+$$
+The obvious inequality
+$$
+\left|\frac{\cos xy}{x+y}\right|\le \frac{1}{x+y}
+$$
+is useless here, since
+$$
+\int_{0}^{\infty}\frac{dx}{x+y}=\infty.
+$$
+However, integration by parts yields
+\begin{eqnarray*}
+\int_{r}^{r_{1}}\frac{\cos xy}{x+y}\,dx
+&=& \frac{\sin xy}{y(x+y)}\biggr|_{r}^{r_{1}}+
+\int_{r}^{r_{1}}\frac{\sin xy}{y(x+y)^{2}}\,dx\\
+&=&\frac{\sin r_{1}y}{y(r_{1}+y)}-\frac{\sin ry}{y(r+y)}
++\int_{r}^{r_{1}}\frac{\sin xy}{y(x+y)^{2}}\,dx.
+\end{eqnarray*}
+Therefore, if $0< r<r_{1}$, then
+\begin{eqnarray*}
+\left|\int_{r}^{r_{1}}\frac{\cos xy}{x+y}\,dx\right|<
+\frac{1}{y}\left(\frac{2}{r+y}+\int_{r}^{\infty}\frac{1}{(x+y)^{2}}\right)
+\le \frac{3}{y(r+y)^{2}}\le \frac{3}{\rho(r+\rho)}
+\end{eqnarray*}
+if $y\ge \rho>0$. Now Theorem~\ref{theorem:4} implies that $I(y)$
+converges uniformly on $[\rho,\infty)$ if $\rho>0$.
+\end{example}
+
+We leave the proof of the following theorem to you (Exercise~\ref{exer:10}).
+\begin{theorem}  \label{theorem:9}
+$(${\bf Dirichlet's Test for Uniform Convergence II}$)$
+If $g,$  $g_{x},$ and $h$ are continuous on $(a,b]\times S,$  then
+$$
+\int_{a}^{b}g(x,y)h(x,y)\,dx
+$$
+converges uniformly on   $S$ if  the following
+conditions are satisfied$:$
+\begin{alist}
+\item % a
+$\dst{\lim_{x\to a+}\left\{\sup_{y\in S}|g(x,y)|\right\}=0};$
+\item % b
+There is a constant $M$ such that
+$$
+\sup_{y\in S}\left|\int_{x}^{b}h(u,y)\,du\right| \le M, \quad
+a< x\le b;
+$$
+
+\item % c
+$\int_{a}^{b}|g_{x}(x,y)|\,dx$   converges uniformly on $S$.
+\end{alist}
+\end{theorem}
+
+By recalling Theorems~3.4.10 (p.~163), 4.3.20 (p.~217), and 4.4.16
+(p.~248), you can see why   we associate  Theorems~\ref{theorem:8}  and
+\ref{theorem:9}
+ with Dirichlet.
+
+\section{Consequences of uniform convergence}\label{section:consequences}
+
+\begin{theorem}  \label{theorem:10}
+If  $f=f(x,y)$ is continuous on either  $[a,b)\times [c,d]$ or
+$(a,b]\times [c,d]$ and
+\begin{equation} \label{eq:23}
+F(y)=\int_{a}^{b}f(x,y)\,dx
+\end{equation}
+converges uniformly on $[c,d],$  then $F$ is continuous on
+$[c,d].$ Moreover$,$
+\begin{equation} \label{eq:24}
+\int_{c}^{d}\left(\int_{a}^{b}f(x,y)\,dx\right)\,dy
+=\int_{a}^{b}\left(\int_{c}^{d}f(x,y)\,dy\right)\,dx.
+\end{equation}
+\end{theorem}
+
+
+\proof  We will assume that $f$ is continuous on $(a,b]\times [c,d]$.
+You can consider the other case (Exercise~\ref{exer:14}).
+
+
+We will first show that $F$ in \eqref{eq:23} is continuous on $[c,d]$.
+Since $F$  converges uniformly on $[c,d]$,
+Definition~\ref{definition:1}
+(specifically, \eqref{eq:11})
+   implies that  if $\epsilon>0$, there is an
+$r \in [a,b)$ such that
+$$
+\left|\int_{r}^{b}f(x,y)\,dx\right|< \epsilon, \quad c \le y \le d.
+$$
+Therefore, if $c\le y, y_{0}\le d]$, then
+\begin{eqnarray*}
+|F(y)-F(y_{0})|&=&
+\left|\int_{a}^{b}f(x,y)\,dx-\int_{a}^{b}f(x,y_{0})\,dx\right|\\
+&\le&\left|\int_{a}^{r}[f(x,y)-f(x,y_{0})]\,dx\right|+
+\left|\int_{r}^{b}f(x,y)\,dx\right|\\
+&&+\left|\int_{r}^{b}f(x,y_{0})\,dx\right|,
+\end{eqnarray*}
+so
+\begin{equation}\label{eq:25}
+|F(y)-F(y_{0})|
+\le  \int_{a}^{r}|f(x,y)-f(x,y_{0})|\,dx +2\epsilon.
+\end{equation}
+
+
+Since $f$  is uniformly continuous on the compact set $[a,r]\times [c,d]$
+(Corollary~5.2.14, p.~314), there is a
+$\delta>0$ such that
+$$
+|f(x,y)-f(x,y_{0})|<\epsilon
+$$
+if $(x,y)$ and $(x,y_{0})$  are in $[a,r]\times [c,d]$ and
+$|y-y_{0}|<\delta$.    This and \eqref{eq:25}  imply that
+$$
+|F(y)-F(y_{0})|<(r-a)\epsilon +2\epsilon<(b-a+2)\epsilon
+$$
+if $y$ and $y_{0}$ are in $[c,d]$ and $|y-y_{0}|<\delta$. Therefore $F$
+is continuous on $[c,d]$, so the integral on left side of
+\eqref{eq:24} exists. Denote
+\begin{equation} \label{eq:26}
+I=
+\int_{c}^{d}\left(\int_{a}^{b}f(x,y)\,dx\right)\,dy.
+\end{equation}
+ We will
+show that the improper
+integral on the right side of  \eqref{eq:24} converges to  $I$. To
+this end, denote
+$$
+I(r)=
+\int_{a}^{r}\left(\int_{c}^{d}f(x,y)\,dy\right)\,dx.
+$$
+Since we can reverse the order of integration of the
+continuous function  $f$  over the rectangle $[a,r]\times [c,d]$
+(Corollary~7.2.2, p.~466),
+$$
+I(r)=\int_{c}^{d}\left(\int_{a}^{r}f(x,y)\,dx\right)\,dy.
+$$
+From this and \eqref{eq:26},
+$$
+I-I(r)=\int_{c}^{d}\left(\int_{r}^{b}f(x,y)\,dx\right)\,dy.
+$$
+Now suppose $\epsilon>0$. Since $\int_{a}^{b}f(x,y)\,dx$ converges
+uniformly on $[c,d]$, there is an $r_{0}\in (a,b]$ such that
+$$
+\left|\int_{r}^{b}f(x,y)\,dx\right|<\epsilon, \quad
+r_{0}<r<b,
+$$
+so $|I-I(r)|<(d-c)\epsilon$ if $r_{0}<r<b$. Hence,
+$$
+\lim_{r\to b-}\int_{a}^{r}\left(\int_{c}^{d}f(x,y)\,dy\right)\,dx=
+\int_{c}^{d}\left(\int_{a}^{b}f(x,y)\,dx\right)\,dy,
+$$
+which completes the proof of \eqref{eq:24}. \endproof
+
+\begin{example}  \label{example:10}  \rm
+It is straightforward to verify that
+$$
+\int_{0}^{\infty}e^{-xy}\,dx=\frac{1}{y}, \quad y>0,
+$$
+and  the convergence is uniform on $[\rho,\infty)$ if
+$\rho>0$. Therefore Theorem~\ref{theorem:10} implies   that
+if $0<y_{1}<y_{2}$, then
+\begin{eqnarray*}
+\int_{y_{1}}^{y_{2}}\frac{\,dy}{y}&=&
+\int_{y_{1}}^{y_{2}}\left( \int_{0}^{\infty}e^{-xy}\,dx\right)\,dy
+=\int_{0}^{\infty}\left(\int_{y_{1}}^{y_{2}}e^{-xy}\,dy\right)\,dy \\
+&=&\int_{0}^{\infty}\frac{e^{-xy_{1}}-e^{-xy_{2}}}{x}\,dx.
+\end{eqnarray*}
+Since
+$$
+\int_{y_{1}}^{y_{2}}\frac{dy}{y}=
+\log\frac{y_{2}}{y_{1}}, \quad y_{2} \ge y_{1}>0,
+$$
+it follows that
+$$
+\int_{0}^{\infty}\frac{e^{-xy_{1}}-e^{-xy_{2}}}{x}\,dx=
+\log\frac{y_{2}}{y_{1}}, \quad y_{2} \ge y_{1}>0.
+$$
+\end{example}
+
+\begin{example}  \label{example:11}  \rm
+From Example~\ref{example:6},
+$$
+\int_{0}^{\infty}\frac{\sin xy}{x}\,dx=\frac{\pi}{2}, \quad y>0,
+$$
+and the convergence is uniform on $[\rho,\infty)$ if $\rho>0$. Therefore,
+Theorem~\ref{theorem:10}  implies that if $0<y_{1}<y_{2}$, then
+\begin{eqnarray}
+\frac{\pi}{2}(y_{2}-y_{1})
+&=&\int_{y_{1}}^{y_{2}}\left(\int_{0}^{\infty}\frac{\sin
+xy}{x}\,dx\right)\,dy
+=\int_{0}^{\infty}\left(\int_{y_{1}}^{y_{2}}\frac{\sin
+xy}{x}\,dy\right)\,dx
+\nonumber\\
+&=&\int_{0}^{\infty}\frac{\cos xy_{1}-\cos xy_{2}}{x^{2}} \,dx.
+\label{eq:27}
+\end{eqnarray}
+The last integral converges uniformly on $(-\infty,\infty)$
+(Exercise 10{\bf(h)}), and is therefore continuous with respect to
+$y_{1}$ on $(-\infty,\infty)$, by
+Theorem~\ref{theorem:10}; in particular,
+we can let $y_{1}\to0+$ in  \eqref{eq:27} and replace $y_{2}$
+by  $y$ to obtain
+$$
+\int_{0}^{\infty} \frac{1-\cos xy}{x^{2}}\,dx=\frac{\pi y}{2}, \quad y
+\ge 0.
+ $$
+\end{example}
+
+
+The next theorem is analogous to  Theorem~4.4.20 (p.~252).
+
+
+\begin{theorem}  \label{theorem:11}
+Let   $f$  and $f_{y}$   be  continuous on either
+$[a,b)\times [c,d]$ or $(a,b]\times [c,d].$ Suppose    that
+the improper integral
+$$
+F(y)=\int_{a}^{b}f(x,y)\,dx
+$$
+converges for some $y_{0} \in [c,d]$ and
+$$
+G(y)=\int_{a}^{b}f_{y}(x,y)\,dx
+$$
+converges uniformly on $[c,d].$ Then $F$  converges
+uniformly on $[c,d]$ and is given explicitly by
+$$
+F(y)=F(y_{0})+\int_{y_{0}}^{y} G(t)\,dt,\quad c\le y\le d.
+$$
+Moreover, $F$  is continuously differentiable on $[c,d]$; specifically,
+\begin{equation} \label{eq:28}
+F'(y)=G(y), \quad c \le y \le d,
+\end{equation}
+where  $F'(c)$ and $f_{y}(x,c)$ are derivatives
+from the right, and $F'(d)$ and $f_{y}(x,d)$ are
+ derivatives from the left$.$
+\end{theorem}
+
+\proof We will  assume that $f$ and $f_{y}$ are continuous
+on $[a,b)\times [c,d]$. You can consider the other case
+(Exercise~\ref{exer:15}).
+
+
+Let
+$$
+F_{r}(y)=\int_{a}^{r}f(x,y)\,dx, \quad a\le r<b, \quad  c \le y \le d.
+$$
+Since $f$  and $f_{y}$  are continuous on $[a,r]\times [c,d]$,
+Theorem~\ref{theorem:1} implies that
+$$
+F_{r}'(y)=\int_{a}^{r}f_{y}(x,y)\,dx, \quad c \le y \le d.
+$$
+Then
+\begin{eqnarray*}
+F_{r}(y)&=&F_{r}(y_{0})+\int_{y_{0}}^{y}\left(
+\int_{a}^{r}f_{y}(x,t)\,dx\right)\,dt\\
+&=&F(y_{0})+\int_{y_{0}}^{y}G(t)\,dt \\&&+(F_{r}(y_{0})-F(y_{0}))
+-\int_{y_{0}}^{y}\left(\int_{r}^{b}f_{y}(x,t)\,dx\right)\,dt,
+ \quad c \le y \le d.
+\end{eqnarray*}
+Therefore,
+\begin{eqnarray}
+\left|F_{r}(y)-F(y_{0})-\int_{y_{0}}^{y}G(t)\,dt\right|& \le &
+|F_{r}(y_{0})-F(y_{0})|\nonumber\\
+&&+\left|\int_{y_{0}}^{y}
+\int_{r}^{b}f_{y}(x,t)\,dx\right|\,dt.
+ \label{eq:29}
+\end{eqnarray}
+Now suppose $\epsilon>0$.  Since we have assumed that
+$\lim_{r\to b-}F_{r}(y_{0})=F(y_{0})$ exists,
+there is an $r_{0}$
+in $(a,b)$ such that
+$$
+|F_{r}(y_{0})-F(y_{0})|<\epsilon,\quad  r_{0}<r<b.
+$$
+Since we have assumed that $G(y)$  converges for
+$y\in[c,d]$, there is an $r_{1}  \in [a,b)$  such that
+$$
+\left|\int_{r}^{b}f_{y}(x,t)\,dx\right|<\epsilon, \quad
+ t\in[c,d], \quad
+r_{1}\le r<b.
+$$
+ Therefore, \eqref{eq:29}  yields
+$$
+\left|F_{r}(y)-F(y_{0})-\int_{y_{0}}^{y}G(t)\,dt\right|<
+\epsilon(1+|y-y_{0}|) \le \epsilon(1+d-c)
+$$
+if $\max(r_{0},r_{1}) \le r <b$ and $t\in [c,d]$. Therefore $F(y)$
+converges uniformly on   $[c,d]$  and
+$$
+F(y)=F(y_{0})+\int_{y_{0}}^{y}G(t)\,dt, \quad c \le y \le d.
+$$
+Since $G$  is continuous on $[c,d]$  by
+Theorem~\ref{theorem:10}, \eqref{eq:28}
+follows    from differentiating this (Theorem~3.3.11, p.~141).  \endproof
+
+\begin{example}  \label{example:12}  \rm
+Let
+$$
+I(y)=\int_{0}^{\infty}e^{-yx^{2}}\,dx, \quad y>0.
+$$
+Since
+$$
+\int_{0}^{r}e^{-yx^{2}}\,dx=\frac{1}{\sqrt{y}}
+\int_{0}^{r\sqrt{y}} e^{-t^{2}}\,dt,
+$$
+it follows that
+$$
+I(y)=\frac{1}{\sqrt{y}}\int_{0}^{\infty}e^{-t^{2}}\,dt,
+$$
+and the convergence is uniform on $[\rho,\infty)$ if $\rho>0$
+(Exercise~\ref{exer:8}{\bf(i)}).
+To evaluate the last integral, denote
+$J(\rho)=\int_{0}^{\rho}e^{-t^{2}}\,dt$;
+then
+$$
+J^{2}(\rho)=\left(\int_{0}^{\rho}e^{-u^{2}}\,du\right)
+\left(\int_{0}^{\rho}e^{-v^{2}}\,dv\right)
+=\int_{0}^{\rho}\int_{0}^{\rho}e^{-(u^{2}+v^{2})}\,du\,dv.
+$$
+Transforming to polar coordinates $r=r\cos\theta$, $v=r\sin\theta$
+ yields
+$$
+J^{2}(\rho)=\int_{0}^{\pi/2}\int_{0}^{\rho} re^{-r^{2}}\,dr\,d\theta
+=\frac{\pi(1-e^{-\rho^{2}})}{4},
+\text{\quad so\quad}
+J(\rho)=\frac{\sqrt{\pi(1-e^{-\rho^{2}})}}{2}.
+$$
+Therefore
+$$
+\int_{0}^{\infty}e^{-t^{2}}\,dt=\lim_{\rho\to\infty}J(\rho)=
+\frac{\sqrt{\pi}}{2}\text{\quad and\quad}
+\int_{0}^{\infty}e^{-yx^{2}}\,dx= \frac{1}{2}\sqrt{\frac{\pi}{y}},
+\quad y>0.
+$$
+ Differentiating this $n$ times with respect to
+$y$ yields
+$$
+\int_{0}^{\infty}x^{2n}e^{-yx^{2}}\,dx=
+\frac{1\cdot3\cdots(2n-1)\sqrt{\pi}}{2^{n}y^{n+1/2}}\quad y>0,\quad
+n=1,2,3, \dots,
+$$
+where Theorem~\ref{theorem:11} justifies the differentiation for every
+$n$, since all these integrals
+ converge uniformly on $[\rho,\infty)$  if
+$\rho>0$ (Exercise~\ref{exer:8}(i)).
+\end{example}
+
+Some advice for applying this theorem: Be sure to check first
+that $F(y_{0})=\int_{a}^{b}f(x,y_{0})\,dx$ converges for at least one value
+of
+$y$. If so, differentiate $\int_{a}^{b}f(x,y)\,dx$ formally to obtain
+$\int_{a}^{b}f_{y}(x,y)\,dx$. Then   $F'(y)=\int_{a}^{b}f_{y}(x,y)\,dx$
+if $y$ is in some interval on which  this improper  integral converges
+uniformly.
+
+
+\place %
+
+\section{Applications to Laplace transforms} \label{section:laplace}
+\medskip
+
+The
+\href{http://www-history.mcs.st-and.ac.uk/Biographies/Laplace.html}
+{\emph{Laplace}}
+\emph{transform}  of a function $f$ locally integrable
+   on $[0,\infty)$ is
+$$
+F(s)=\int_{0}^{\infty}e^{-sx}f(x)\,dx
+$$
+for all   $s$ such that integral converges. Laplace
+transforms are widely applied in mathematics, particularly in solving
+differential equations.
+
+We leave it to you to prove the following theorem (Exercise~\ref{exer:26}).
+
+\begin{theorem} \label{theorem:12}
+Suppose $f$ is locally integrable on $[0,\infty)$  and
+$|f(x)|\le M e^{s_{0}x}$  for sufficiently large $x$.
+Then the Laplace
+transform of $F$  converges uniformly on $[s_{1},\infty)$ if $s_{1}>s_{0}$.
+\end{theorem}
+
+
+\begin{theorem} \label{theorem:13}
+If $f$ is continuous on $[0,\infty)$ and
+$H(x)=\int_{0}^{\infty}e^{-s_{0}u}f(u)\,du$
+is bounded on $[0,\infty),$  then the Laplace transform of $f$
+converges uniformly on $[s_{1},\infty)$ if $s_{1}>s_{0}.$
+\end{theorem}
+
+\proof  If $0\le r\le r_{1}$,
+$$
+\int_{r}^{r_{1}}e^{-sx}f(x)\,dx
+=\int_{r}^{r_{1}}e^{-(s-s_{0})x}e^{-s_{0}x}f(x)\,dt
+=\int_{r}^{r_{1}}e^{-(s-s_{0})t}H'(x)\,dt.
+$$
+Integration by parts yields
+$$
+\int_{r}^{r_{1}}e^{-sx}f(x)\,dt=e^{-(s-s_{0})x}H(x)\biggr|_{r}^{r_{1}}
++(s-s_{0})\int_{r}^{r_{1}}e^{-(s-s_{0})x} H(x)\,dx.
+$$
+Therefore, if $|H(x)|\le M$, then
+\begin{eqnarray*}
+\left|\int_{r}^{r_{1}}e^{-sx}f(x)\,dx\right|&\le&
+M\left|e^{-(s-s_{0})r_{1}}
++e^{-(s-s_{0})r} +(s-s_{0})\int_{r}^{r_{1}}e^{-(s-s_{0})x}\,dx\right|\\
+&\le &3Me^{-(s-s_{0})r}\le 3Me^{-(s_{1}-s_{0})r},\quad s\ge s_{1}.
+\end{eqnarray*}
+Now Theorem~\ref{theorem:4} implies that $F(s)$ converges uniformly
+on $[s_{1},\infty)$.
+
+The following theorem draws a considerably stonger conclusion from
+the same assumptions.
+
+\begin{theorem}  \label{theorem:14}
+If $f$  is continuous on $[0,\infty)$ and
+$$
+H(x)=\int_{0}^{x}e^{-s_{0}u}f(u)\,du
+$$
+is bounded on $[0,\infty),$  then the Laplace transform of $f$
+is infinitely differentiable on $(s_{0},\infty),$ with
+\begin{equation} \label{eq:30}
+F^{(n)}(s)=(-1)^{n}\int_{0}^{\infty} e^{-sx} x^{n}f(x)\,dx;
+\end{equation}
+that is, the $n$-th derivative of the Laplace transform of $f(x)$ is the
+Laplace transform of $(-1)^{n}x^{n}f(x)$.
+\end{theorem}
+
+\proof
+First we will
+ show that the integrals
+$$
+I_{n}(s)=\int_{0}^{\infty}e^{-sx}x^{n}f(x)\,dx,\quad n=0,1,2, \dots
+$$
+all converge uniformly on   $[s_{1},\infty)$ if
+$s_{1}>s_{0}$.  If $0<r<r_{1}$, then
+$$
+\int_{r}^{r_{1}}e^{-sx}x^{n}f(x)\,dx=
+\int_{r}^{r_{1}}e^{-(s-s_{0})x}e^{-s_{0}x}x^{n}f(x)\,dx
+=\int_{r}^{r_{1}}e^{-(s-s_{0})x}x^{n}H'(x)\,dx.
+$$
+Integrating by parts yields
+\begin{eqnarray*}
+\int_{r}^{r_{1}}e^{-sx}x^{n}f(x)\,dx
+&=&r_{1}^{n}e^{-(s-s_{0})r_{1}}H(r)-r^{n}e^{-(s-s_{0})r}H(r)\\
+&&-\int_{r}^{r_{1}}H(x)\left(e^{-(s-s_{0})x}x^{n}\right)'\,dx,
+\end{eqnarray*}
+where $'$ indicates differentiation with respect to $x$. Therefore, if
+ $|H(x)|\le M\le \infty$ on $[0,\infty)$, then
+$$
+\left|\int_{r}^{r_{1}}e^{-sx}x^{n}f(x)\,dx\right|\le
+M\left(e^{-(s-s_{0})r}r^{n}+e^{-(s-s_{0})r}r^{n}
++\int_{r}^{\infty}|(e^{-(s-s_{0})x})x^{n})'|\,dx\right).
+$$
+Therefore, since $e^{-(s-s_{0})r}r^{n}$ decreases monotonically on
+$(n,\infty)$  if $s>s_{0}$
+(check!),
+$$
+\left|\int_{r}^{r_{1}}e^{-sx}x^{n}f(x)\,dx\right|<3Me^{-(s-s_{0})r}r^{n},\quad
+n<r<r_{1},
+$$
+so  Theorem~\ref{theorem:4}  implies that $I_{n}(s)$ converges
+uniformly  $[s_{1},\infty)$ if $s_{1}>s_{0}$. Now
+Theorem~\ref{theorem:11} implies
+that $F_{n+1}=-F_{n}'$, and an easy induction proof yields \eqref{eq:30}
+(Exercise~\ref{exer:25}).
+\endproof
+
+\begin{example}  \label{example:13}  \rm
+Here we  apply Theorem~\ref{theorem:12} with $f(x)=\cos ax$ ($a\ne0$) and
+$s_{0}=0$. Since
+$$
+\int_{0}^{x}\cos au\,du=\frac{\sin ax}{a}
+$$
+is bounded on $(0,\infty)$, Theorem~\ref{theorem:12} implies that
+$$
+F(s)=\int_{0}^{\infty}e^{-sx}\cos ax\,dx
+$$
+converges and
+\begin{equation} \label{eq:31}
+F^{(n)}(s)=(-1)^{n}\int_{0}^{\infty}e^{-sx}x^{n}\cos ax\,dx, \quad s>0.
+\end{equation}
+(Note that this is also true if $a=0$.) Elementary integration
+yields
+$$
+F(s)=\frac{s}{s^{2}+a^{2}}.
+$$
+Hence, from \eqref{eq:31},
+$$
+\int_{0}^{\infty}e^{-sx}x^{n}\cos ax=(-1)^{n}\frac{d^n}{ds^n}
+\frac{s}{s^{2}+a^{2}}, \quad n=0,1, \dots.
+$$
+
+\end{example}
+\newpage
+
+\section{Exercises}
+
+\begin{exerciselist}
+
+\item\label{exer:1}
+Suppose $g$ and $h$ are differentiable on $[a,b]$, with
+$$
+a \le g(y) \le b \text{\quad and\quad}  a \le h(y) \le b, \quad
+c \le y \le d.
+$$
+Let $f$ and $f_{y}$  be continuous on $[a,b]\times [c,d]$. Derive
+\emph{Liebniz's rule}:
+\begin{eqnarray*}
+\frac{d}{dy}\int_{g(y)}^{h(y)}f(x,y)\,dx
+&=&f(h(y),y)h'(y)-f(g(y),y)g'(y)\\&&+\int_{g(y)}^{h(y)}f_{y}(x,y)\,dx.
+\end{eqnarray*}
+(Hint: Define $H(y,u,v)=\int_{u}^{v}f(x,y)\,dx$ and use the chain
+rule.)
+
+\item\label{exer:2}
+Adapt the proof of Theorem~\ref{theorem:2} to prove
+Theorem~\ref{theorem:3}.
+
+\item\label{exer:3}
+Adapt the proof of Theorem~\ref{theorem:4} to prove
+Theorem~\ref{theorem:5}.
+
+
+\item\label{exer:4}
+Show that  Definition~\ref{definition:3} is independent
+ of $c$; that is,  if
+  $\int_{a}^{c}f(x,y)\,dx$  and
+$\int_{c}^{b}f(x,y)\,dx$ both converge uniformly on $S$ for
+some
+$c\in (a,b)$, then they both converge uniformly on $S$
+and every
+$c\in
+(a,b)$.
+
+\item\label{exer:5}
+\begin{alist}
+\item % a
+Show that if $f$ is bounded on $[a,b]\times [c,d]$  and
+$\int_{a}^{b}f(x,y)\,dx$  exists as a proper integral for each
+$y\in [c,d]$, then it converges uniformly on $[c,d]$
+according to all of
+Definition~\ref{definition:1}--\ref{definition:3}.
+
+\item % b
+Give an example to show that the boundedness of $f$ is essential
+in {\bf(a)}.
+\end{alist}
+
+
+\item\label{exer:6}
+Working directly from Definition~\ref{definition:1}, discuss uniform
+convergence of  the following integrals:
+
+\begin{tabular}{ll}
+{\bf(a)}
+$\dst{\int_{0}^{\infty}\frac{dx}{1+y^{2}x^{2}}\,dx}$  &
+{\bf(b)} $\dst{\int_{0}^{\infty}e^{-xy}x^{2}\,dx}$  \\ \\
+{\bf(c)} $\dst{\int_{0}^{\infty}x^{2n}e^{-yx^{2}}\,dx}$  &
+{\bf(d)} $\dst{\int_{0}^{\infty}\sin xy^{2}\,dx}$  \\\\
+{\bf(e)} $\dst{\int_{0}^{\infty}(3y^{2}-2xy)e^{-y^{2}x}\,dx}$  &
+{\bf(f)} $\dst{\int_{0}^{\infty}(2xy-y^{2}x^{2})e^{-xy}\,dx}$
+\end{tabular}
+
+\item\label{exer:7}
+Adapt the proof of Theorem~\ref{theorem:6} to prove
+Theorem~\ref{theorem:7}.
+
+\item\label{exer:8}
+Use Weierstrass's test to show that the integral converges uniformly
+on $S:$
+
+\begin{alist}
+\item % a
+$\dst{\int_{0}^{\infty}e^{-xy}\sin x\,dx}$,\quad
+$S=[\rho,\infty)$,\quad $\rho>0$
+
+\item % b
+$\dst{\int_{0}^{\infty}\dst{\frac{\sin x}{x^{y}}}\,dx}$,\quad
+$S=[c,d]$, \quad $1<c<d<2$
+
+\item % c
+$\dst{\int_{1}^{\infty}e^{-px}\dst{\frac{\sin xy}{x}}\,dx}$,\quad
+$p>0$,\quad
+$S=(-\infty,\infty)$
+
+\item % d
+$\dst{\int_{0}^{1}\frac{e^{xy}}{(1-x)^{y}}}\,dx$, \quad
+$S=(-\infty,b)$,\quad  $b<1$
+
+\item % e
+$\dst{\int_{-\infty}^{\infty}\frac{\cos xy}{1+x^{2}y^{2}}}\,dx$,\quad
+$S=(-\infty,-\rho]\cup[\rho,\infty)$,\quad $\rho>0$.
+
+\item % f
+$\dst{\int_{1}^{\infty}e^{-x/y}\,dx}$,\quad
+$S=[\rho,\infty)$,\quad $\rho>0$
+
+\item % g
+$\dst{\int_{-\infty}^{\infty}e^{xy}e^{-x^{2}}\,dx}$,\quad
+$S=[-\rho,\rho]$,\quad $\rho>0$
+
+\item % h
+$\dst{\int_{0}^{\infty}\frac{\cos xy-\cos ax}{x^{2}}\,dx}$,\quad
+$S=(-\infty,\infty)$
+
+\item % i
+$\dst{\int_{0}^{\infty}x^{2n}e^{-yx^{2}}\,dx}$,\quad
+$S=[\rho,\infty)$,\quad $\rho>0$, \quad  $n=0$, $1$, $2$,\dots
+\end{alist}
+
+\item\label{exer:9}
+\begin{alist}
+\item % a
+Show that
+$$
+\Gamma(y)=\int_{0}^{\infty} x^{y-1}e^{-x}\,dx
+$$
+converges if $y>0$, and uniformly on $[c,d]$ if $0<c<d<\infty$.
+
+\item % b
+Use integration by parts to show that
+$$
+\Gamma(y)=\frac{\Gamma(y+1)}{y},\quad   y \ge 0,
+$$
+and then show by induction that
+$$
+\Gamma(y)=\frac{\Gamma(y+n)}{y(y+1)\cdots(y+n-1)},  \quad y>0, \quad
+n=1,2,3, \dots.
+$$
+How can this be used to define $\Gamma(y)$ in a natural way for all
+$y\ne0$, $-1$, $-2$, \dots? (This function is called the \emph{gamma
+function}.)
+
+\item % c
+Show that $\Gamma(n+1)=n!$  if $n$ is a positive integer.
+
+\item % d
+Show that
+$$
+\int_{0}^{\infty}e^{-st}t^{\alpha}\,dt =s^{-\alpha-1}\Gamma(\alpha+1), \quad
+ \alpha>-1, \quad  s>0.
+$$
+\end{alist}
+
+\item\label{exer:10}
+Show that Theorem~\ref{theorem:8} remains valid with
+assumption {\bf(c)} replaced
+by the assumption that $|g_{x}(x,y)|$ is monotonic with respect to $x$
+for all $y\in S$.
+
+\item\label{exer:11}
+Adapt the proof of Theorem~\ref{theorem:8} to prove
+Theorem~\ref{theorem:9}.
+
+\item\label{exer:12}
+Use Dirichlet's test   to show
+that the following
+integrals converge uniformly on  $S=[\rho,\infty)$ if $\rho>0$:
+
+\begin{tabular}{ll}
+{\bf(a)} $\dst{\int_{1}^{\infty}\frac{\sin xy}{x^{y}}\,dx}$&
+{\bf(b)} $\dst{\int_{2}^{\infty}\frac{\sin xy}{\log x}\,dx}$\\\\
+{\bf(c)} $\dst{\int_{0}^{\infty}\frac{\cos xy}{x+y^{2}}\,dx}$&
+{\bf(d)} $\dst{\int_{1}^{\infty}\frac{\sin xy}{1+xy}\,dx}$
+\end{tabular}
+
+\item\label{exer:13}
+ Suppose $g,$ $g_{x}$ and $h$ are continuous on $[a,b)\times
+S,$ and denote $H(x,y)=\int_{a}^{x}h(u,y)\,du,$ $a\le x<b.$   Suppose also
+that
+$$
+\lim_{x\to b-} \left\{\sup_{y\in S}|g(x,y)H(x,y)|\right\}=0
+\text{\quad and \quad}\int_{a}^{b}g_{x}(x,y)H(x,y)\,dx
+$$
+ converges uniformly on $S.$  Show
+that $\int_{a}^{b}g(x,y)h(x,y)\,dx$  converges uniformly on $S$.
+
+
+\item\label{exer:14}
+ Prove Theorem~\ref{theorem:10} for the case where  $f=f(x,y)$
+is continuous on $(a,b]\times [c,d]$.
+
+
+\item\label{exer:15}
+ Prove Theorem~\ref{theorem:11} for the case where  $f=f(x,y)$
+is continuous on $(a,b]\times [c,d]$.
+
+
+\item\label{exer:16}
+Show that
+$$
+C(y)=\int_{-\infty}^{\infty}f(x)\cos xy\,dx
+\text{\quad and\quad}
+S(y)=\int_{-\infty}^{\infty}f(x)\sin xy\,dx
+$$
+are continuous on $(-\infty,\infty)$  if
+$$
+\int_{-\infty}^{\infty}|f(x)|\,dx<\infty.
+$$
+
+
+\item\label{exer:17}
+Suppose $f$ is continuously differentiable on $[a,\infty)$,
+$\lim_{x\to\infty}f(x)=0$, and
+$$
+\int_{a}^{\infty}|f'(x)|\,dx<\infty.
+$$
+ Show that the functions
+$$
+C(y)=\int_{a}^{\infty}f(x)\cos xy\,dx
+\text{\quad and\quad}
+S(y)=\int_{a}^{\infty}f(x)\sin xy\,dx
+$$
+are continuous for all $y\ne0$. Give an example showing that they need
+not be continuous at $y=0$.
+
+
+
+
+\item\label{exer:18}
+Evaluate $F(y)$ and use Theorem~\ref{theorem:11} to
+evaluate $I$:
+
+\begin{alist}
+\item % a
+$F(y)=\dst{\int_{0}^{\infty}\frac{dx}{1+y^{2}x^{2}}}$,
+$y\ne0$;\quad
+$I=\dst{\int_{0}^{\infty}\frac{\tan^{-1}ax-\tan^{-1}bx}{x}\,dx}$,\quad
+$a$, $b>0$
+
+\item % b
+$F(y)=\dst{\int_{0}^{\infty}x^{y}\,dx}$,
+$y>-1$;\quad
+$I=\dst{\int_{0}^{\infty}\frac{x^{a}-x^{b}}{\log x}\,dx}$,
+\quad $a$, $b>-1$
+
+\item % c
+$F(y)=\dst{\int_{0}^{\infty}e^{-xy}\cos x\,dx}$,\quad
+$y>0$
+
+$I=\dst{\int_{0}^{\infty}\frac{e^{-ax}-e^{-bx}}{x}\cos x\,dx}$,\quad
+$a$, $b>0$
+
+
+\item % d
+$F(y)=\dst{\int_{0}^{\infty}e^{-xy}\sin x\,dx}$, \quad
+$y>0$
+
+$I=\dst{\int_{0}^{\infty}\frac{e^{-ax}-e^{-bx}}{x}\sin x\,dx}$,
+\quad $a$, $b>0$
+
+
+\item % e
+$F(y)=\dst{\int_{0}^{\infty}e^{-x}\sin xy\,dx}$;\,
+$I=\dst{\int_{0}^{\infty}e^{-x}\dst\frac{1-\cos ax}{x}}\,dx$
+
+
+\item % f
+$F(y)=\dst{\int_{0}^{\infty}e^{-x}\cos xy\,dx}$;\,
+$I=\dst{\int_{0}^{\infty}e^{-x}\dst\frac{\sin ax}{x}}\,dx$
+\end{alist}
+
+
+\item\label{exer:19}
+Use Theorem~\ref{theorem:11} to evaluate:
+\begin{alist}
+\item % a
+$\dst{\int_{0}^{1}(\log x)^{n}x^{y}\,dx}$, \quad  $y>-1$,\quad  $n=0$, $1$,
+$2$,\dots .
+
+
+\item % b
+$\dst{\int_{0}^{\infty}\dst{\frac{dx}{(x^{2}+y)^{n+1}}}\,dx}$,\quad
+$y>0$,\quad
+$n=0$,
+$1$, $2$, \dots.
+
+
+
+\item % c
+$\dst{\int_{0}^{\infty}x^{2n+1}e^{-yx^{2}}\,dx}$, \quad  $y>0$, \quad
+$n=0$,
+$1$,
+$2$,\dots.
+
+\item % e
+$\dst{\int_{0}^{\infty}xy^{x}\,dx}$, \quad $0<y<1$.
+\end{alist}
+
+
+\item\label{exer:20}
+\begin{alist}
+\item % a
+Use Theorem~\ref{theorem:11} and integration by parts
+to show that
+$$
+F(y)=\int_{0}^{\infty}e^{-x^{2}}\cos 2xy\,dx
+$$
+satisfies
+$$
+F'+2y F=0.
+$$
+\item % b
+Use part {\bf(a)} to show that
+$$
+F(y)=\frac{\sqrt{\pi}}{2} e^{-y^{2}}.
+$$
+\end{alist}
+
+
+\item\label{exer:21}
+Show that
+$$
+\int_{0}^{\infty}e^{-x^{2}}\sin 2xy\,dx =e^{-y^{2}}\int_{0}^{y}
+e^{u^{2}}\,du.
+$$
+(Hint: See Exercise~~\ref{exer:20}.)
+
+
+
+\item\label{exer:22}
+State a condition implying  that
+$$
+C(y)=\int_{a}^{\infty}f(x)\cos xy\,dx
+\text{\quad and\quad}
+S(y)=\int_{a}^{\infty}f(x)\sin xy\,dx
+$$
+are $n$ times differentiable on for all $y\ne0$.
+(Your condition should imply the hypotheses of Exercise~\ref{exer:16}.)
+
+
+\item\label{exer:23}
+Suppose $f$  is continuously differentiable on $[a,\infty)$,
+$$
+\int_{a}^{\infty}|(x^{k}f(x))'|\,dx<\infty,\quad 0\le k\le n,
+$$
+and $\lim_{x\to\infty}x^{n}f(x)=0$.  Show that if
+$$
+C(y)=\int_{a}^{\infty}f(x)\cos xy\,dx
+\text{\quad and\quad}
+S(y)=\int_{a}^{\infty}f(x)\sin xy\,dx,
+$$
+then
+$$
+C^{(k)}(y)=\int_{a}^{\infty}x^{k}f(x)\cos xy\,dx
+\text{\quad and\quad}
+S^{(k)}(y)=\int_{a}^{\infty}x^{k}f(x)\sin xy\,dx,
+$$
+$0\le k\le n$.
+
+
+
+\item\label{exer:24}
+Differentiating
+$$
+F(y)=\int_{1}^{\infty}\cos\frac{y}{x}\,dx
+$$
+under the integral sign yields
+$$
+-\int_{1}^{\infty}\frac{1}{x}\sin\frac{y}{x}\,dx,
+$$
+which converges uniformly  on any finite interval.
+(Why?) Does this imply  that  $F$ is differentiable for all $y$?
+
+
+
+\item\label{exer:25}
+Show that Theorem~\ref{theorem:11} and induction imply
+Eq.~\eqref{eq:30}.
+
+
+\item\label{exer:26}
+Prove Theorem~\ref{theorem:12}.
+
+
+\item\label{exer:27} Show that if  $F(s)=\int_{0}^{\infty}e^{-sx}f(x)\,dx$
+converges for $s=s_{0}$, then it converges uniformly on $[s_{0},\infty)$.
+(What's  the difference between this and Theorem~\ref{theorem:13}?)
+
+
+
+\item\label{exer:28}
+Prove: If $f$  is continuous on  $[0,\infty)$ and
+ $\int_{0}^{\infty}e^{-s_{0}x}f(x)\,dx$ converges, then
+$$
+\lim_{s\to s_{0}+}\int_{0}^{\infty}e^{-sx}f(x)\,dx=
+\int_{0}^{\infty}e^{-s_{0}x}f(x)\,dx.
+$$
+(Hint: See the proof of Theorem~4.5.12, p.~273.)
+
+\item\label{exer:29} Under the assumptions of Exercise~\ref{exer:28},
+show that
+$$
+\lim_{s\to s_{0}+}\int_{r}^{\infty}e^{-sx}f(x)\,dx=
+\int_{r}^{\infty}e^{-s_{0}x}f(x)\,dx,\quad r>0.
+$$
+
+\item\label{exer:30}
+Suppose $f$ is continuous on $[0,\infty)$ and
+$$
+F(s)=\int_{0}^{\infty}e^{-sx}f(x)\,dx
+$$
+converges for $s = s_{0}$. Show that $\lim_{s\to\infty}F(s)=0$.
+(Hint: Integrate by parts.)
+
+\item\label{exer:31}
+\begin{alist}
+\item % a
+Starting from the  result of
+Exercise~\ref{exer:18}{\bf(d)}, let $b\to\infty$
+and invoke Exercise~\ref{exer:30}  to evaluate
+$$
+\int_{0}^{\infty}e^{-ax} \frac{\sin x}{x}\,dx,  \quad a>0.
+$$
+
+\item % b
+Use  {\bf(a)} and Exercise~\ref{exer:28} to show
+that
+$$
+\int_{0}^{\infty} \frac{\sin x}{x}\,dx  =\frac{\pi}{2}.
+$$
+\end{alist}
+
+\item\label{exer:32}
+\begin{alist}
+\item % a
+Suppose $f$ is continuously differentiable on $[0,\infty)$ and
+$$
+|f(x)| \le Me^{s_{0}x}, \quad 0\le x\le \infty.
+$$
+Show that
+$$
+G(s)=\int_{0}^{\infty} e^{-sx}f'(x)\,dx
+$$
+converges uniformly on   $[s_{1},\infty)$ if $s_{1}>s_{0}$.
+(Hint: Integrate by parts.)
+
+\item % b
+Show from part {\bf(a)} that
+$$
+G(s)=\int_{0}^{\infty} e^{-sx}xe^{x^{2}}\sin e^{x^{2}}\,dx
+$$
+converges uniformly on $[\rho,\infty)$ if $\rho>0$. (Notice
+that
+this does not follow from  Theorem~\ref{theorem:6} or \ref{theorem:8}.)
+\end{alist}
+
+
+\item\label{exer:33}
+Suppose $f$  is continuous on $[0,\infty)$,
+$$
+\lim_{x\to0+}\frac{f(x)}{x}
+$$
+exists, and
+$$
+F(s)=\int_{0}^{\infty}e^{-sx}f(x)\,dx
+$$
+converges for $s=s_{0}$. Show that
+$$
+\int_{s_{0}}^{\infty}F(u)\,du=\int_{0}^{\infty}e^{-s_{0}x}\frac{f(x)}{x}\,dx.
+$$
+
+\end{exerciselist}
+
+\newpage
+
+\bigskip
+
+\section{Answers to selected exercises}\label{section:answers}
+\bigskip
+
+\noindent
+{\bf\ref{exer:5}. (b)} If $f(x,y)=1/y$  for $y\ne0$  and $f(x,0)=1$, then
+$\int_{a}^{b}f(x,y)\,dx$  does not converge uniformly on
+$[0,d]$ for any $d>0$.
+
+
+\bigskip
+
+\noindent
+{\bf\ref{exer:6}.}
+{\bf(a)}, {\bf(d)}, and {\bf(e)} converge uniformly on
+$(-\infty,\rho]\cup[\rho,\infty)$ if $\rho>0$;\, {\bf(b)}, {\bf(c)},
+and {\bf(f)}  converge uniformly on $[\rho,\infty)$ if
+$\rho>0$.
+
+\bigskip
+
+\noindent
+{\bf\ref{exer:17}.}
+Let $C(y)=\dst{\int_{1}^{\infty}\frac{\cos xy}{x}\,dx}$ and
+ $S(y)=\dst{\int_{1}^{\infty}\frac{\sin xy}{x}\,dx}$. Then
+$C(0)=\infty$ and $S(0)=0$, while $S(y)=\pi/2$ if $y\ne0$.
+
+
+\bigskip
+
+\noindent
+{\bf\ref{exer:18}.}
+{\bf(a)}
+$F(y)=\dst{\frac{\pi}{2|y|}}$;\quad $I=\dst{\frac{\pi}{2}\log\frac{a}{b}}$
+\quad
+ {\bf(b)} $F(y)=\dst{\frac{1}{y+1}}$;\quad $I=\dst{\log\frac{a+1}{b+1}}$
+
+
+\bigskip
+{\bf(c)}
+$F(y)=\dst{\frac{y}{y^{2}+1}}$;\quad
+$I=\dst{\frac{1}{2}\,\frac{b^{2}+1}{a^{2}+1}}$
+
+
+{\bf(d)}
+$F(y)=\dst{\frac{1}{y^{2}+1}}$;\quad   $I=\tan^{-1}b-\tan^{-1}a$
+
+
+
+{\bf(e)}
+$F(y)=\dst{\frac{y}{y^{2}+1}}$;\quad   $I=\dst{\frac{1}{2}}\log(1+a^{2})$
+
+
+{\bf(f)}
+$F(y)=\dst{\frac{1}{y^{2}+1}}$;\quad  $I=\tan^{-1}a$
+
+
+\bigskip
+
+
+\noindent
+{\bf\ref{exer:19}.}
+{\bf(a)} $(-1)^{n}n!(y+1)^{-n-1}$  \quad
+{\bf(b)} $\pi2^{-2n-1}\dst{\binom{2n}{n}}y^{-n-1/2}$
+
+{\bf(c)} $\dst{\frac{n!}{2y^{n+1}}}$ $(\log y)^{-2}$
+{\bf(d)} $\dst{\frac{1}{(\log x)^{2}}}$
+
+\noindent
+{\bf\ref{exer:22}.}
+$\dst{\int_{-\infty}^{\infty}|x^{n}f(x)|\,dx<\infty}$
+
+
+\bigskip
+\noindent
+{\bf\ref{exer:24}.}
+No; the integral defining $F$  diverges for all $y$.
+
+
+\bigskip
+
+\noindent
+{\bf\ref{exer:31}.}
+{\bf(a)}\,  $\dst{\frac{\pi}{2}}-\tan^{-1}a$
+
+
+\end{document}
+\newpage
+
+\setlength{\parindent}{0pt}
+\centerline{\large Beginning of manual}
+
+{\bf 1.}
+If
+$H(y,u,v)=\dst{\int_{u}^{v}f(x,y)\,dx}$
+then
+$$
+  H_{u}(y,u,v)=-f(u,y),
+\quad H_{v}(y,u,v)=f(v,y),
+$$
+ and, by Theorem~1,
+$H_{y}(u,v,y) =\dst{\int_{u}^{v}f_{y}(x,y)\,dx}$.
+If
+$$
+F(y)=H(y,g(y),h(y))=\int_{g(y)}^{h(y)}f(x,y)\,dx,
+$$
+then
+\begin{eqnarray*}
+F'(y)&=&H_{v}(y, g(y),h(y))h'(y)+H_{u}(y,g(y),h(y))g'(y)+
+H_{y}(y,g(y),h(y))\\
+&=& f(h(y),y)h'(y)-f(g(y),y)g'(y)
++\int_{g(y)}^{h(y)} f_{y}(x,y)\,dx.
+\end{eqnarray*}
+
+\medskip
+
+
+{\bf 2.}
+{\bf Theorem 3 (Cauchy Criterion for Convergence of an Improper
+Integral II)} \it
+Suppose  $g$ is
+integrable on every finite closed subinterval of  $(a,b]$ and denote
+$$
+G(r)=\int_{r}^{b}g(x)\,dx,\quad  a< r\le b.
+$$
+Then the improper integral $\int_{a}^{b}g(x)\,dx$ converges if and only
+if$,$ for each
+$\epsilon >0,$ there is an $r_{0}\in(a,b]$  such that
+\begin{equation}\tag{A}
+|G(r)-G(r_{1})|\le\epsilon,\quad  a<r,r_{1}\le r_{0}.
+\end{equation} \rm
+
+
+
+ \proof For necessity, suppose $\int_{a}^{b}g(x)\,dx=L$. By definition,
+this  means that for each $\epsilon>0$ there is an $r_{0}\in (a,b]$
+such that
+$$
+|G(r)-L|<\frac{\epsilon}{2}
+\text{\quad and\quad}
+|G(r_{1})-L|<\frac{\epsilon}{2}, \quad
+a< r,r_{1}\le r_{0}.
+$$
+Therefore,
+\begin{eqnarray*}
+|G(r)-G(r_{1})|&=&|(G(r)-L)-(G(r_{1})-L)|\\
+&\le& |G(r)-L|+|G(r_{1})-L|\le
+\epsilon,\quad
+a< r,r_{1}\le r_{0}.
+\end{eqnarray*}
+
+For sufficiency, (A) implies that
+$$
+|G(r)|= |G(r_{1})+(G(r)-G(r_{1}))|\le |G(r_{1})|+|G(r)-G(r_{1})|\le
+|G(r_{1})|+\epsilon,
+$$
+  $a< r_{1}\le r_{0}$. Since $G$  is also bounded on the
+compact set
+$[r_{0},b]$ (Theorem~5.2.11, p.~313),  $G$ is bounded on $(a,b]$.
+Therefore the monotonic functions
+$$
+\overline{G}(r)=\sup\set{G(r_{1})}{a<r_{1}\le r} \text{\quad and\quad}
+\underline{G}(r)=\inf\set{G(r_{1})}{a<r_{1}\le r}
+$$
+are well defined on $(a,b]$, and
+$$
+\lim_{r\to a+}\overline{G}(r)=\overline{L}
+\text{\quad and\quad}
+\lim_{r\to a+}\underline{G}(r)=\underline{L}
+$$
+both exist  and are finite (Theorem~2.1.11, p.~47).
+From  (A),
+\begin{eqnarray*}
+|G(r)-G(r_{1})|&=&|(G(r)-G(r_{0}))-(G(r_{1})-G(r_{0}))|\\
+&\le &|G(r)-G(r_{0})|+|G(r_{1})-G(r_{0})|\le 2\epsilon,
+\end{eqnarray*}
+so
+$\overline{G}(r)-\underline{G}(r)\le 2\epsilon$.
+ Since
+$\epsilon$  is an arbitrary positive number, this implies that
+$$
+\lim_{r\to a+}(\overline{G}(r)-\underline{G}(r))=0,
+$$
+so $\overline{L}=\underline{L}$. Let $L=\overline{L}=\underline{L}$.
+Since
+$$
+\underline{G}(r)\le G(r)\le \overline{G}(r),
+$$
+it follows that $\lim_{r\to a+} G(r)=L$.
+
+\medskip
+
+{\bf 3.}
+{\bf Theorem~5 $($Cauchy Criterion for Uniform
+Convergence II$)$} \it
+The improper integral
+$$
+\int_{a}^{b}f(x,y)\,dx =\lim_{r\to a+}\int_{r}^{b}f(x,y)\,dx
+$$
+converges uniformly on $S$ if and only if$,$
+ for each $\epsilon>0,$ there is
+an  $r_{0}\in (a,b]$ such that
+\begin{equation}\tag{A}
+\left|\int_{r_{1}}^{r}f(x,y)\,dx\right|< \epsilon, \quad y\in S,
+\quad a <r,r_{1}\le r_{0}.
+\end{equation}
+\rm
+
+\proof  Suppose  $\int_{a}^{b} f(x,y)\,dx$ converges uniformly on
+$S$ and $\epsilon>0$.
+From Definition~2,
+there is an
+$r_{0}\in (a,b]$  such that
+\begin{equation} \tag{B}
+\left|\int_{a}^{r}f(x,y)\,dx\right| <\frac{\epsilon}{2}
+\text{\quad and\quad}
+\left|\int_{a}^{r_{1}}f(x,y)\,dx\right|
+<\frac{\epsilon}{2},\, y\in S, \,   a< r,r_{1}\le r_{0}.
+\end{equation}
+Since
+$$
+\int_{r_{1}}^{r}f(x,y)\,dx=
+\int_{r_{1}}^{b}f(x,y)\,dx-
+\int_{r}^{b}f(x,y)\,dx
+$$
+(B) and the triangle inequality imply (A).
+
+For the converse, denote
+$$
+F(y)=\int_{r}^{b}f(x,y)\,dx.
+$$
+Since (A) implies that
+$$
+|F(r,y)-F(r_{1},y)|\le \epsilon, \quad y\in S, \quad
+a< r, r_{1}\le r_{0},
+$$
+ Theorem~2 with $G(r)=F(r,y)$ ($y$ fixed
+but arbitrary in $S$) implies that  $\int_{a}^{b} f(x,y)\,dx$
+converges  pointwise for   $y\in S$.
+ Therefore, if  $\epsilon>0$
+then, for each $y\in S$,
+there is an $r_{0}(y) \in (a,b]$ such that
+\begin{equation} \tag{C}
+\left|\int_{a}^{r}f(x,y)\,dx\right|\le \epsilon,
+\quad y\in S,\quad
+a<r\le r_{0}(y).
+\end{equation}
+For each $y\in S$, choose $r_{1}(y)\le \min[{r_{0}(y),r_{0}}]$. Then
+$$
+\int_{a}^{r}f(x,y)\,dx =
+\int_{a}^{r_{1}(y)}f(x,y)\,dx+
+\int_{r_{1}(y)}^{r}f(x,y)\,dx, \quad
+$$
+so (A), (C),  and the triangle inequality imply
+that
+$$
+\left|\int_{a}^{r} f(x,y)\,dx\right|\le 2\epsilon,\quad y\in S,\quad a<r\le
+r_{0}
+$$
+
+\medskip
+
+{\bf 4.}
+From Definition~3, $\int_{a}^{b}f(x,y)\,dx$
+ converges uniformly on  $S$  if and  only if
+$\int_{a}^{c}f(x,y)\,dx$  and $\int_{c}^{b}f(x,y)\,dx$ both converge
+uniformly on $S$, where $c\in(a,b)$.
+From Theorems~4 and  Theorem~5, this is true if and only if, for any
+$\epsilon>0$ there are points $r_{0}$ and $s_{0}$ in $(a,b)$ such that
+$$
+\left|\int_{r}^{r_{1}}f(x,y)\,dx\right|\le \epsilon,\quad y\in S,\quad
+r_{0}\le r,r_{1}<b
+$$
+and
+$$
+\left|\int_{s_{1}}^{s}f(x,y)\,dx\right|\le \epsilon,\quad y\in S,\quad
+a< s,s_{1}<s_{0}.
+$$
+These conditions are independent of $c$.
+
+
+\medskip
+
+{\bf 5. (a)}
+If $|f(x,y)|\le M$ on $[a,b]\times [c,d]$ then
+$$
+\left|\int_{r_{1}}^{r_{2}}f(x,y)\,dx\right|\le M|r_{2}-r_{1}|
+$$
+so the Cauchy convergence theorems imply the conclusion.
+
+
+\medskip
+{\bf (b)} Define
+ $f=f(x,y)$ on $[0,1]\times [0,1]$ by
+$$
+f(x,y)= \begin{cases}\dst\frac{1}{y} &\text{if\quad} 0<y\le 1,\\
+1&\text{if\quad} y=0.
+\end{cases}
+$$
+Then
+$$
+\int_{r_{1}}^{r_{2}}f(x,y)\,dx= \begin{cases}\dst\frac{r_{2}-r_{1}}{y}
+&\text{if\quad}
+0<y\le 1,\\
+r_{2}-r_{1}&\text{if\quad} y=0.
+\end{cases}
+$$
+Therefore $f$ does not satisfy the requirements of Cauchy's convergence
+theorems.
+
+
+\medskip
+
+{\bf 6.}
+In all parts
+$I(y)$ denotes the given integral.
+
+\medskip {\bf(a)}
+$I(0)=\infty$. If $y\ne0$ let
+ $u=xy$; then
+$I(y)=\dst{\frac{1}{y}\int_{0}^{\infty}\frac{du}{1+u^{2}}}$.
+ If $\rho>0$ and $\epsilon >0$,  choose $r$  so that
+$\dst{\int_{r}^{\infty}\frac{du}{1+u^{2}}}< \rho\epsilon$.
+Then
+$\dst{\frac{1}{|y|}\int_{r}^{\infty}\frac{du}{1+u^{2}}}<\epsilon$ if
+$|y|\ge
+\rho$, so $I(y)$ converges uniformly on
+$(-\infty, \rho]\bigcup [\rho,\infty)$ if $\rho>0$.
+
+
+\medskip {\bf(b)}
+$I(y)=\infty$  if $y\le0$. If $y>0$
+let $u=xy$; then
+$I(y)=\dst{\frac{1}{y^{3}}\int_{0}^{\infty}e^{-u}u^{2}\,du}$.
+ If $\rho>0$ and $\epsilon >0$, choose $r$  so that
+$\dst{\int_{r}^{\infty}e^{-u}u^{2}\,du}<\rho^{3}\epsilon$.
+Then
+$\dst{\frac{1}{y^{3}}\int_{r}^{\infty}e^{-u}u^{2}\,du}<\epsilon$ if $y\ge
+\rho$, so $I(y)$ converges uniformly on
+$[\rho,\infty)$  if $\rho>0$.
+
+
+\medskip {\bf(c)}
+$I(y)=\infty$ if $y\le0$. If $y>0$ let $u=xy^{1/2}$; then
+$I(y)=\dst{y^{-n-1/2}\int_{0}^{\infty}u^{2n}e^{-u}\,du}$.
+ If $\rho>0$ and $\epsilon >0$, we can choose $r$  so that
+$\dst{\int_{r}^{\infty}u^{2n}e^{-u}\,du}<\epsilon
+\rho^{n+1/2}$. Then
+$y^{-n-1/2}\dst{\int_{r}^{\infty}u^{2n}e^{-u}\,du}<\epsilon$ if $y\ge
+\rho$,
+ so $I(y)$ converges uniformly on
+$S=[\rho,\infty)$ if $\rho>0$.
+
+
+\medskip {\bf(d)}
+Since $I(-y)=-I(y)$, it suffices to assume that $y>0$. If $u=yx^{2}$ then
+$I(y)=\dst{\frac{1}{2\sqrt{y}}\int_{0}^{\infty}\frac{\sin
+u\,du}{\sqrt{u}}}$. From Example 3.4.14 (p.~162), this integral
+converges conditionally.
+ If $\rho>0$ and $\epsilon >0$, we can choose $r$  so that
+$\dst{\left|\int_{r}^{\infty}\frac{\sin
+u\,du}{\sqrt{u}}\right|}<2\epsilon\sqrt{\rho}$, so
+$I(y)$ converges uniformly on
+$(-\infty,-\rho]\bigcup[\rho,\infty)$ if $\rho>0.$
+
+
+\medskip {\bf(e)}
+If $u=y^{2}x$ then
+$\dst{I(y)=3\int_{0}^{\infty}e^{-u}\,du
+-\frac{2}{y^{3}}\int_{0}^{\infty} ue^{-u}\,du}$.
+If $\rho>0$, we can choose $r$  so that
+$\dst{3\int_{r}^{\infty}e^{-u}\,du<\frac{\epsilon}{2}}$
+and
+$\dst{\int_{r}^{\rho}ue^{-u}\,du<\frac{\rho^{3}\epsilon}{2}}$.
+Then
+$$
+\left|3\int_{r}^{\infty}e^{-u}\,du
+-\frac{3}{y^{3}}\int_{r}^{\infty} ue^{-u}\,du\right|<\epsilon
+\text{\quad if\quad} |y|\ge \rho,
+$$
+ so $I(y)$ converges uniformly  on
+$(-\infty, \rho]\bigcup [\rho,\infty)$ if $\rho>0$.
+
+
+\medskip {\bf(f)}
+$I(y)=-\infty$ if $y\le0$. If $y>0$, let $u=xy$; then
+$I(y)=\dst{\frac{1}{y}\int_{0}^{\infty}(2u-u^{2})e^{-u}\,du}$.
+ If $\rho>0$ and $\epsilon >0$, we can choose $r$  so that
+$\dst{\int_{r}^{\infty}|2u-u^{2}|e^{-u}\,du}<\epsilon \rho$,
+ so $I(y)$ converges uniformly on
+$S=[\rho,\infty)$  if $\rho>0$.
+
+
+\medskip
+
+{\bf 7.}
+{\bf Theorem~7 $($Weierstrass's Test for Absolute Uniform Convergence
+II$)$} Suppose $f=f(x,y)$ is locally integrable
+$(a,b]$  and, for some $b_{0}\in (a,b],$
+\begin{equation}\tag{A}
+|f(x,y)| \le M(x), \:
+y\in S, \:  x\in (a,b_{0}],
+\end{equation}
+ where
+$$
+\int_{a}^{b_{0}}M(x)\,dx<\infty.
+$$
+Then $\int_{a}^{b}f(x,y)\,dx$    converges absolutely uniformly on $S.$
+
+\proof
+Denote $\int_{a}^{b_{0}}M(x)\,dx=L<\infty$. By  definition,
+for each $\epsilon>0$ there is an $r_{0}\in (a,b_{0}]$  such that
+$$
+L-\epsilon \le \int_{r}^{b_{0}}M(x)\,dx \le L,\quad
+a<r\le r_{0}.
+$$
+Therefore, if $a<r_{1}< r\le r_{0}$, then
+$$
+0\le \int_{r_{1}}^{r}M(x)\,dx=\left(\int_{r_{1}}^{b_{0}}M(x)\,dx
+-L\right)-
+\left(\int_{r}^{b_{0}}M(x)\,dx -L\right)<\epsilon.
+$$
+  This and (A) imply that
+$$
+\int_{r_{1}}^{r}|f(x,y)|\,dx\le
+\int_{r_{1}}^{r} M(x)\,dx <\epsilon, \: y\in S,\:
+a<r_{1}\le r_{0}\le b.
+$$
+Now Theorem~5
+implies the stated conclusion.
+
+\medskip
+{\bf 8. (a)}
+$|e^{-xy}\sin x|\le e^{-\rho x}$ if $y\ge\rho$ and
+$\int_{\rho}^{\infty}e^{-\rho x}\,dx<\infty$.
+
+\medskip
+{\bf(b)}
+$\dst{\int_{0}^{\infty}\frac{\sin x\,dx}{x^{y}}}=I_{1}(y)+I_{2}(y)$,
+ where
+$$
+I_{1}(y)=\int_{0}^{1}\frac{\sin x\,dx}{x^{y}}
+\text{\quad and\quad}
+I_{2}(y)=\int_{1}^{\infty}\frac{\sin x\,dx}{x^{y}}
+$$
+are both improper integrals.
+Since
+$$
+\sin x= x-\left(\frac{x^{3}}{3!}-\frac{x^{5}}{5!}\right)
+-\left(\frac{x^{7}}{7!}-\frac{x^{9}}{9!}\right)+ \cdots <x,\quad 0\le x
+\le 1.
+$$
+If  $0\le 1$ and $y\le d\le 2$, then
+$$
+\left|\frac{\sin x}{x^{y}}\right|\le x^{1-y}\le x^{1-d} \text{\:so\:}
+\int_{0}^{1}x^{-1+y}\,dx<\int_{0}^{1}x^{-1+d}\,dx=\frac{1}{2-d}
+$$
+so $I_{1}(y)$ converges absolutely uniformly on $S$.
+Since  $c>1$,
+$$
+\frac{|\sin x|}{x^{y}}\le x^{-c} \text{\quad and\quad}
+\int_{1}^{\infty}x^{-c} \,dx=\frac{1}{c-1}\text{\quad if \quad}
+$$
+$I_{2}(y)$  converges absolutely uniformly on $S$.
+
+
+\medskip
+{\bf (c)}
+If $x\ge 1$ then
+$\dst{e^{-px}\left|\frac{\sin xy}{x}\right|\le e^{-px}}$ for all $y$ and
+$\dst{\int_{1}^{\infty}e^{-px}\,dx<\infty}$, since $p>0$.
+
+
+\medskip {\bf(d)}
+$\dst{\frac{e^{xy}}{(1-x)^{y}}}\le  \dst{\frac{e^{b}}{(1-x)^{b}}}$, if
+$0\le
+x<1$ and $ y\le b$, and  $\dst{\int_{0}^{1}(1-x)^{-b}\,dx}<\infty$ if
+$b<1$.
+
+
+\medskip  {\bf(e)}
+If $|y|\ge \rho>0$ then $\dst{\left|\frac{\cos xy}{1+x^{2}y^{2}}\right|\le
+\frac{1}{1+\rho^{2}x^{2}}}$ for all $x$, and
+$\dst{\int_{0}^{\infty}\frac{dx}{1+\rho^{2}x^{2}}}<\infty$.
+
+
+
+
+\medskip {\bf(f)}
+If $y\ge \rho>0$ then $e^{-x/y}\le e^{-x/\rho}$ and
+$\dst{\int_{0}^{\infty}e^{-x/\rho}\,dx<\infty}$.
+
+
+\medskip  {\bf(g)}
+If $|y|\le \rho$ then $e^{xy}e^{-x^{2}}\le e^{x\rho}e^{-x^{2}}$ and
+$\dst{\int_{-\infty}^{\infty}e^{x\rho}e^{-x^{2}}\,dx}<\infty$.
+
+
+\medskip  {\bf(h)}
+If $|x|\ge 1$ then $|\cos xy-\cos ax|\le 2$ and
+$\dst{\int_{1}^{\infty}\frac{2\,dx}{x^{2}}}<\infty$.
+
+
+\medskip \noindent {\bf(i)}
+If $y\ge \rho>0$ then $e^{-yx^{2}}\le e^{-\rho x^{2}}$ and
+$\dst{\int_{0}^{\infty} x^{2n}e^{-\rho x^{2}}\,dx<\infty}$.
+
+
+\medskip
+
+{\bf 9. (a)}
+If $0<x<1$ then $|x^{y-1}e^{-x}|<x^{c-1}$. Therefore,  since
+$\dst{\int_{0}^{1}x^{c-1}\,dx}<\infty$ if $c>0$,
+$\int_{0}^{1}x^{y-1}e^{-x}\,dx$
+converges uniformly on  $[c,\infty)$ if $c>0$, by Theorem~7. If $x>1$ then
+$|x^{y-1}e^{-x}|\le x^{d-1}e^{-x}$ if $y\le d$. Therefore, since
+$\dst{\int_{1}^{\infty}x^{d-1}e^{-x}}\,dx<\infty$,
+$\dst{\int_{1}^{\infty}x^{y-1}e^{-x}}\,dx$  converges uniformly on
+$(-\infty,d]$   for every $d$,
+ by Theorem~6. Hence, $\dst{\int_{0}^{\infty}x^{y-1}e^{-x}\,dx}$
+converges uniformly on  $[c,d]$ if $c>0$.
+
+
+\medskip
+{\bf (b)}
+If $y>0$ then
+\begin{equation}
+\Gamma(y)=\int_{0}^{\infty}x^{y-1}e^{-x}\,dx
+=\frac{x^{y}e^{-x}}{y}\biggr|_{0}^{\infty}+
+\frac{1}{y}\int_{0}^{\infty}x^{y}e^{-x}\,dx
+=\frac{\Gamma(y+1)}{y}.
+\tag{A}
+\end{equation}
+Therefore
+\begin{equation}
+\Gamma(y)=\frac{\Gamma(y+n)}{y(y+1)\cdots (y+n-1)}
+\tag{B}
+\end{equation}
+is true when $n=1$. Now suppose it is true for given positive integer $n$,
+and replace $y$ by $y+n$ in (A):
+$$
+\Gamma(y+n)=\frac{\Gamma(y+n+1)}{y+n}.
+$$
+Substituting this into (B) yields
+$$
+\Gamma(y)=\frac{\Gamma(y+n+1)}{y(y+1)\cdots (y+n)},
+$$
+which completes the induction.
+
+ If  $-n <y<-n+1$ with $n\le 1$ then $0<y+n<1$ and we can compute
+$\Gamma(y+n)$ from the definition in  part {\bf (a)}:
+$$
+\Gamma(y+n)=\int_{0}^{\infty}x^{y+n-1}e^{-x}\,dx.
+$$
+Then we can define $\Gamma(y)$ by (B).
+
+\medskip
+{\bf(c)}
+The assertion is true if $n=1$, since
+$$
+\Gamma(2)=\int_{0}^{\infty}xe^{-x}\,dx =
+-xe^{-x}\biggr|_{0}^{\infty}+\int_{0}^{\infty} e^{-x}\,dx = 1.
+$$
+If $\Gamma(n+1)=n!$  for some $n\ge 1$, then
+\begin{eqnarray*}
+\Gamma(n+2)&=&\int_{0}^{\infty}x^{n+1}e^{-x}\,dx= -e^{-x}
+x^{n+1}\biggr|_{0}^{\infty}+(n+1)
+\int_{0}^{\infty}x^{n+1}e^{-x}\,dx\\
+&=&(n+1)\Gamma(n+1)=(n+1)n!=(n+1)!,
+\end{eqnarray*}
+which completes the induction proof.
+
+\medskip
+{\bf (d)}
+The change of variable $x=st$ yields
+$$
+\int_{0}^{\infty}e^{-st}t^{\alpha}\,dt=\frac{1}{s^{\alpha+1}}
+\int_{0}^{\infty}x^{\alpha}e^{-x}\,dx=\frac{1}{s^{\alpha+1}}
+\Gamma(\alpha+1),
+$$
+from the definition of the Gamma  function.
+\medskip
+
+\medskip
+{\bf 10.}
+Since $|g_{x}(x,y)|$  is monotonic with respect to $x$,
+\begin{equation}\tag{A}
+\int_{r}^{r_{1}}|g_{x}(x,y)|\,dx=|g(r_{1},y)-g(r,y)|,\quad a\le r<r_{1}<b.
+\end{equation}
+From  Assumption {\bf(a)} of Theorem~8, if $\epsilon>0$  there is an
+$r_{0}\in
+[a,b)$ such that
+$$
+ |g(s,y)|\le \epsilon,\quad  y\in S,\quad  r_{0}\le s<b.
+$$
+Therefore, (A)  implies that
+$$
+\int_{r}^{r_{1}}|g_{x}(x,y)\,dx\le 2\epsilon,\quad y\in S,\quad r_{0}\le r\le
+r_{1}<b.
+$$
+Now Theorem~4 implies that $\int_{a}^{b}|g(x,y)|\,dx$  converges uniformly
+on $S$, which is assumption    {\bf(c)}  of Theorem~8.
+
+
+
+\medskip
+{\bf 11.}
+{\bf Theorem~9 $($Dirichlet's Test for Uniform Convergence II}$)$
+If $g,$  $g_{x},$ and $h$ are continuous on $(a,b]\times S$  then
+$$
+\int_{a}^{b}g(x,y)h(x,y)\,dx
+$$
+converges uniformly on $S$ if  the following
+conditions are satisfied$:$
+\begin{alist}
+\item % a
+$\dst{\lim_{x\to a+}\left\{\sup_{y\in S}|g(x,y)|\right\}=0};$
+\item % b
+There is a constant $M$ such that
+$$
+\sup_{y\in S}\left|\int_{x}^{b}h(u,y)\,du\right| \le M, \quad
+a< x\le b;
+$$
+
+\item % c
+$\int_{a}^{b}|g_{x}(x,y)|\,dx$   converges uniformly on $S$.
+\end{alist}  \rm
+\medskip
+
+\proof
+If
+\begin{equation} \tag{A}
+H(x,y)=\int_{x}^{b}h(u,y)\,du
+\end{equation}
+then integration by parts yields
+\begin{eqnarray*}
+\int_{r_{1}}^{r}g(x,y)h(x,y)\,dx&=&-\int_{r_{1}}^{r}g(x,y)H_{x}(x,y)\,dx
+\\
+&=&-g(r,y)H(r,y)+g(r_{1},y)H(r_{1},y)\\
+&&+\int_{r_{1}}^{r}g_{x}(x,y)H(x,y)\,dx.
+\end{eqnarray*}
+Therefore,
+since assumption   {\bf(b)}  and (A) imply that
+$|H(x,y)|\le M$, $(x,y)\in (a,b]\times S$,
+\begin{equation}\tag{B}
+\left|\int_{r_{1}}^{r}g(x,y)h(x,y)\,dx\right|\le
+M\left(2\sup_{a<x\le r}
+|g(x,y)|+\int_{r_{1}}^{r}|g_{x}(x,y)|\,dx\right)
+\end{equation}
+on $[r_{1},r]\times S$.
+Now suppose  $\epsilon>0$.    From assumption {\bf (a)}, there is an
+$r_{0} \in [a,b)$ such that $|g(x,y)|<\epsilon$ on $S$ if
+$a< x \le r_{0} \le b$.
+From assumption  {\bf(c)} and Theorem~5,  there is an
+$s_{0}\in
+(a,b]$ such that
+$$
+\int_{r_{1}}^{r}|g_{x}(x,y)|\,dx<\epsilon,\quad
+y\in S,\quad
+a<r_{1}<r\le  s_{0}.
+$$
+Therefore
+(B)  implies that
+$$
+\left|\int_{r_{1}}^{r}g(x,y)h(x,y)\right| < 3M\epsilon,\quad y\in S,\quad
+a<r_{1}<r\min(r_{0},s_{0})
+$$
+Now Theorem~5 implies the stated conclusion.
+
+
+\medskip
+{\bf 12. (a)}
+Denote
+$F(y)=\dst{\int_{1}^{\infty}\frac{\sin xy}{x^{y}}}$
+and, with $1\le r< r_{1}$,
+\begin{eqnarray*}
+F(r,r_{1},y)=\int_{r}^{r_{1}}\frac{\sin xy}{x^{y}}\,dx &=&
+-\frac{\cos xy}{yx^{y}}\biggr|_{r}^{r_{1}}-
+\int_{r}^{r_{1}}\frac{\cos xy}{x^{y+1}}\,dx\\
+&=&
+\frac{\cos r y}{yr^{y}}-\frac{\cos r_{1}y}{yr_{1}^{y}}-
+\int_{r}^{r_{1}}\frac{\cos xy}{x^{y+1}}\,dx.
+\end{eqnarray*}
+Therefore
+$$
+|F(r,r_{1},y)|\le
+\frac{2}{yr^{y}}+\int_{r}^{r_{1}}x^{-y-1}\,dx<\frac{3}{yr^{y}}, \quad
+r,y>0.
+$$
+Now Theorem~4 implies that  $F(y)$ converges uniformly
+on $[\rho,\infty)$ if $\rho>0$.
+
+\medskip
+
+{\bf (b)}
+Denote
+$F(y)=\dst{\int_{2}^{\infty}\frac{\sin xy}{\log x}\,dx}$
+and, with $2\le r< r_{1}$,
+$$
+F(r,r_{1},y)=\int_{r}^{r_{1}}\frac{\sin xy}{\log x}\,dx
+=-\frac{\cos xy}{y\log x}\biggr|_{r}^{r_{1}}-
+\frac{1}{y}\int_{r}^{r_{1}}\frac{\cos xy}{x(\log x)^{2}}\,dx.
+$$
+Therefore
+$$
+|F(r,r_{1},y)|\le \frac{1}{y}\left|\frac{2}{\log r}+\int_{r}^{r_{1}}
+\frac{dx}{x(\log x)^{2}}\right|\le \frac{3}{y\log r}.
+$$
+Now Theorem~4 implies that  $F(y)$ converges uniformly
+on $[\rho,\infty)$ if $\rho>0$.
+
+
+\medskip
+
+{\bf (c)}
+Denote
+$F(y)=\dst{\int_{0}^{\infty}\frac{\cos xy}{x+y^{2}}}$,
+and, with $0<r<r_{1}$,
+$$
+F(r,r_{1},y)=\int_{r}^{r_{1}}\frac{\cos xy}{x+y^{2}}\,dx=
+\frac{1}{y}\left(\frac{\sin xy}{x+y^{2}}\biggr|_{r}^{r_{1}}
++\int_{r}^{r_{1}}\frac{\sin xy}{(x+y^{2})^{2}}\,dx\right),
+$$
+so
+$$
+|F(r,r_{1},y)|\le \frac{3}{y(r+y^{2})}.
+$$
+Now Theorem~4 implies that  $F(y)$ converges uniformly
+on $[\rho,\infty)$ if $\rho>0$.
+
+
+\medskip
+
+
+{\bf (d)}
+Denote
+$F(y)=\dst{\int_{0}^{\infty}\frac{\sin xy}{1+xy}}$,
+and, with $0<r<r_{1}$,
+$$
+F(r,r_{1},y)=\int_{r}^{r_{1}}\frac{\sin xy}{1+xy}\,dx=
+-\frac{\cos xy}{y(1+xy)}\biggr|_{r}^{r_{1}}-\int_{r}^{r_{1}}
+\frac{\cos xy}{y^{2}(1+xy)^{2}}\,dx,
+$$
+so
+$$
+|F(r,r_{1},y)|\le \frac{3}{y(1+ry)}.
+$$
+Now Theorem~4 implies that  $F(y)$ converges uniformly
+on $[\rho,\infty)$ if $\rho>0$.
+
+\medskip
+
+{\bf 13.}
+Integration by parts yields
+\begin{eqnarray*}
+\int_{r}^{r_{1}}g(x,y)h(x,y)\,dx&=&\int_{r}^{r_{1}}g(x,y)H_{x}(x,y)\,dx\\
+&=&g(r_{1},y)H(r_{1},y)-g(r,y)H(r,y)\\
+&&-\int_{r}^{r_{1}}g_{x}(x,y)H(x,y)\,dx,
+\end{eqnarray*}
+so
+$$
+\left|\int_{r}^{r_{1}}g(x,y)h(x,y)\,dx\right|\le
+2\sup_{x\ge r}\left\{\left\{\sup_{y\in S}|g(x,y)H(x,y)|\right\}\right\}+
+\left|\int_{r}^{r_{1}}g_{x}(x,y)H(x,y)\,dx\right|.
+$$
+Now suppose $\epsilon\ge 0$. From our first assmption, there is an
+$s_{0}\in [a,b)$ such that
+$$
+\sup_{x\ge r}\left\{\left\{\sup_{y\in
+S}|g(x,y)H(x,y)|\right\}\right\}<\epsilon, \quad  s_{0}\le r<b.
+$$
+Since $\int_{a}^{b}g_{x}(x,y)H(x,y)\,dx$
+ converges uniformly  on $S$,  Theorem~4 implies that there is an $r_{0}\in
+[a,b)$ such that
+$$
+\left|\int_{r}^{r_{1}}g_{x}(x,y)H(x,y)\,dx\right|\le \epsilon, \quad y\in S,
+\quad  r_{0}\le r<r_{1}<b.
+$$
+Therefore,
+$$
+\left|\int_{r}^{r_{1}}g(x,y)h(x,y)\,dx\right|\le 2\epsilon, \quad y\in S, \quad
+\max(r_{0},s_{0})\le r<r_{1}<b.
+$$
+Now Theorem~4  implies that  $\int_{a}^{b}g_{x}(x,y)h(x,y)\,dx$
+converges  uniformly  on $S$.
+
+\medskip
+
+
+{\bf 14. Theorem 10} \it
+If  $f=f(x,y)$ is continuous on
+$(a,b]\times [c,d]$ and
+\begin{equation} \tag{A}
+F(y)=\int_{a}^{b}f(x,y)\,dx
+\end{equation}
+converges uniformly on $[c,d],$  then $F$ is continuous on
+$[c,d].$ Moreover$,$
+\begin{equation} \tag{B}
+\int_{c}^{d}\left(\int_{a}^{b}f(x,y)\,dx\right)\,dy
+=\int_{a}^{b}\left(\int_{c}^{d}f(x,y)\,dy\right)\,dx.
+\end{equation}   \rm
+
+
+
+We will first show that $F$ in (A) is continuous on $[c,d]$.
+Since $F$  converges uniformly on $[c,d]$,
+Definition~1
+   implies that  if $\epsilon>0$, there is an
+$r \in (a,b]$ such that
+$$
+\left|\int_{a}^{r}f(x,y)\,dx\right|\le \epsilon, \quad c \le y \le d.
+$$
+Therefore, if $y$ and $y_{0}$ are in $[c,d]$, then
+\begin{eqnarray*}
+|F(y)-F(y_{0})|&=&
+\left|\int_{a}^{b}f(x,y)\,dx-\int_{a}^{b}f(x,y_{0})\,dx\right|\\
+&\le&\left|\int_{r}^{b}[f(x,y)-f(x,y_{0})]\,dx\right|+
+\left|\int_{a}^{r}f(x,y)\,dx\right|\\
+&&+\left|\int_{a}^{r}f(x,y_{0})\,dx\right|\\
+\end{eqnarray*}
+so
+\begin{equation}\tag{C}
+|F(y)-F(y_{0})|
+\le  \int_{r}^{b}|f(x,y)-f(x,y_{0})|\,dx +2\epsilon.
+\end{equation}
+Since $f$  is uniformly continuous on the compact set $[r,b]\times [c,d]$
+(Corollary~5.2.14, p.~314), there is a
+$\delta>0$ such that
+$$
+|f(x,y)-f(x,y_{0})|<\epsilon
+$$
+if $(x,y)$ and $(x,y_{0})$  are in $[r,b]\times [c,d]$ and
+$|y-y_{0}|<\delta$.    This and (C)  imply that
+$$
+|F(y)-F(y_{0})|<(r-a)\epsilon +2\epsilon<(b-a+2)\epsilon
+$$
+if $y$ and $y_{0}$ are in $[c,d]$ and $|y-y_{0}|<\delta$. Therefore $F$
+is continuous on $[c,d]$, so the integral on left side of
+(B) exists. Denote
+\begin{equation}\tag{D}
+I=
+\int_{c}^{d}\left(\int_{a}^{b}f(x,y)\,dx\right)\,dy.
+\end{equation}
+ We will
+show that the improper
+integral on the right side of  (B) converges to  $I$. To
+this end, denote
+$$
+I(r)=
+\int_{r}^{b}\left(\int_{c}^{d}f(x,y)\,dy\right)\,dx.
+$$
+Since we can reverse the order of integration of the
+continuous function  $f$  over the rectangle $[r,b]\times [c,d]$
+(Corollary~7.2.2, p.~466),
+$$
+I(r)=\int_{c}^{d}\left(\int_{r}^{b}f(x,y)\,dx\right)\,dy.
+$$
+From this and (D),
+$$
+I-I(r)=\int_{c}^{d}\left(\int_{a}^{r}f(x,y)\,dx\right)\,dy.
+$$
+Now suppose $\epsilon>0$. Since $\int_{a}^{b}f(x,y)\,dx$ converges
+uniformly on $[c,d]$, there is an $r_{0}\in (a,b]$ such that
+$$
+\left|\int_{a}^{r}f(x,y)\,dx\right|<\epsilon, \quad
+a<r<r_{0},
+%###
+$$
+so $|I-I(r)|<(d-c)\epsilon$,  $a<r<r_{0}$. Hence,
+$$
+\lim_{r\to a+}\int_{r}^{b}\left(\int_{c}^{d}f(x,y)\,dy\right)\,dx=
+\int_{c}^{d}\left(\int_{a}^{b}f(x,y)\,dx\right)\,dy,
+$$
+which completes the proof of (B).
+
+
+\medskip
+
+{\bf 15. Theorem~11} \it
+Let   $f$  and $f_{y}$   be  continuous on
+ $(a,b]\times [c,d],$ and suppose    that
+$$
+F(y)=\int_{a}^{b}f(x,y)\,dx
+$$
+converges for some $y_{0} \in [c,d]$ and
+$$
+G(y)=\int_{a}^{b}f_{y}(x,y)\,dx
+$$
+converges uniformly on $[c,d].$ Then $F$  converges
+uniformly on $[c,d]$ and is given explicitly by
+$$
+F(y)=F(y_{0})+\int_{y_{0}}^{y} G(t)\,dt,\quad c\le y\le d.
+$$
+Moreover, $F$  is continuously differentiable on $[c,d]$ and
+\begin{equation} \tag{A}
+F'(y)=G(y), \quad c \le y \le d,
+\end{equation}
+where  $F'(c)$ and $f_{y}(x,c)$ are derivatives
+from the right, and $F'(d)$ and $f_{y}(x,d)$ are
+ derivatives from the left$.$ \rm
+
+
+
+\proof Let
+$$
+F_{r}(y)=\int_{r}^{b}f(x,y)\,dx, \quad a\le r<b,\quad  c \le y \le d.
+$$
+Since $f$  and $f_{y}$  are continuous on $[r,b]\times [c,d]$,
+Theorem~1 implies that
+$$
+F_{r}'(y)=\int_{r}^{b}f_{y}(x,y)\,dx, \quad c \le y \le d.
+$$
+Therefore
+\begin{eqnarray*}
+F_{r}(y)&=&F_{r}(y_{0})+\int_{y_{0}}^{y}\left(
+\int_{r}^{b}f_{y}(x,t)\,dx\right)\,dt\\
+&=&F(y_{0})+\int_{y_{0}}^{y}G(t)\,dt \\&&+(F_{r}(y_{0})-F(y_{0}))
+-\int_{y_{0}}^{y}\left(\int_{a}^{r}f_{y}(x,t)\,dx\right)\,dt,
+ \quad c \le y \le d.
+\end{eqnarray*}
+Therefore,
+\begin{equation}\tag{B}
+\left|F_{r}(y)-F(y_{0})-\int_{y_{0}}^{y}G(t)\,dt\right| \le
+|F_{r}(y_{0})-F(y_{0})|
++\left|\int_{y_{0}}^{y}
+\int_{a}^{r}f_{y}(x,t)\,dx\right|\,dt.
+\end{equation}
+Now suppose $\epsilon>0$.  Since we have assumed that
+$\lim_{r\to a+}F_{r}(y_{0})=F(y_{0})$ exists,
+there is an $r_{0}$
+in $(a,b)$ such that
+$$
+|F_{r}(y_{0})-F(y_{0})|<\epsilon,\quad a<r< r_{0}.
+$$
+Since we have assumed that $G(y)$  converges for
+$y\in[c,d]$, there is an $r_{1}  \in (a,b]$  such that
+$$
+\left|\int_{a}^{b}f_{y}(x,t)\,dx\right|<\epsilon, \quad
+ t\in[c,d], \quad
+a<r\le r_{1}.
+$$
+ Therefore, (B)  yields
+$$
+\left|F_{r}(y)-F(y_{0})-\int_{y_{0}}^{y}G(t)\,dt\right|<
+\epsilon(1+|y-y_{0}|) \le \epsilon(1+d-c)
+$$
+if $a<r<\min(r_{0},r_{1})$ and $t\in[c,d]$. Therefore
+$F(y)$ converges uniformly on   $[c,d]$  and
+$$
+F(y)=F(y_{0})+\int_{y_{0}}^{y}G(t)\,dt, \quad c \le y \le d.
+$$
+Since $G$  is continuous on $[c,d]$  by
+Theorem~10, (A)
+follows    from differentiating this (Theorem~3.3.11, p.~141).
+
+\medskip
+
+
+{\bf 16.}
+Since
+$$
+|f(x)\cos xy|\le |f(x)|,\quad
+|f(x)\sin xy|\le |f(x)|,\text{\quad and\quad}
+\int_{-\infty}^{\infty} |f(x)|\,dx<\infty,
+$$
+Theorems~6 and 7 imply that $\int_{-\infty}^{\infty}f(x)\cos xy\,dx$
+and $\int_{-\infty}^{\infty}f(x) \sin xy\,dx$   converge uniformly
+on $(-\infty,\infty)$, so Theorem~10 implies that $C(y)$
+and $S(y)$ are continuous on $(-\infty,\infty)$.
+
+
+\medskip
+{\bf 17.}
+If $y\ne0$, integrating by parts yields
+\begin{eqnarray*}
+C(y)&=&f(x)\frac{\sin xy}{y}\biggr|_{a}^{\infty}-\frac{1}{y}
+\int_{a}^{\infty}f'(x)\sin xy \,dx\\
+&=&-f(a)\frac{\sin ay}{y}
+-\frac{1}{y}\int_{a}^{\infty}f'(x)\sin xy \,dx
+\end{eqnarray*}
+and
+\begin{eqnarray*}
+S(y)&=&-f(x)\frac{\cos xy}{y}\biggr|_{a}^{\infty}+\frac{1}{y}
+\int_{a}^{\infty}f'(x)\cos xy \,dx \\
+&=&f(a)\frac{\cos ay}{y}+
+\frac{1}{y}\int_{a}^{\infty}f'(x)\cos xy \,dx,
+\end{eqnarray*}
+since $\lim_{x\to\infty} f(x)=0$.  From Exercise \ref{exer:17}  with
+$f$ replaced by
+$f'$,
+$\int_{1}^{\infty}f'(x)\cos xy \,dx$  and
+$\int_{1}^{\infty}f'(x)\cos xy\,dx$
+are continuous on $(-\infty,\infty)$. Therefore $C(y)$  and $S(y)$  are
+continuous on $(-\infty,0)\cup(0,\infty)$.
+
+To see that $C$  and $S$ are not necessarily  continuous at  $y=0$, let
+$a=1$ and
+$f(x)=1/x$, so
+$$
+ \lim_{x\to\infty}f(x)=0\text{\quad and\quad}
+\int_{1}^{\infty}|f'(x)|=\int_{1}^{\infty}\frac{dx}{x^{2}}=1.
+$$
+Then
+$$
+C(y)=\lim_{r\to\infty}\int_{1}^{r}\frac{\cos xy}{x}\,dx
+\text{\quad and\quad}
+S(y)=\lim_{r\to\infty}\int_{1}^{r}\frac{\sin xy}{x}\,dx,\quad y\ne0.
+$$
+If $y>0$ make the change of variable $u=xy$ to see that
+$$
+C(y)=\lim_{r\to\infty}\int_{y}^{ry}\frac{\cos u}{u}\,du=
+\int_{y}^{\infty}\frac{\cos u}{u}\,du
+$$
+and
+$$
+S(y)=\lim_{r\to\infty}\int_{y}^{ry}\frac{\sin u}{u}\,du.
+S(y)=\int_{y}^{\infty}\frac{\sin u}{u}\,du.
+$$
+Therefore $\lim_{y\to 0+}C(y)=\infty$, so $C$ is not continuous at $y=0$.
+Since  $S(0)=0$
+and
+$\lim_{y\to 0+}S(y)=
+\dst{\int_{0}^{\infty}\frac{\sin u}{u}\,du}\ne 0$,  $S$ is not continuous
+at
+$y=0$.
+
+
+\medskip
+{\bf 18. (a)}
+The integral diverges if $y=0$. If $y\ne0$ substitute
+ $u=|y|x$ to obtain
+\begin{equation}
+F(y)=\int_{0}^{\infty}\frac{dx}{1+x^{2}y^{2}}=
+\frac{1}{|y|}\int_{0}^{\infty}\frac{du}{1+u^{2}}
+=\frac{1}{|y|}\tan^{-1}u\biggr|_{0}^{\infty}=\frac{\pi}{2|y|},
+\tag{A}
+\end{equation}
+so $F(y)$  converges for all $y\ne0$.
+To test for uniform convergence,
+suppose  $|y|>0$ and $0<r<r_{1}$. Then
+$$
+\int_{r}^{r_{1}}\frac{dx}{1+x^{2}y^{2}}
+=\frac{1}{|y|}\int_{r|y|}^{r_{1}|y|} \frac{du}{1+u^{2}}
+<\frac{1}{\rho}\int_{r\rho}^{\infty}\frac{du}{1+u^{2}}
+$$
+if $|y|\ge \rho$.   If $\epsilon>0$ there is an $\alpha>0$ such that
+$\dst{\frac{1}{\rho}\int_{\alpha}^{\infty}\frac{du}{1+u^{2}}}<\epsilon$.
+Therefore $\dst{\int_{r}^{r_{1}}\frac{dx}{1+x^{2}y^{2}}}<\epsilon$ if
+ $\alpha/\rho<r<r_{1}$. Now Theorem~4  implies that $F(y)$  converges
+uniformly on  $(-\infty,-\rho]\cup[\rho,\infty)$  if $\rho>0$.
+
+\medskip
+To evaluate
+$$
+I=\dst{\int_{0}^{\infty}\frac{\tan^{-1}ax-\tan^{-1}bx}{x}\,dx},
+$$
+we note that
+$$
+\frac{\tan^{-1}ax-\tan^{-1}bx}{x}=\int_{b}^{a}\frac{dy}{1+x^{2}y^{2}}.
+$$
+Therefore
+$$
+I=\int_{0}^{\infty}\,dx \int_{b}^{a}\frac{dy}{1+x^{2}y^{2}}
+=\int_{b}^{a}\,dy\int_{0}^{\infty}\frac{dx}{1+x^{2}y^{2}}
+=\frac{\pi}{2}\int_{b}^{a}\frac{dy}{y}=\frac{\pi}{2}\log\frac{a}{b},
+$$
+where the second equality is valid because of the uniform convergence
+of $F(y)$ on the closed interval with endpoints $a$ and $b$, and the
+third equality follows from (A).
+
+\medskip
+{\bf (b)}
+$F(y)$  is a proper integral if $y\ge 0$ and it diverges if $y\le -1$.
+If $-1<y<0$,  then
+\begin{equation}
+F(y)=\int_{0}^{1}x^{y}\,dx=\frac{x^{y+1}}{y+1}\biggr|_{0}^{1}=\frac{1}{y+1}
+\tag{A}
+\end{equation}
+is convergent.
+Since
+$$
+\int_{0}^{r}x^{y}\,dx=\frac{x^{y+1}}{y+1}\biggr|_{0}^{r}=
+\frac{r^{y+1}}{y+1}.
+$$
+and
+$$
+\frac{\partial}{\partial y}\left  (\frac{r^{y+1}}{y+1}\right)
+=\frac{r^{y+1}}{y+1}\left(\log r-\frac{1}{y+1}\right)<0
+\text{\quad if \quad} 0<r\le 1
+\text{\quad and\quad} y>-1,
+$$
+it follows that
+$$
+\left|\int_{0}^{r}x^{y}\,dx\right|\le \frac{r^{\rho+1}}{\rho +1}
+\text{\quad if\quad} 0<r\le 1\text{\quad and\quad} -1<\rho\le y.
+$$
+Therefore, Theorem~5 implies that $F(y)$  converges uniformly on
+$[\rho,\infty)$  if $\rho>-1$.
+
+\medskip
+Now  Theorem~11  implies that
+$$
+I=\dst{\int_{0}^{1}\frac{x^{a}-x^{b}}{\log x}\,dx}
+= \int_{0}^{1}\,dx \int_{b}^{a}x^{y}\,dy
+=\int_{b}^{a}\,dy\int_{0}^{1}x^{y}\,dx
+=\int_{b}^{a}\frac{dy}{y+1}=\log\frac{a+1}{b+1}.
+$$
+
+\medskip
+{\bf (c)}
+$\dst{F(y)=\int_{0}^{\infty} e^{-yx}\cos x \,dx=\frac{y}{y^{2}+1}}$.
+Since
+$$
+\left|\int_{r}^{\infty}e^{-yx} \cos x\,dx\right|\le
+\int_{r}^{\infty}e^{-xy}\,dx=\frac{e^{-yr}}{y},
+$$
+Theorem~4 (or Theorem~6) implies that $F(y)$  converges uniformly on
+  $[\rho,\infty)$ if $\rho>0$.
+Therefore, Theorem implies that if $a$, $b>0$  then
+\begin{eqnarray*}
+I&=&\int_{0}^{\infty}\frac{e^{-ax}-e^{-bx}}{x}\cos x\,dx
+=\int_{0}^{\infty}\cos x\,dx\int_{a}^{b}e^{-yx}\,dy \\
+&=&\int_{a}^{b} \,dy\int_{0}^{\infty}e^{-yx}\cos x\,dx
+=\int_{a}^{b}\frac{y}{y^{2}+1}\,dy=\frac{1}{2}\log\frac{b^{2}+1}{a^{2}+1}.
+\end{eqnarray*}
+
+
+\medskip
+{\bf (d)}
+$\dst{F(y)=\int_{0}^{\infty} e^{-yx}\sin x \,dx=\frac{1}{y^{2}+1}}$.
+Since
+$$
+\left|\int_{r}^{\infty}e^{-yx} \sin x\,dx\right|\le
+\int_{r}^{\infty}e^{-yx}\,dx=\frac{e^{-yr}}{y},
+$$
+Theorem~4 (or Theorem~6) implies that    $F(y)$
+converges  uniformly
+ on every $[\rho,\infty)$ if $\rho>0$.
+Therefore, if $a$, $b>0$  then  Theorem~11 implies that
+\begin{eqnarray*}
+I&=&\int_{0}^{\infty}\frac{e^{-ax}-e^{-bx}}{x}\sin x\,dx
+=\int_{0}^{\infty}\sin x\,dx\int_{a}^{b}e^{-yx}\,dy \\
+&=&\int_{a}^{b} \,dy\int_{0}^{\infty}e^{-yx}\sin x\,dx
+=\int_{a}^{b}\frac{1}{y^{2}+1}\,dy=\tan^{-1}b-\tan^{-1}a.
+\end{eqnarray*}
+
+\medskip
+
+
+{\bf(e)}
+$\dst{F(y)=\int_{0}^{\infty} e^{-x}\sin xy \,dx=\frac{y}{y^{2}+1}}$.
+Since
+$$
+\left|\int_{r}^{\infty}e^{-x} \sin xy\,dx\right|\le
+\int_{r}^{\infty}e^{-x}\,dx=e^{-r},
+$$
+Theorem~4 (or Theorem~6) implies that $F(y)$ converges uniformly
+ on  $[\rho,\infty)$  if $\rho>0$. Therefore Theorem~11 implies that
+\begin{eqnarray*}
+I&=&\int_{0}^{\infty}e^{-x}\frac{1-\cos ax}{x}\,dx
+=\int_{0}^{\infty}e^{-x}\,dx\int_{0}^{a}\sin xy\,dy\\
+&=&\int_{0}^{a}\,dy\int_{0}^{\infty}e^{-x}\sin xy\,dx
+=\int_{0}^{a} \frac{y}{y^{2}+1}\,dy=\frac{1}{2}\log(1+a^{2}).
+\end{eqnarray*}
+
+\medskip
+{\bf(f)}
+$\dst{F(y)=\int_{0}^{\infty} e^{-x}\cos xy \,dx=\frac{1}{y^{2}+1}}$.
+Since
+$$
+\left|\int_{r}^{\infty}e^{-x} \cos xy\,dx\right|\le
+\int_{r}^{\infty}e^{-x}\,dx=e^{-r},
+$$
+Theorem~4 (or Theorem~6) implies that $F(y)$ converges uniformly
+ on  $[\rho,\infty)$  if $\rho>0$. Therefore Theorem~11 implies that
+\begin{eqnarray*}
+I&=&\int_{0}^{\infty}e^{-x}\sin ax\,dx
+=\int_{0}^{\infty}e^{-x}\,dx\int_{0}^{a}\cos xy\,dy\\
+&=&\int_{0}^{a}\,dy\int_{0}^{\infty}e^{-x}\cos xy\,dx
+=\int_{0}^{a} \frac{1}{y^{2}+1}\,dy=\tan^{-1}a.
+\end{eqnarray*}
+
+\medskip
+
+{\bf 19. (a)}
+We start with
+\begin{equation}
+F(y)=\int_{0}^{1} x^{y}\,dx =\frac{1}{y+1}\quad y>-1.
+\tag{A}
+\end{equation}
+Formally differentiating this yields
+\begin{equation}
+F^{(n)}(y)=\int_{0}^{1}(\log x)^{n} x^{y}\,dx
+=\frac{(-1)^{n}n!}{(y+1)^{n+1}},\quad y>-1.
+\tag{B}
+\end{equation}
+To justify this we will show by induction that the improper integrals
+$$
+I_{n}(y)=\int_{0}^{1}(\log x)^{n} x^{y}\,dx,\quad     n=0,1,2,
+\dots
+$$
+converge uniformly on $[\rho,\infty)$ if $\rho>-1$.  We begin with $n=0$:.
+$$
+\int_{0}^{r}x^{y}\,dx =
+\frac{x^{y+1}}{y+1}\biggr|_{r_{1}}^{r}=\frac{r^{y+1}}{y+1}\le
+\frac{r^{y+1}}{\rho+1},\quad -1<\rho\le y.
+$$
+so $I_{0}(y)=F(y)$ converges uniformly on $[\rho,\infty)$ if $\rho>-1$.
+Now suppose that $I_{n}(y)$  converges uniformly on $[\rho,\infty)$.
+Integrating by parts  yields
+\begin{eqnarray*}
+\int_{r_{1}}^{r}(\log x)^{n+1}x^{y}\,dx&=&
+\frac{r^{y+1}(\log r)^{n+1}-r_{1}^{y+1}(\log r_{1})^{n+1}}
+{y+1}\\ &&-\frac{n+1}{y+1}
+\int_{r_{1}}^{r}(\log x)^{n}x^{y}\,dx, \quad -1<y<\infty.
+\end{eqnarray*}
+Letting $r_{1}\to 0$  yields
+\begin{equation}\tag{C}
+\int_{0}^{r}(\log x)^{n+1} x^{y}\,dx =\frac{r^{y+1}(\log r)^{n+1}}{y+1}
+-\frac{n+1}{y+1}\int_{0}^{r}(\log x)^{n}x^{y}\,dx.
+\end{equation}
+Since the integral on the right converges, it follows that the integral
+on the left converges; in fact
+$$
+\int_{0}^{1}(\log x)^{n+1}x^{y}\,dx=
+-\frac{n+1}{y+1}
+\int_{0}^{1}(\log x)^{n}x^{y}\,dx.
+$$
+We must still show that the integral on the left converges uniformly on
+$[\rho,\infty)$ if \\$\rho>-1$.  To this end, note from (C) that
+\begin{equation}\tag{D}
+\left|\int_{0}^{r}(\log x)^{n+1} x^{y}\,dx\right| \le
+\left|\frac{r^{\rho+1}(\log r)^{n+1}}{\rho+1}\right|
++\frac{n+1}{\rho+1}\left|\int_{0}^{r}(\log x)^{n}x^{y}\,dx\right|
+\end{equation}
+if $y\ge \rho$,
+Now suppose $\epsilon>0$. Since $\dst{\lim_{r\to0+}r^{\rho+1}(\log
+r)^{n+1}=0}$, there is an $r_{1}\in (0,1)$  such that
+$$
+\left|\frac{r^{\rho+1}(\log r)^{n+1}}{\rho+1}\right| \le \frac{\epsilon}{2}
+\text{\quad if \quad} 0<r<r_{1}.
+$$
+Since $\int_{0}^{r}(\log x)^{n}x^{y}\,dx$  is uniformly convergent
+(by our induction assumption), there is $r_{2}\in (0,1)$ such that
+$$
+\frac{n+1}{\rho+1}\left|\int_{0}^{r}(\log x)^{n}x^{y}\,dx\right|\le
+\frac{\epsilon}{2},\quad  y\ge \rho,
+$$
+Now (D) implies that
+$$
+\left|\int_{0}^{r}(\log x)^{n+1} x^{y}\,dx\right|\epsilon,\quad
+y\in [\rho,\infty),\quad 0<r<\min(r_{1},r_{2}).
+$$
+This,  Theorem~11, and an easy  induction argument  imply (B).
+
+\medskip
+
+{\bf (b)}
+Substituting  $x=u\sqrt{y}$ yields
+\begin{equation}
+F(y)=\int_{0}^{\infty}\frac{dx}{x^{2}+y}=\frac{1}{\sqrt{y}}\int_{0}^{\infty}
+\frac{du}{u^{2}+1}
+=\frac{\pi}{2\sqrt{y}},\quad y>0.
+\tag{A}
+\end{equation}
+Formally differentiating this yields  yields
+\begin{eqnarray*}
+\int_{0}^{\infty}\frac{dx}{(x^{2}+y)^{n+1}}
+&=&\frac{\pi}{2n+1}1\cdot 3\cdots(2n-1)y^{-n-1/2}
+=\frac{\pi}{2^{2n+1}}\frac{(2n)!}{n!}y^{-n-1/2}\\
+&=&\frac{\pi}{2^{2n+1}}\binom{2n}{n}y^{-n-1/2},\quad y>0.
+\end{eqnarray*}
+Theorem~11 implies that
+the  formal differentiation is legitimate, since, if $y\ge 0$
+and $r>0$, then
+$$
+\int_{r}^{\infty}\frac{dx}{(x^{2}+y)^{n+1}}\le
+\int_{r}^{\infty}x^{-2n-2}dx=\frac{r^{-2n-1}}{(2n-1)};
+$$
+hence,
+ the improper integrals
+$\dst{\int_{0}^{\infty}\frac{dx}{(x^{2}+y)^{n+1}}}$,
+$n=0$, $1$, $2$, \dots
+converge uniformly on $[0,\infty)$.
+
+
+
+\medskip
+{\bf (c)}
+Denote $I_{n}(y)=\dst{\int_{0}^{\infty}x^{2n+1}e^{-yx^{2}}\,dx}$.   Then
+$$
+I_{0}(y)=\int_{0}^{\infty}xe^{-yx^{2}}=
+\frac{1}{2}\int_{0}^{\infty}2xe^{-yx^{2}}\,dx
+=-\frac{1}{2y}e^{-yx^{2}}\biggr|_{0}^{\infty}=\frac{1}{2y}.
+$$
+Since
+$$
+\int_{r}^{\infty}x^{2n+1}e^{-yx^{2}} \,dx\le
+\int_{r}^{\infty}x^{2n+1}e^{-\rho x^{2}} \,dx\text{\quad if\quad}
+0<\rho\le r,
+$$
+if $n\ge 0$, we can differentiate $I_{n}$  formally with respect to
+$y\in (0,\infty)$ to obtain
+$$
+I_{n}(y)=(-1)^{n}I_{0}^{(n)}=\frac{n!}{2y^{n+1}}.
+$$
+
+{\bf (d)}
+Denote
+\begin{eqnarray*}
+I(y)&=&\int_{0}^{\infty}y^{x}\,dx =\int_{0}^{\infty}e^{x\log y}\,dx
+=\frac{1}{\log y}\int_{0}^{\infty}(\log y) y^{x}\,dx  \\
+&=&\frac{y^{x}}{\log y}\biggr|_{0}^{\infty}=-\frac{1}{\log y}\quad
+0<y<1.
+\end{eqnarray*}
+Formally differentiating this yields
+$I'(y)=\dst{\int_{0}^{\infty}xy^{x-1}\,dx}$.
+There are two improper integrals here:
+$J_{1}(y)=\dst{\int_{0}^{1}xy^{x-1}\,dx}$ and
+$J_{2}(y)=\dst{\int_{1}^{\infty}xy^{x-1}\,dx}$.
+If $r<1$ then
+$$
+\int_{0}^{r}xy^{x-1}\,dx=\frac{1}{y}\int_{0}^{r}xy^{x}\,dx
+\le \frac{1}{y}\int_{0}^{r}x\,dx=\frac{r^{2}}{2y}\le
+\frac{r^{2}}{2\rho_{1}}, \quad
+ 0<\rho_{1}\le y\le 1.
+$$
+Therefore $J_{1}(y)$ converges uniformly on $[\rho_{1},1]$.
+If $x>r>1$ and  $\rho_{2}<1$ then
+$$
+\int_{r}^{\infty}xy^{x-1}\,dx<\int_{r}^{\infty}x\rho_{2}^{x-1}\,dx
+=\frac{1}{\rho_{2}}\int_{r}^{\infty}x\rho_{2}^{x}\,dx,
+$$
+Since
+$$
+\lim_{x\to\infty}\frac{1}{\rho_{2}}\int_{r}^{\infty}x\rho_{2}^{x}\,dx =0
+$$
+Theorem~7 implies that $J_{2}(y)$ converges uniformly on $[0,\rho_{2}]$.
+Therefore, if $0<\rho_{1}<\rho_{2}<1$ then
+$\dst{\int_{0}^{\infty}xy^{x-1}}$
+converges uniformly on $[\rho_{1},\rho_{2}]$. Now Theorem~11 implies that
+\begin{equation}\tag{A}
+I'(y)=\int_{0}^{\infty}xy^{x-1}\,dx,\quad 0<y<1.
+\end{equation}
+ However, since
+$I(y)=-\dst{\frac{1}{\log y}}$, we know that
+$I'(y)=\dst{\frac{1}{y(\log y)^{2}}}$.   This and (A)  imply that
+$\dst{\int_{0}^{\infty}xy^{x}\,dx}=\dst{\frac{1}{(\log x)^{2}}}$.
+
+
+\medskip
+
+
+{\bf 20.}
+Here $F(y)=\dst{\int_{0}^{\infty} e^{-x^{2}}\cos 2xy\,dx}$, so
+Theorem~11 implies that
+\begin{equation}
+F'(y)=-2\int_{0}^{\infty}xe^{-x^{2}}\sin 2xy\,dx,
+\tag{A}
+\end{equation}
+since the integral on the right converges uniformly on $(-\infty,\infty)$,
+by Theorem~6.
+
+Integration by parts yields
+\begin{eqnarray*}
+F(y)&=&
+=\frac{1}{2y}\int_{0}^{\infty}e^{-x^{2}}(2y\cos 2xy)\,dx\\
+&=&\frac{1}{2y}\left(e^{-x^{2}}\sin 2xy\,dx\biggr|_{0}^{\infty}
++2\int_{0}^{\infty}xe^{-x^{2}}\sin 2xy\,dx\right)  \\
+&=&\frac{1}{y}
+\int_{0}^{\infty}xe^{-x^{2}}\sin 2xy\,dx
+=-\frac{1}{2y} F'(y).
+\end{eqnarray*}
+From this and (A),   $F'(y)+2yF(y)=0$, so $\dst{\frac{F'(y)}{F(y)}}=-2y$,
+$\log F(y)=-y^{2}+\log F(0)$, and  $F(y)=F(0)e^{-y^{2}}$.
+Since
+$F(0)=\dst{\int_{0}^{\infty}e^{-x^{2}}\,dx}=\dst{\frac{\sqrt{\pi}}{2}}$
+(Example~12),
+$F(y)=\dst{\frac{\sqrt{\pi}}{2}}e^{-y^{2}}$.
+
+
+\medskip
+{\bf 21.}
+Here $F(y)=\dst{\int_{0}^{\infty} e^{-x^{2}}\sin 2xy\,dx}$, so
+Theorem~11 implies that
+\begin{equation}
+F'(y)=2\int_{0}^{\infty}xe^{-x^{2}}\cos 2xy\,dx,
+\tag{A}
+\end{equation}
+since the integral on the right converges uniformly on $(-\infty,\infty)$.
+ Integrating this by parts yields
+\begin{eqnarray*}
+F'(y)
+&=&-e^{-x^{2}}\cos 2xy\biggr|_{0}^{\infty}-
+2y\int_{0}^{\infty} e^{-x^{2}}\sin 2xy\,dx \\
+&=&1-2y F(y),
+\end{eqnarray*}
+so $F'(y)+2yF(y)=1$,
+$e^{y^{2}}F'(y)+2e^{y^{2}}yF(y)=e^{y^{2}}$, and
+ $\dst{\left(e^{y^{2}}F(y)\right)'=e^{y^{2}}}$.
+Therefore, since $F(0)=0$,
+$F(y)=\dst{e^{-y^{2}}\int_{0}^{y}e^{u^{2}}\,du}$.
+
+{\bf 22.}
+Theorems~6 and 11 imply that $S$ and $C$  are $n$ times continuously
+differentiable on $(-\infty,\infty)$ if
+ $\dst{\int_{-\infty}^{\infty}|x^{n}f(x)|\,dx<\infty}$.
+
+
+
+
+\medskip
+
+
+{\bf 23.}
+We will show first  that
+$$
+C_{k}(y)=\int_{a}^{\infty} x^{k}f(x) \cos xy \,dx
+ \text{\: and\:}
+S_{k}(y)=\int_{a}^{\infty}x^{k}f(x)\sin xy\,dx,\: 0\le k\le n,
+$$
+converge uniformly on
+$U_{\rho}=(-\infty,-\rho]\cup[\rho,\infty)$ if $\rho>0$.
+Note that if $\lim_{x\to\infty} x^{n}f(x)=0$,  then
+$\lim_{x\to\infty} x^{k}f(x)=0$, $k=0$, $1$, $2$,\dots $n$.
+If $0\le k\le n$, then
+\begin{equation}
+\tag{A}
+\int_{r}^{r_{1}}x^{k}f(x)\cos xy\,dx=
+\frac{1}{y}\left[x^{k}f(x)\sin xy\biggr|_{r}^{r_{1}}-
+\int_{r}^{r_{1}}(x^{k}f(x))'\sin xy\,dx\right].
+\end{equation}
+Henceforth $k$ is fixed.
+Our assumptions imply that
+if $\rho>0$ and $\epsilon>0$ then there is an $r_{0}\in [a,\infty)$  such
+that
+$$
+\int_{r_{0}}^{\infty}|(x^{k}f(x))'|\,dx<\rho\epsilon
+\text{\quad and \quad} |x^{k}f(x)|<\rho\epsilon,\quad  x\ge r_{0}.
+$$
+Therefore (A) implies that
+$$
+\left|\int_{r}^{r_{1}}x^{k}f(x)\cos xy\,dx\right|<3\epsilon,\quad
+r_{0}\le r<r_{1},\:  y\in (-\infty,-\rho]\cup[\rho,\infty).
+$$
+Now Theorem~4  implies that $C_{0}$, $C_{1}$,\dots, $C_{k}$  converge
+uniformly on  $(-\infty,-\rho]\cup[\rho,\infty)$.   Since every $y\ne0$
+is in such an interval, Theorem~11 now implies that  that if $y\ne 0$
+then
+$$
+C^{(k)}(y)=\int_{a}^{\infty}x^{k}f(x)\sin xy\,dx,\quad
+0\le k\le n.
+$$
+
+A similar argument applies  to  $S$, $S'$,\dots $S^{(n)}$.
+
+\medskip
+{\bf 24.}
+Let $I(y;r,r_{1})=\dst{\int_{r}^{r_{1}}\frac{1}{x}\sin\frac{y}{x}\,dx}$.
+Assume for the moment that $y\ge 0$.
+Substituting $u=y/x$ yields
+$$
+I(y;r,r_{1})=\int_{y/r_{1}}^{y/r}\left(\frac{u}{y}\right)\sin u
+\left(-\frac{y}{u^{2}}\right)\,du =
+\int_{y/r_{1}}^{y/r}\frac{\sin u}{u}\,du.
+$$
+Therefore, since $\dst{\left|\frac{\sin u}{u}\right|}\le 1$ for all $u$,
+$|I(y;r,r_{1})|\le y/r$,\quad  $1\le r\le r_{1}$. In fact, since
+$I(-y;r,r_{1})=-I(y;r,r_{1})$, we can write $|I(y;r,r_{1})\le |y|/r$,
+\quad $1\le r\le r_{1}$. Therefore, Theorem~4 implies that
+ $\dst{\int_{1}^{\infty}\frac{1}{x}\sin\frac{y}{x}\,dx}$   converges
+uniformly on every finite interval.
+
+Now
+denote $F_{r}(y)=\dst{\int_{1}^{r}\cos\frac{y}{x}\,dx}$.
+substituting $u=y/x$ yields
+$F_{r}(y)=y\dst{\int_{y/r}^{y}\frac{\cos u}{u^{2}}\,du}$,
+so $\lim_{r\to\infty}F_{r}(y)=\infty$  for all $y\ge 0$. Since
+$F_{r}(-y)=F_{r}(y)$, it follows that $\lim_{r\to\infty}F_{r}(y)=\infty$
+for all $y$, so the answer to the question is ``no.''
+
+
+
+\medskip
+{\bf 25.}
+Let $P_{n}$ be the induction assumption
+$$
+ F^{(n)}(s)=(-1)^{n}\int_{0}^{\infty}e^{-sx}x^{n}f(x)\,dx,\quad    s>s_{0},
+$$
+which is true by the definition of $F$ for $n=0$. If $P_{n}$ is true, then
+Theorems~11 and 13 imply that
+\begin{eqnarray*}
+F^{(n+1)}(s)&=&(-1)^{n}\frac{d}{ds}
+\int_{0}^{\infty}e^{-sx}x^{n}f(x)\,dx=(-1)^{n}
+\int_{0}^{\infty}\frac{d}{ds}\left(e^{-sx}x^{n}f(x)\right)\,dx\\
+&=&(-1)^{n+1}\int_{0}^{\infty}e^{-sx}x^{n+1}f(x)\,dx,
+\end{eqnarray*}
+so $P_{n}$ implies $P_{n+1}$, which completes the induction proof.
+
+
+
+\medskip
+{\bf 26.}
+Let $G(x)=\dst{\int_{0}^{x}e^{-s_{0}t}f(t)\,dt}$. If $s>s_{0}$  then
+\begin{equation}\tag{A}
+F(s)=\int_{0}^{\infty}e^{-sx}f(x)\,dx
+=\int_{0}^{\infty}e^{-(s-s_{0})x}G'(x)\,dx
+=(s-s_{0})\int_{0}^{\infty}e^{-(s-s_{0})x}G(x)\,dx
+\end{equation}
+(integration by parts). Since
+$\dst{(s-s_{0})\int_{0}^{\infty}e^{-(s-s_{0})x}\,dx=1}$, (A) implies that
+\begin{equation}\tag{B}
+F(s)-F(s_{0})=(s-s_{0})\int_{0}^{\infty}e^{-(s-s_{0})x}(G(x)-F(s_{0}))\,dx.
+\end{equation}
+Now suppose $\epsilon>0$.
+Since
+$F(s_{0})=\dst{\int_{0}^{\infty}e^{-s_{0}t}
+f(t)\,dt}=\lim_{t\to\infty}G(x)$, there is an $r$ such that
+$|G(x)-F(s_{0})|<\epsilon$ if $x\ge r$; hence, from (B), then
+\begin{eqnarray*}
+|F(s)-F(s_{0})|&\le& (s-s_{0})\int_{0}^{r}e^{-(s-s_{0})x}
+|G(x)-F(s_{0})|+\epsilon(s-s_{0})\int_{r}^{\infty}
+e^{-(s-s_{0})x}\,dx\\
+&<&
+ (s-s_{0})\int_{0}^{r}e^{-(s-s_{0})x}
+|G(x)-F(s_{0})|+\epsilon.
+\end{eqnarray*}
+Since $r$ is fixed, we can let $s\to s_{0}^{+}$ to conclude that
+$\limsup_{s\to s_{0}+}|F(s)-F(s_{0})|\le \epsilon$, which implies that
+$\lim_{s\to S_{0}+}F(s)=F(s_{0})$.
+
+
+\medskip
+{\bf 26.}
+If  $s\ge s_{1}>s_{0}$  then
+$$
+|e^{-sx}f(x)|= |e^{-(s-s_{0})x}e^{s_{0}x}f(x)|\le M e^{-(s-s_{0})x}
+\le M e^{-(s_{1}-s_{0})x}.
+$$
+Since
+$$
+\int_{0}^{\infty}Me^{-(s_{1}-s_{0})x}\,dx=\frac{M}{s_{1}-s_{0}}<\infty,
+$$
+Theorem~6 implies the stated conclusion.
+
+
+
+
+\medskip
+{\bf 27.}
+In Theorem~13 we assumed only that $\int_{0}^{x}e^{-s_{0}u}f(u)\,du$
+is bounded; here we are assuming that
+$\int_{0}^{\infty}e^{-s_{0}u}f(u)\,du$ is convergent.
+
+\medskip
+
+ Let
+$$
+G(x)=\int_{x}^{\infty}e^{-s_{0}t}f(t)\,dt
+\text{\quad and\quad} H(x)=\sup\set{|G(t)|}{t\ge x}.
+$$
+ Then
+\begin{equation}\tag{A}
+|G(x)|\le H(x)\text{\quad and \quad}
+ \lim_{x\to\infty}G(x)=\lim_{x\to\infty}H(x)=0,
+\end{equation}
+since $\int_{0}^{\infty}e^{-s_{0}x}f(x)\,dx$ converges.
+  Since  $f$ is continuous on $[0,\infty)$,
+$G'(x)=-e^{-s_{0}x}f(x)$. Integration by parts yields
+\begin{eqnarray*}
+\int_{r}^{\infty}e^{-sx}f(x)\,dx&=&
+\int_{r}^{\infty}e^{-(s-s_{0})x}(e^{-s_{0}x}f(x))\,dx
+=-\int_{0}^{\infty}e^{-(s-s_{0})x}G'(x)\,dx\\
+&=&-e^{-(s-s_{0})x}G(x)\biggr|_{r}^{\infty}
++(s-s_{0})\int_{r}^{\infty}e^{-(s-s_{0})x}G(x)\,dx\\
+&=&e^{-(s-s_{0})r}G(r)+(s-s_{0})\int_{r}^{\infty}e^{-(s-s_{0})x}G(x)\,dx,\quad s\ge s_{0}.
+\end{eqnarray*}
+Therefore
+\begin{eqnarray*}
+\left|\int_{r}^{\infty}e^{-sx}f(x)\,dx\right|&\le&
+|G(r)|e^{-(s-s_{0})r}+H(r)(s-s_{0})\int_{r}^{\infty}e^{-(s-s_{0})x}\,dx\\
+&=&(G(r)+H(r))e^{-(s-s_{0})r}\le 2H(r)e^{-(s-s_{0})},  \quad  s\ge s_{0},
+\end{eqnarray*}
+so (A) implies that $F(s)$ converges uniformly on $[s_{0},\infty)$.
+
+
+\medskip
+{\bf 28.}
+  From Theorem~13,
+$F(s)=\dst{\int_{0}^{\infty}e^{-sx}f(x)\, dx}$ converges for all $s>s_{0}$.
+Denote $G(x)=\dst{\int_{0}^{x}e^{-s_{0}t}f(t)\,dt}$, $x\ge 0$.  Then
+\begin{eqnarray*}
+F(s)&=&\int_{0}^{\infty}e^{-(s-s_{0})x}e^{-s_{0}x}f(x)\,dx=
+\int_{0}^{\infty}e^{-(s-s_{0})x}G'(x)\,dx \\
+&=&(s-s_{0})\int_{0}^{\infty}e^{-(s-s_{0})x}G(x)\,dx
+\end{eqnarray*}
+(integration by parts). Since
+$\dst{(s-s_{0})\int_{0}^{\infty}e^{-(s-s_{0})x}\,dx}=1$,
+$$
+F(s)-F(s_{0})=\int_{0}^{\infty}e^{-(s-s_{0})x}(G(x)-F(s_{0}))\,dx
+$$
+If $\epsilon>0$ there is an $R$ such that $|G(x)-F(s_{0})|<\epsilon$ if
+$x\ge R$. Therefore, if $s>s_{0}$ then
+\begin{eqnarray*}
+|F(s)-F(s_{0})|&<&
+(s-s_{0})\int_{0}^{R}e^{-(s-s_{0})x}|G(x)-F(s_{0})|\,dx+\epsilon\\
+&<&(s-s_{0})\int_{0}^{R}|G(x)-F(s_{0})|\,dx+\epsilon.
+\end{eqnarray*}
+Hence
+$\limsup_{s\to s_{0}+}|F(s)-F(s_{0})|\le \epsilon$. Since $\epsilon$
+is arbitrary, this implies that \\ $\lim_{s\to s_{0}+}|F(s)-F(s_{0})|=0$.
+
+
+\medskip
+{\bf 29.}
+The assumptions of  Exercise~28 imply that
+ $\int_{r}^{\infty}e^{-s_{0}x}f(x)\,dx$ converges for every $r>0$. Since
+$$
+\int_{r}^{\infty}e^{-s_{0}x}f(x)\,dx=\int_{0}^{\infty}e^{-s(r+x)}f(x+r)\,dx
+=e^{-sr}\int_{0}^{\infty}e^{-sx}f(x+r)\,dx,
+$$
+we can apply the result of Exercise~30 with $f(x)$ replaced by $f(x+r)$, to
+conclude that
+\begin{eqnarray*}
+\lim_{s\to s_{0}+}\int_{r}^{\infty}e^{-sx}f(x)\,dx&=&
+e^{-s_{0}r}\int_{0}^{\infty}e^{-s_{0}x}f(x+r)\,dx\\
+&=&\int_{0}^{\infty}e^{-s_{0}(x+r)}f(x+r)\,dx\\
+&=&\int_{r}^{\infty}e^{-s_{0}x}f(x)\,dx.
+\end{eqnarray*}
+
+
+\medskip
+{\bf 30.}
+If  $G(x)=\dst{\int_{0}^{x}e^{-s_{0}t}f(t)\,dt}$, then $|G(x)|\le M$
+on $[0,\infty)$ for some $M$. If $\epsilon>0$, there is an $r>0$ such that
+\begin{equation}\tag{A}
+\int_{0}^{r}e^{-s_{0}x}|f(x)|\,dx <\epsilon.
+\end{equation}
+If $s>s_{0}$, then
+\begin{eqnarray*}
+\int_{r}^{\infty}e^{-sx}f(x)\,dx&=&\int_{r}^{\infty}e^{-(s-s_{0})x}G'(x)\,dx \\
+&=&e^{-(s-s_{0})x}G(x)\biggr|_{r}^{\infty}
++(s-s_{0})\int_{r}^{\infty}G(x)e^{-(s-s_{0})x}\,dx\\
+&=&-e^{-(s-s_{0})r}G(r)
++(s-s_{0})\int_{r}^{\infty}G(x)e^{-(s-s_{0})x}\,dx.
+\end{eqnarray*}
+Therefore, since $|G(x)|\le M$,
+\begin{eqnarray*}
+\left|\int_{r}^{\infty}e^{-sx}f(x)\,dx\right|
+&\le&Me^{-(s-s_{0})r}+M(s-s_{0})\int_{r}^{\infty}e^{-(s-s_{0})x}\,dx\\
+&=&M\left(e^{-(s-s_{0})r}-e^{-(s-s_{0})x}\biggr|_{r}^{\infty}\right)
+=2Me^{-(s-s_{0})r}.
+\end{eqnarray*}
+This and (A) imply that
+$$
+\left|\int_{0}^{\infty}e^{-sx}f(x)\,dx\right|\le
+\epsilon+2Me^{-(s-s_{0})r}.
+$$
+Therefore,
+$$
+\limsup_{s\to\infty} \left|\int_{0}^{\infty}e^{-sx}f(x)\,dx\right|\le
+\epsilon.
+$$
+ Since $\epsilon$ is arbitrary, this implies that
+$$
+\limsup_{s\to\infty}\int_{0}^{\infty}e^{-sx}f(x)\,dx=0,
+$$
+
+\medskip
+{\bf 31. (a)}
+From Exercise~18{\bf(d)},
+$\dst{\int_{0}^{\infty}\frac{e^{-ax}-e^{-bx}}{x}\sin x\,dx}
+=\tan^{-1}b-\tan^{-1}a.$ From Exercise~30, letting $b\to\infty$ yields
+$$
+\int_{0}^{\infty}e^{-ax}\frac{\sin x}{x}\,dx=
+\frac{\pi}{2}-\tan^{-1}a,
+ \text{\quad  so \bf{(b)}\quad}
+\int_{0}^{\infty}\frac{\sin x}{x}\,dx=\frac{\pi}{2}.
+$$
+
+
+
+\medskip
+{\bf 32. (a)}
+Integrating by parts yields
+\begin{equation}\tag{A}
+\int_{0}^{r}e^{-sx}f'(x)\,dt
+=e^{-sr}f(r)-f(0)
++\int_{0}^{r}se^{-sx}f(x)\,dx.
+\end{equation}
+Suppose $s\ge s_{1}>s_{0}$.
+Since $|f(x)|\le  Me^{s_{0}x}$, $e^{-sr}|f(r)|\le Me^{-(s_{1}-s_{0})r}$.
+Therefore
+$e^{-sr}f(r)=0$  converges uniformly to zero on
+$[s_{1},\infty)$. Since
+\begin{eqnarray*}
+\left|\int_{r}^{\infty}se^{-sx}f(x)\,dx \right|&\le&
+M|s|\int_{r}^{\infty}e^{-(s-s_{0})x}\,dx\le
+\frac{M|s|e^{-(s_{1}-s_{0})r}}{s-s_{0}}\\
+&\le&\frac{M(s-s_{0}+|s_{0}|)e^{-(s_{1}-s_{0})r}}{s-s_{0}}
+\le M\left(1+\frac{|s_{0}|}{s_{1}-s_{0}}\right)e^{-(s_{1}-s_{0})r},
+\end{eqnarray*}
+it follows  that
+$\dst{\int_{r}^{\infty}se^{-sx}f(x)\,dx}$  converges to zero
+uniformly on $[s_{1},\infty)$. Since this implies that
+$\dst{\int_{0}^{r}se^{-sx}f(x)\,dx}$ converges uniformly on
+$[s_{1},\infty)$,
+(A) implies that
+$G(s)$ converges uniformly on $[s_{1},\infty)$.
+
+\medskip
+
+
+{\bf(b)}
+In this case let $f'(x)=xe^{x^{2}}\sin e^{x^{2}}$,
+so $f(x)=-\dst{\frac{1}{2}}\cos e^{x^{2}}$. Since $|\cos e^{x^{2}}|\le 1$
+for all $x$, the hypotheses stated in (a) hold with $s_{0}=0$. Therefore
+$G(s)$ converges uniformly on $[\rho,\infty)$ if $\rho>0$.
+
+\medskip
+
+{\bf 33.}
+We will first show that
+$\dst{\int_{0}^{\infty}e^{-s_{0}x}\frac{f(x)}{x}\,dx}$  converges.
+Denote $G(x)=\dst{\int_{0}^{x}e^{-s_{0}t}f(t)\,dt}$. Since $F(s_{0})$
+is convergent; say $|G(x)|\le M$, $0\le x<\infty$.
+If $0<r<r_{1}$ then
+$$
+\int_{r}^{r_{1}}e^{-s_{0}x}\frac{f(x)}{x}\,dx=
+\int_{r}^{r_{1}}\frac{G'(x)}{x}\,dx
+=\frac{G(r)}{r}-\frac{G(r_{1})}{r_{1}}-\int_{r}^{r_{1}}\frac{G(x)}{x^{2}}\,dx.
+$$
+Therefore
+$$
+\left|\int_{r}^{r_{1}}e^{-s_{0}x}\frac{f(x)}{x}\,dx\right|\le
+\frac{3M}{\rho},\quad \rho<r<r_{1}
+$$
+so Theorem~2  implies that
+$H(s)=\dst{\int_{0}^{\infty}e^{-st}\frac{f(x)}{x}\,dx}$
+converge when $s=s_{0}$. Therefore  Exercise~27  implies that it converges
+uniformly on
+$[s_{0},\infty)$,
+Therefore Theorem~10 implies that
+\begin{eqnarray*}
+\int_{s_{0}}^{s}F(u)\,du &=&\int_{s_{0}}^{s}\left(\int_{0}^{\infty}
+e^{-ux}f(x)\,dx\right)\,du
+=\int_{0}^{\infty}\left(\int_{s_{0}}^{s}e^{-ux}\,du\right)f(x)\,dx\\
+&=&\int_{0}^{\infty}\left(e^{-s_{0}x}-e^{-sx}\right)\frac{f(x)}{x}\,dx
+\end{eqnarray*}
+From Exercise~30 (with $f(x)$ replaced by $f(x)/x$),
+$\dst{\lim_{s\to\infty}\int_{0}^{\infty}e^{-sx}\frac{f(x)}{x}\,dx}=0$,
+which implies the stated conclusion.
+
+
+
+\end{document}
+
