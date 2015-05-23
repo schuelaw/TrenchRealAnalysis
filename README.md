@@ -22,6 +22,7 @@ compile this, copy it to the eps directory and use:
 trench.tex is the modified .png based LaTeX source.
 
 Directories:
+
 	Python:  a couple of Python scripts that I used to make some
 	modifications.
 
